@@ -13,23 +13,25 @@ body {
 header {
   background: #fff;
 }
-header .container {
-  max-width: 1400px;
-  margin: 0 auto;
-  padding: 10px 20px;
-  display: flex;
-  align-items: center;
-}
 header a {
   color: #333;
   text-decoration: none;
 }
+header.container {
+  display: flex;
+  width: 100%;
+}
 header.container > ul {
   display: flex;
-  flex-direction: row;
+  list-style: none;
+  margin-left: auto;
+  margin-right: 10px;
+}
+header.container > ul > li {
+  padding-left: 20px;
+  
 }
 .pages{
   max-width: 1400px;
   padding: 20px;
-  margin: 0 auto;
 }
