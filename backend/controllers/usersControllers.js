@@ -1,3 +1,4 @@
+const mongoose = require("mongoose")
 const User = require("../models/Users")
 
 //get All Users 
@@ -16,13 +17,13 @@ const getUser = async (req, res) => {
     return res.status(404).json({error: 'No such User'})
   }
 
-  const User = await User.findById(id)
+  const Users = await User.findById(id)
 
-  if (!User) {
+  if (!Users) {
     return res.status(404).json({error: 'No such User'})
   }
 
-  res.status(200).json(User)
+  res.status(200).json(Users)
 }
 
 
@@ -30,8 +31,8 @@ const getUser = async (req, res) => {
 const createUser = async (req, res) => {
   //add doc to db
   try {
-    const custInfo = await User.create(req.body)
-    res.json(custInfo)
+    const Users = await User.create(req.body)
+    res.json(Users)
   } catch (error) {
     res.status(400).json({error: error.message})
   }
@@ -45,13 +46,13 @@ const deleteUser = async (req, res) => {
     return res.status(400).json({error: 'No such User'})
   }
 
-  const User = await User.findOneAndDelete({_id: id})
+  const Users = await User.findOneAndDelete({_id: id})
 
-  if(!User) {
+  if(!Users) {
     return res.status(400).json({error: 'No such User'})
   }
 
-  res.status(200).json(User)
+  res.status(200).json(Users)
 }
 
 
@@ -63,15 +64,15 @@ const updateUser = async (req, res) => {
     return res.status(400).json({error: 'No such User'})
   }
 
-  const User = await User.findOneAndUpdate({_id: id}, {
+  const Users = await User.findOneAndUpdate({_id: id}, {
     ...req.body
   })
 
-  if (!User) {
+  if (!Users) {
     return res.status(400).json({error: 'No such User'})
   }
 
-  res.status(200).json(User)
+  res.status(200).json(Users)
 }
 
 module.exports = {

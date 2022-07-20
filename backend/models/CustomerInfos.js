@@ -10,7 +10,7 @@ const CustomerInfosSchema = mongoose.Schema({
     required: true
   },
   address: {
-    type: Schema.Types.Mixed,
+    type: mongoose.Schema.Types.Mixed,
     required: true
   },
   email: {

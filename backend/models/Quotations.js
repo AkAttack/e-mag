@@ -6,7 +6,7 @@ const QuotationsSchema = mongoose.Schema({
     required: true
   },  
   ofOrderItems: {
-    type: [Schema.Types.ObjectId],
+    type: [mongoose.Schema.Types.ObjectId],
     ref: "order-items",
     required: true
   },

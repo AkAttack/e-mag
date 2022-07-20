@@ -1,3 +1,4 @@
+const mongoose = require("mongoose")
 const AdminVar = require("../models/AdminVars")
 
 //get All AdminVars 
@@ -16,13 +17,13 @@ const getAdminVar = async (req, res) => {
     return res.status(404).json({error: 'No such AdminVar'})
   }
 
-  const AdminVar = await AdminVar.findById(id)
+  const AdminVars = await AdminVar.findById(id)
 
-  if (!AdminVar) {
+  if (!AdminVars) {
     return res.status(404).json({error: 'No such AdminVar'})
   }
 
-  res.status(200).json(AdminVar)
+  res.status(200).json(AdminVars)
 }
 
 
@@ -45,33 +46,33 @@ const deleteAdminVar = async (req, res) => {
     return res.status(400).json({error: 'No such AdminVar'})
   }
 
-  const AdminVar = await AdminVar.findOneAndDelete({_id: id})
+  const AdminVars = await AdminVar.findOneAndDelete({_id: id})
 
-  if(!AdminVar) {
+  if(!AdminVars) {
     return res.status(400).json({error: 'No such AdminVar'})
   }
 
-  res.status(200).json(AdminVar)
+  res.status(200).json(AdminVars)
 }
 
 
 //update a AdminVars
 const updateAdminVar = async (req, res) => {
   const { id } = req.params
-
+  
   if (!mongoose.Types.ObjectId.isValid(id)) {
     return res.status(400).json({error: 'No such AdminVar'})
   }
 
-  const AdminVar = await AdminVar.findOneAndUpdate({_id: id}, {
+  const AdminVars = await AdminVar.findOneAndUpdate({_id: id}, {
     ...req.body
   })
 
-  if (!AdminVar) {
+  if (!AdminVars) {
     return res.status(400).json({error: 'No such AdminVar'})
   }
 
-  res.status(200).json(AdminVar)
+  res.status(200).json(AdminVars)
 }
 
 module.exports = {

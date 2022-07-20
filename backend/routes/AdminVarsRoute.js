@@ -10,18 +10,18 @@ const {
 const router = express.Router()
 
 // GET all AdminVars
-router.get('/adminvars', getAdminVars)
+router.get('/', getAdminVars)
 
 // GET a single AdminVar
-router.get('/adminvars/:id', getAdminVar)
+router.get('/:id', getAdminVar)
 
 // POST a new AdminVar
-router.post('/adminvars/', createAdminVar)
+router.post('/', createAdminVar)
 
 // DELETE a AdminVar
-router.delete('/adminvars/:id', deleteAdminVar)
+router.delete('/:id', deleteAdminVar)
 
 // UPDATE a AdminVar
-router.patch('/adminvars:id', updateAdminVar)
+router.patch('/:id', updateAdminVar)
 
 module.exports = router

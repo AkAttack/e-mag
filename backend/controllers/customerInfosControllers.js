@@ -1,3 +1,4 @@
+const mongoose = require("mongoose")
 const CustomerInfo = require("../models/CustomerInfos")
 
 //get All CustomerInfos 
@@ -16,13 +17,13 @@ const getCustomerInfo = async (req, res) => {
     return res.status(404).json({error: 'No such CustomerInfo'})
   }
 
-  const CustomerInfo = await CustomerInfo.findById(id)
+  const CustomerInfos = await CustomerInfo.findById(id)
 
-  if (!CustomerInfo) {
+  if (!CustomerInfos) {
     return res.status(404).json({error: 'No such CustomerInfo'})
   }
 
-  res.status(200).json(CustomerInfo)
+  res.status(200).json(CustomerInfos)
 }
 
 
@@ -45,13 +46,13 @@ const deleteCustomerInfo = async (req, res) => {
     return res.status(400).json({error: 'No such CustomerInfo'})
   }
 
-  const CustomerInfo = await CustomerInfo.findOneAndDelete({_id: id})
+  const CustomerInfos = await CustomerInfo.findOneAndDelete({_id: id})
 
-  if(!CustomerInfo) {
+  if(!CustomerInfos) {
     return res.status(400).json({error: 'No such CustomerInfo'})
   }
 
-  res.status(200).json(CustomerInfo)
+  res.status(200).json(CustomerInfos)
 }
 
 
@@ -63,15 +64,15 @@ const updateCustomerInfo = async (req, res) => {
     return res.status(400).json({error: 'No such CustomerInfo'})
   }
 
-  const CustomerInfo = await CustomerInfo.findOneAndUpdate({_id: id}, {
+  const CustomerInfos = await CustomerInfo.findOneAndUpdate({_id: id}, {
     ...req.body
   })
 
-  if (!CustomerInfo) {
+  if (!CustomerInfos) {
     return res.status(400).json({error: 'No such CustomerInfo'})
   }
 
-  res.status(200).json(CustomerInfo)
+  res.status(200).json(CustomerInfos)
 }
 
 module.exports = {

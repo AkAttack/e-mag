@@ -1,3 +1,4 @@
+const mongoose = require("mongoose")
 const Custom = require("../models/Customs")
 
 //get All Customs 
@@ -16,13 +17,13 @@ const getCustom = async (req, res) => {
     return res.status(404).json({error: 'No such Custom'})
   }
 
-  const Custom = await Custom.findById(id)
+  const Customs = await Custom.findById(id)
 
-  if (!Custom) {
+  if (!Customs) {
     return res.status(404).json({error: 'No such Custom'})
   }
 
-  res.status(200).json(Custom)
+  res.status(200).json(Customs)
 }
 
 
@@ -30,8 +31,8 @@ const getCustom = async (req, res) => {
 const createCustom = async (req, res) => {
   //add doc to db
   try {
-    const custInfo = await Custom.create(req.body)
-    res.json(custInfo)
+    const customs = await Custom.create(req.body)
+    res.json(customs)
   } catch (error) {
     res.status(400).json({error: error.message})
   }
@@ -45,13 +46,13 @@ const deleteCustom = async (req, res) => {
     return res.status(400).json({error: 'No such Custom'})
   }
 
-  const Custom = await Custom.findOneAndDelete({_id: id})
+  const Customs = await Custom.findOneAndDelete({_id: id})
 
-  if(!Custom) {
+  if(!Customs) {
     return res.status(400).json({error: 'No such Custom'})
   }
 
-  res.status(200).json(Custom)
+  res.status(200).json(Customs)
 }
 
 
@@ -63,15 +64,15 @@ const updateCustom = async (req, res) => {
     return res.status(400).json({error: 'No such Custom'})
   }
 
-  const Custom = await Custom.findOneAndUpdate({_id: id}, {
+  const Customs = await Custom.findOneAndUpdate({_id: id}, {
     ...req.body
   })
 
-  if (!Custom) {
+  if (!Customs) {
     return res.status(400).json({error: 'No such Custom'})
   }
 
-  res.status(200).json(Custom)
+  res.status(200).json(Customs)
 }
 
 module.exports = {

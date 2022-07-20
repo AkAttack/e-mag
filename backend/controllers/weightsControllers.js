@@ -1,3 +1,4 @@
+const mongoose = require("mongoose")
 const Weight = require("../models/Weights")
 
 //get All Weights 
@@ -16,13 +17,13 @@ const getWeight = async (req, res) => {
     return res.status(404).json({error: 'No such Weight'})
   }
 
-  const Weight = await Weight.findById(id)
+  const Weights = await Weight.findById(id)
 
-  if (!Weight) {
+  if (!Weights) {
     return res.status(404).json({error: 'No such Weight'})
   }
 
-  res.status(200).json(Weight)
+  res.status(200).json(Weights)
 }
 
 
@@ -30,8 +31,8 @@ const getWeight = async (req, res) => {
 const createWeight = async (req, res) => {
   //add doc to db
   try {
-    const custInfo = await Weight.create(req.body)
-    res.json(custInfo)
+    const Weights = await Weight.create(req.body)
+    res.json(Weights)
   } catch (error) {
     res.status(400).json({error: error.message})
   }
@@ -45,13 +46,13 @@ const deleteWeight = async (req, res) => {
     return res.status(400).json({error: 'No such Weight'})
   }
 
-  const Weight = await Weight.findOneAndDelete({_id: id})
+  const Weights = await Weight.findOneAndDelete({_id: id})
 
-  if(!Weight) {
+  if(!Weights) {
     return res.status(400).json({error: 'No such Weight'})
   }
 
-  res.status(200).json(Weight)
+  res.status(200).json(Weights)
 }
 
 
@@ -63,15 +64,15 @@ const updateWeight = async (req, res) => {
     return res.status(400).json({error: 'No such Weight'})
   }
 
-  const Weight = await Weight.findOneAndUpdate({_id: id}, {
+  const Weights = await Weight.findOneAndUpdate({_id: id}, {
     ...req.body
   })
 
-  if (!Weight) {
+  if (!Weights) {
     return res.status(400).json({error: 'No such Weight'})
   }
 
-  res.status(200).json(Weight)
+  res.status(200).json(Weights)
 }
 
 module.exports = {

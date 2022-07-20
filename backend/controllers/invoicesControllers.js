@@ -1,3 +1,4 @@
+const mongoose = require("mongoose")
 const Invoice = require("../models/Invoices")
 
 //get All Invoices 
@@ -16,13 +17,13 @@ const getInvoice = async (req, res) => {
     return res.status(404).json({error: 'No such Invoice'})
   }
 
-  const Invoice = await Invoice.findById(id)
+  const Invoiced = await Invoice.findById(id)
 
-  if (!Invoice) {
+  if (!Invoiced) {
     return res.status(404).json({error: 'No such Invoice'})
   }
 
-  res.status(200).json(Invoice)
+  res.status(200).json(Invoiced)
 }
 
 
@@ -30,8 +31,8 @@ const getInvoice = async (req, res) => {
 const createInvoice = async (req, res) => {
   //add doc to db
   try {
-    const custInfo = await Invoice.create(req.body)
-    res.json(custInfo)
+    const Invoices = await Invoice.create(req.body)
+    res.json(Invoices)
   } catch (error) {
     res.status(400).json({error: error.message})
   }
@@ -45,13 +46,13 @@ const deleteInvoice = async (req, res) => {
     return res.status(400).json({error: 'No such Invoice'})
   }
 
-  const Invoice = await Invoice.findOneAndDelete({_id: id})
+  const Invoices = await Invoice.findOneAndDelete({_id: id})
 
-  if(!Invoice) {
+  if(!Invoices) {
     return res.status(400).json({error: 'No such Invoice'})
   }
 
-  res.status(200).json(Invoice)
+  res.status(200).json(Invoices)
 }
 
 
@@ -63,15 +64,15 @@ const updateInvoice = async (req, res) => {
     return res.status(400).json({error: 'No such Invoice'})
   }
 
-  const Invoice = await Invoice.findOneAndUpdate({_id: id}, {
+  const Invoices = await Invoice.findOneAndUpdate({_id: id}, {
     ...req.body
   })
 
-  if (!Invoice) {
+  if (!Invoices) {
     return res.status(400).json({error: 'No such Invoice'})
   }
 
-  res.status(200).json(Invoice)
+  res.status(200).json(Invoices)
 }
 
 module.exports = {

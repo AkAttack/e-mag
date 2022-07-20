@@ -1,3 +1,4 @@
+const mongoose = require("mongoose")
 const Quotation = require("../models/Quotations")
 
 //get All Quotations 
@@ -16,13 +17,13 @@ const getQuotation = async (req, res) => {
     return res.status(404).json({error: 'No such Quotation'})
   }
 
-  const Quotation = await Quotation.findById(id)
+  const Quotations = await Quotation.findById(id)
 
-  if (!Quotation) {
+  if (!Quotations) {
     return res.status(404).json({error: 'No such Quotation'})
   }
 
-  res.status(200).json(Quotation)
+  res.status(200).json(Quotations)
 }
 
 
@@ -30,8 +31,8 @@ const getQuotation = async (req, res) => {
 const createQuotation = async (req, res) => {
   //add doc to db
   try {
-    const custInfo = await Quotation.create(req.body)
-    res.json(custInfo)
+    const Quotations = await Quotation.create(req.body)
+    res.json(Quotations)
   } catch (error) {
     res.status(400).json({error: error.message})
   }
@@ -45,13 +46,13 @@ const deleteQuotation = async (req, res) => {
     return res.status(400).json({error: 'No such Quotation'})
   }
 
-  const Quotation = await Quotation.findOneAndDelete({_id: id})
+  const Quotations = await Quotation.findOneAndDelete({_id: id})
 
-  if(!Quotation) {
+  if(!Quotations) {
     return res.status(400).json({error: 'No such Quotation'})
   }
 
-  res.status(200).json(Quotation)
+  res.status(200).json(Quotations)
 }
 
 
@@ -63,15 +64,15 @@ const updateQuotation = async (req, res) => {
     return res.status(400).json({error: 'No such Quotation'})
   }
 
-  const Quotation = await Quotation.findOneAndUpdate({_id: id}, {
+  const Quotations = await Quotation.findOneAndUpdate({_id: id}, {
     ...req.body
   })
 
-  if (!Quotation) {
+  if (!Quotations) {
     return res.status(400).json({error: 'No such Quotation'})
   }
 
-  res.status(200).json(Quotation)
+  res.status(200).json(Quotations)
 }
 
 module.exports = {
