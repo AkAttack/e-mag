@@ -17,13 +17,13 @@ const getOrderItem = async (req, res) => {
     return res.status(404).json({error: 'No such OrderItem'})
   }
 
-  const OrderItem = await OrderItem.findById(id)
+  const OrderItems = await OrderItem.findById(id)
 
-  if (!OrderItem) {
+  if (!OrderItems) {
     return res.status(404).json({error: 'No such OrderItem'})
   }
 
-  res.status(200).json(OrderItem)
+  res.status(200).json(OrderItems)
 }
 
 
@@ -31,8 +31,8 @@ const getOrderItem = async (req, res) => {
 const createOrderItem = async (req, res) => {
   //add doc to db
   try {
-    const custInfo = await OrderItem.create(req.body)
-    res.json(custInfo)
+    const OrderItems = await OrderItem.create(req.body)
+    res.json(OrderItems)
   } catch (error) {
     res.status(400).json({error: error.message})
   }
@@ -46,13 +46,13 @@ const deleteOrderItem = async (req, res) => {
     return res.status(400).json({error: 'No such OrderItem'})
   }
 
-  const OrderItem = await OrderItem.findOneAndDelete({_id: id})
+  const OrderItems = await OrderItem.findOneAndDelete({_id: id})
 
-  if(!OrderItem) {
+  if(!OrderItems) {
     return res.status(400).json({error: 'No such OrderItem'})
   }
 
-  res.status(200).json(OrderItem)
+  res.status(200).json(OrderItems)
 }
 
 
@@ -64,15 +64,15 @@ const updateOrderItem = async (req, res) => {
     return res.status(400).json({error: 'No such OrderItem'})
   }
 
-  const OrderItem = await OrderItem.findOneAndUpdate({_id: id}, {
+  const OrderItems = await OrderItem.findOneAndUpdate({_id: id}, {
     ...req.body
   })
 
-  if (!OrderItem) {
+  if (!OrderItems) {
     return res.status(400).json({error: 'No such OrderItem'})
   }
 
-  res.status(200).json(OrderItem)
+  res.status(200).json(OrderItems)
 }
 
 module.exports = {
