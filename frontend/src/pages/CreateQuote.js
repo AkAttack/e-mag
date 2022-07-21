@@ -1,7 +1,8 @@
+import OrderItemForm from "../components/OrderItemForm";
 const CreateQuote = () => {
   return ( 
     <div className="create-quote">
-      <h2>Create Quote Page</h2>
+      <OrderItemForm />
     </div>
    );
 }

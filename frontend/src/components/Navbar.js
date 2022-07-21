@@ -1,10 +1,12 @@
 import {Link} from "react-router-dom"
 
+import Logo from "../images/AnsaLogo.png"
+
 const Navbar = () => {
   return ( 
-    <header className="container">
+    <div className="navbar">
       <span>
-        <img src="process.env.PUBLIC_URL/company-logo.png" alt="company Logo" />
+        <img src={Logo} alt="company Logo" />
         <h4>E-Mag Online</h4>
       </span>
 
@@ -14,7 +16,7 @@ const Navbar = () => {
         <li><Link to= "/createquote">Create Quote</Link></li>
         <li><Link to= "/invoices">Invoices</Link></li>
       </ul>
-    </header>
+    </div>
    );
 }
  
