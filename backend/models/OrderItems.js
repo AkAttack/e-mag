@@ -4,7 +4,7 @@ const OrderItemsSchema = mongoose.Schema({
   description: String,
   color: String,
   notes: String,
-  URL: {
+  url: {
     type: String,
     required: true
   },
@@ -18,16 +18,15 @@ const OrderItemsSchema = mongoose.Schema({
     required: true
   },
   weightPrice:{
-    type: mongoose.Schema.Types.ObjectId, 
-    ref: 'weights',
+    type: Number,
     required: true
   },  
   USTax: Number,
   totalPrice: Number,
-  purchased: false,
-  inGuyana: false,
-  toCustomer: false
-}, {timestamps: true})
+  purchased: Boolean,
+  inGuyana: Boolean,
+  toCustomer: Boolean
+}, {timestamps: Boolean})
 
 const OrderItemsModel = mongoose.model("order-items", OrderItemsSchema)
 module.exports = OrderItemsModel

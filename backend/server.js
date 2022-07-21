@@ -9,9 +9,11 @@ const orderitemsRoutes = require("./routes/OrderItemsRoute")
 const quotationsRoutes = require("./routes/QuotationsRoute")
 const usersRoutes = require("./routes/UsersRoute")
 const weightsRoutes = require("./routes/WeightsRoute")
-
+const cors = require("cors")
 
 const URI = "mongodb+srv://admin:admin@cluster-e-mag.ul4jqdy.mongodb.net/emag?retryWrites=true&w=majority"
+
+app.use(cors())
 
 app.use(express.json()) //needed for req.body reading
 

@@ -14,8 +14,27 @@ const OrderItemForm = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     const newItem = { description, url, color, size, itemCategory, itemPrice, weight };
+    
+    // const options = { 
+    //   method: 'post',
+    //   headers: {
+    //     'Content-Type': 'application/json'
+    //   },
+    //   body: JSON.stringify(newItem)
+    // }    
+    
+    // fetch('http://localhost:3001/api/orderitems', options)
+    //   .then(response => {       
+    //      if (response.ok) {
+    //         console.log(response) 
+    //         return response.json();
+    //       } else {
+    //         throw new Error('Something went wrong ...');
+    //        }
+    //   })
+    //   .catch(err => setError({ err }));
 
-    const response = await fetch("/api/orderitems", {
+    const response = await fetch("http://localhost:3001/api/orderitems", {
       method: 'POST',
       body: JSON.stringify(newItem),
       headers: {'Content-Type': 'application/json'}
@@ -98,7 +117,7 @@ const OrderItemForm = () => {
             </div>
           </div>
           <div className="button">
-            <button>Generate</button>
+            <button type="submit">Generate</button>
           </div>
         </form>
       </div>
