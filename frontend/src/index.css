@@ -17,11 +17,11 @@
   font-family: 'Poppins',sans-serif;
 }
 body{
-  height: 100vh;
+  /* height: 100vh; */
   display: flex;
   justify-content: center;
-  align-items: center;
-  padding: 10px 50px;
+  /* align-items: center; */
+  padding: 60px 50px;
   background: linear-gradient(135deg, #71b7e6, #9b59b6);
 }
 
@@ -158,10 +158,10 @@ form .button button:hover{
     margin-bottom: 15px;
     width: 100%;
   }
-  .content form .item-details{
+  /* .content form .item-details{
     max-height: 300px;
     overflow-y: scroll;
-  }
+  } */
   .item-details::-webkit-scrollbar{
       width: 5px;
   }

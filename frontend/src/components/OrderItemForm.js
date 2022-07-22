@@ -1,6 +1,6 @@
 import { useState } from "react";
 
-const OrderItemForm = () => {
+const OrderItemForm = ({itemNum, removeItem, lastItemID}) => {
 
   const [description, setDescription] = useState("")
   const [url, setUrl] = useState("")
@@ -8,57 +8,47 @@ const OrderItemForm = () => {
   const [size, setSize] = useState("")
   const [itemCategory, setItemCategory] = useState("")
   const [itemPrice, setItemPrice] = useState("")
-  const [weight, setWeight] = useState("")
+  const [weightLB, setWeightLB] = useState("")
+  const [weightPrice, setWeightPrice] = useState("0") // needs setup
   const [error, setError] = useState(null)
+  const [collaspe, setCollaspe] = useState(false)
 
   const handleSubmit = async (e) => {
-    e.preventDefault();
-    const newItem = { description, url, color, size, itemCategory, itemPrice, weight };
-    
-    // const options = { 
-    //   method: 'post',
-    //   headers: {
-    //     'Content-Type': 'application/json'
-    //   },
-    //   body: JSON.stringify(newItem)
-    // }    
-    
-    // fetch('http://localhost:3001/api/orderitems', options)
-    //   .then(response => {       
-    //      if (response.ok) {
-    //         console.log(response) 
-    //         return response.json();
-    //       } else {
-    //         throw new Error('Something went wrong ...');
-    //        }
-    //   })
-    //   .catch(err => setError({ err }));
+    e.preventDefault()
 
-    const response = await fetch("http://localhost:3001/api/orderitems", {
+    const workout = { description, url, color, size, itemCategory, itemPrice, weightLB, weightPrice };
+
+    const response = await fetch('http://localhost:3001/api/orderitems/', {
       method: 'POST',
-      body: JSON.stringify(newItem),
-      headers: {'Content-Type': 'application/json'}
+      body: JSON.stringify(workout),
+      headers: {
+        'Content-Type': 'application/json'
+      }
     })
     const json = await response.json()
 
-    if (!response.ok) {setError(json.error)}
+    if (!response.ok) {
+      setError(json.error)
+    }
     if (response.ok) {
-      setError(null)
-      setDescription("")
-      setUrl("")
-      setColor("")
-      setSize("")
-      setItemCategory("")
-      setItemPrice("")
-      setWeight("")      
+      setError(null)    
       console.log('new Cart Item added:', json)
     }
+  
+  }
 
+  const collaspeWindow = () => {
+    setCollaspe((prevState) => {
+      return !prevState
+    })
   }
 
   return ( 
     <div className="OIF">
-      <div className="title"><span className="OIF-+">+</span> Item {1}</div>
+      <div className="title">
+        <span className="OIF-+" onClick={collaspeWindow}>{collaspe ? "-" : "+"}</span> Item {itemNum}  
+        {(lastItemID === itemNum && !(lastItemID === 1)) && 
+        <span className="itemDelet-button" onClick={() => removeItem(itemNum)}>  DEL</span>}</div>
       <div className="content">
         <form onSubmit={handleSubmit}>
           <div className="item-details">
@@ -109,11 +99,11 @@ const OrderItemForm = () => {
             </div>
             <div className="input-box">
               <input type="number" 
-                name="weight" 
+                name="weightLB" 
                 placeholder="Item Weight (LB)" 
                 required
-                value={weight}
-                onChange={(e) => setWeight(e.target.value)} />
+                value={weightLB}
+                onChange={(e) => setWeightLB(e.target.value)} />
             </div>
           </div>
           <div className="button">
