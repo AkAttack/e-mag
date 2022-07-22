@@ -1,6 +1,6 @@
 import {useState} from "react"
 import OrderItemForm from "../components/OrderItemForm";
-import {v4} from "uuid"
+import uuid from "uuid/v4"
 
 const CreateQuote = () => {
 
