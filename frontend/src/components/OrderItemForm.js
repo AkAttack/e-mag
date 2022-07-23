@@ -1,6 +1,6 @@
 import { useState } from "react";
 
-const OrderItemForm = ({itemNum, removeItem, lastItemID}) => {
+const OrderItemForm = ({itemNum, removeItem, activeItem, hideWindow}) => {
 
   const [description, setDescription] = useState("")
   const [url, setUrl] = useState("")
@@ -37,18 +37,19 @@ const OrderItemForm = ({itemNum, removeItem, lastItemID}) => {
   
   }
 
-  const collaspeWindow = () => {
+  const collaspeWin = () => {
     setCollaspe((prevState) => {
       return !prevState
     })
   }
 
-  return ( 
+  return (
     <div className="OIF">
       <div className="title">
-        <span className="OIF-+" onClick={collaspeWindow}>{collaspe ? "-" : "+"}</span> Item {itemNum}  
-        {(lastItemID === itemNum && !(lastItemID === 1)) && 
-        <span className="itemDelet-button" onClick={() => removeItem(itemNum)}>  DEL</span>}</div>
+        <span className="OIF-+" onClick={() => collaspeWin(itemNum)}>{collaspe ? "+" : "-"}</span> Item {itemNum}  
+        {(activeItem === itemNum && !(activeItem === 1)) && 
+        <span className="itemDelet-button" onClick={() => removeItem(itemNum)}>      DEL</span>}</div>
+      {(collaspe | itemNum === 1) &&
       <div className="content">
         <form onSubmit={handleSubmit}>
           <div className="item-details">
@@ -110,7 +111,7 @@ const OrderItemForm = ({itemNum, removeItem, lastItemID}) => {
             <button type="submit">Generate</button>
           </div>
         </form>
-      </div>
+      </div> }
     </div>
    );
 }
