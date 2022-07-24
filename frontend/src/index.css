@@ -70,7 +70,7 @@ body{
 }
 /* NAVBAR END */
 
-/* ORDER ITEM FORM START */
+/* ORDER ITEM .form-item START */
 .OIF{
   max-width: 700px;
   width: 100%;
@@ -94,17 +94,17 @@ body{
   border-radius: 5px;
   background: linear-gradient(135deg, #71b7e6, #9b59b6);
 }
-.content form .item-details{
+.content .form-item .item-details{
   display: flex;
   flex-wrap: wrap;
   justify-content: space-between;
   margin: 20px 0 12px 0;
 }
-form .item-details .input-box{
+.form-item .item-details .input-box{
   margin-bottom: 10px;
   width: calc(100% / 2 - 20px);
 }
-form .input-box span.details{
+.form-item .input-box span.details{
   display: block;
   font-weight: 500;
   margin-bottom: 5px;
@@ -127,11 +127,11 @@ form .input-box span.details{
   border-width: 2px;
   border-color: #330843;
 }
-form .button{
+.form-item .button{
    height: 45px;
    margin: 35px 0
 }
-form .button button{
+.form-item .button button{
    height: 100%;
    width: 100%;
    border-radius: 5px;
@@ -144,8 +144,8 @@ form .button button{
    transition: all 0.3s ease;
    background: linear-gradient(135deg, #71b7e6, #9b59b6);
 }
-form .button button:hover{
-  /* transform: scale(0.99); */
+.form-item .button button:hover{
+  /* trans.form-item: scale(0.99); */
   background: linear-gradient(-135deg, #71b7e6, #9b59b6);
 }
 
@@ -154,11 +154,11 @@ form .button button:hover{
   max-width: 100%;
   background-color: rgb(255, 255, 255, 0.3);
   }
-  form .item-details .input-box{
+  .form-item .item-details .input-box{
     margin-bottom: 15px;
     width: 100%;
   }
-  /* .content form .item-details{
+  /* .content .form-item .item-details{
     max-height: 300px;
     overflow-y: scroll;
   } */
@@ -172,7 +172,7 @@ form .button button:hover{
   }
 }
 
-/* ORDER ITEM FORM END */
+/* ORDER ITEM .form-item END */
 
 
 
