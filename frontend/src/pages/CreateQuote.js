@@ -3,11 +3,14 @@ import OrderItemForm from "../components/OrderItemForm";
 // import {v4 as uuid} from "uuid";
 
 const CreateQuote = () => {
-  const MAX_CART_AMOUNT = 8
+  const MAX_CART_AMOUNT = 10
   const MIN_CART_AMOUNT = 1
 
-  const [cartInfo, setCartInfo] = useState([{id: 1, active: true, expandShow: true}, {id: 2, active:false, expandShow: false},{id: 3, active:false, expandShow: false},{id: 4, active:false, expandShow: false},{id: 5, active:false, expandShow: false},{id: 6, active:false, expandShow: false},{id: 7, active:false, expandShow: false},{id: 8, active:false, expandShow: false}])
-  let [activeItems, setActiveItems] = useState(MIN_CART_AMOUNT)
+  const [quoteInfo, setQuoteInfo] = useState([])
+  const [cartInfo, setCartInfo] = useState([{id: 1, active: true, expandShow: true, values: {}}, {id: 2, active:false, expandShow: false},{id: 3, active:false, expandShow: false},{id: 4, active:false, expandShow: false},{id: 5, active:false, expandShow: false},{id: 6, active:false, expandShow: false},{id: 7, active:false, expandShow: false},{id: 8, active:false, expandShow: false},{id: 9, active:false, expandShow: false},{id: 10, active:false, expandShow: false},{id: 11, active: false, expandShow: true}, {id: 12, active:false, expandShow: false},{id: 13, active:false, expandShow: false},{id: 14, active:false, expandShow: false},{id: 15, active:false, expandShow: false},{id: 16, active:false, expandShow: false},{id: 17, active:false, expandShow: false},{id: 18, active:false, expandShow: false},{id: 19, active:false, expandShow: false},{id: 20, active:false, expandShow: false} ])
+  const [activeItems, setActiveItems] = useState(MIN_CART_AMOUNT)
+  const [error, setError] = useState(null)
+
   
   const removeItem = () =>{
     if(activeItems >= 2) {
@@ -47,24 +50,21 @@ const CreateQuote = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault()
-
-    const response = await fetch('http://localhost:3001/api/orderitems/', {
-      method: 'POST',
-      body: JSON.stringify({test: "wwwww"}),
-      headers: {
-        'Content-Type': 'application/json'
-      }
+    const urlOrderItems = "http://localhost:3001/api/orderitems"
+    cartInfo.forEach(item => {
+      if(item.active){
+        const options = {method: "POST", headers: {"Content-type": "application/json"}, 
+        body: JSON.stringify(item.values)}
+        fetch(urlOrderItems, options)
+          .then(res => res.json())
+          .then(json => {console.log(json)})    //save item ID
+          .catch(err => {setError(err)})
+        }
+        
     })
-    const json = await response.json()
-
-    if (!response.ok) {
-      console.log("ERROR Encountered")
-    }
-    if (response.ok) {
-      console.log('new Cart Item added:', json)
-    }
-  
+    
   }
+
 
   return ( 
     <form className="create-quote" onSubmit={handleSubmit}>
@@ -77,11 +77,13 @@ const CreateQuote = () => {
           activeItems={activeItems}
           toggleExpand={toggleExpand}
           addItem={addItem}
-          cartInfo={cartInfo}/>)
+          setParentValue={setCartInfo}
+          cartInfo={cartInfo[i]}/>)
       })  }
       <button onClick={addItem}>ADD ITEM</button>
-      <button onClick={() => console.log(activeItems)}>Cart Item Amount</button>
+      <button onClick={() => console.log(cartInfo)}>Cart Values</button>
       <button onClick={removeItem}>Remove Last Item</button>
+      <button type="submit">SUBMIT SUBMIT</button>
     </form>
    );
 
