@@ -1,18 +1,15 @@
 const mongoose = require("mongoose")
 
 const CustomerInfosSchema = mongoose.Schema({
-  firstName: {
+  nameFirst: {
     type: String,
     required: true
   },
-  lastName: {
+  nameLast: {
     type: String,
     required: true
   },
-  address: {
-    type: mongoose.Schema.Types.Mixed,
-    required: true
-  },
+  address: String,
   email: {
     type: String,
     required: true

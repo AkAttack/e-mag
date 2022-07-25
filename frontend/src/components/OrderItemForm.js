@@ -1,6 +1,6 @@
 import { useState } from "react";
 
-const OrderItemForm = ({itemNum, setParentValue, cartInfo, addItem, toggleExpand, keyId, updateCartInfo, activeItems}) => {
+const OrderItemForm = ({itemNum, setParentValue, cartInfo, addItem, toggleExpand, removeItem, keyId, updateCartInfo, activeItems}) => {
 
   const [values, setValues] = useState({description: "", url: "", color: "", size: "", itemCategory: "", itemPrice: "", weightLB: "", weightPrice: "" })
   
@@ -90,7 +90,10 @@ const OrderItemForm = ({itemNum, setParentValue, cartInfo, addItem, toggleExpand
               </div>
             </div>
             <div className="button">
-              <button onClick={addItem}>Add Item</button>
+              {(activeItems === itemNum) && (itemNum !== 1) && <button type="button" onClick={removeItem}>Delete Item</button>}
+            </div>
+            <div className="button">
+              {(activeItems === itemNum) && <button type="button" onClick={addItem}>Add Item</button>}
             </div>
           </div>
         </div>

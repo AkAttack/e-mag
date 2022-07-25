@@ -133,7 +133,7 @@ body{
 }
 .form-item .button button{
    height: 100%;
-   width: 100%;
+   width: 35%;
    border-radius: 5px;
    border: none;
    color: #fff;
@@ -144,9 +144,33 @@ body{
    transition: all 0.3s ease;
    background: linear-gradient(135deg, #71b7e6, #9b59b6);
 }
+.button-submit{
+  height: 45px;
+  margin: 35px 0
+}
+.button-submit{
+  height: 100%;
+  width: 80%;
+  border-radius: 5px;
+  border: none;
+  color: #fff;
+  font-size: 18px;
+  font-weight: 500;
+  letter-spacing: 1px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  background: linear-gradient(135deg, #71b7e6, #9b59b6);
+}
 .form-item .button button:hover{
   /* trans.form-item: scale(0.99); */
   background: linear-gradient(-135deg, #71b7e6, #9b59b6);
+}
+.action-button {
+  background-color: rgb(255, 255, 255, 0.3);
+  display: inline-flexbox;
+  align-items: center;
+  align-content: center;
+  width: 100%;
 }
 
 @media(max-width: 600px){
