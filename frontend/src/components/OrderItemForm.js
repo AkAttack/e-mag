@@ -8,7 +8,7 @@ const OrderItemForm = ({itemNum, setParentValue, cartInfo, addItem, toggleExpand
   const handleValue = (e) => {
     setValues(preValues => ({
       ...preValues,
-      [e.target.name] : [e.target.value]
+      [e.target.name] : e.target.value
       })  )
     setParentValue(preState => {
       const newValue = [...preState]

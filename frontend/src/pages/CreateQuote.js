@@ -1,4 +1,4 @@
-import { useState} from "react"
+import { useEffect, useState} from "react"
 import OrderItemForm from "../components/OrderItemForm";
 // import {v4 as uuid} from "uuid";
 
@@ -6,7 +6,7 @@ const CreateQuote = () => {
   const MAX_CART_AMOUNT = 10
   const MIN_CART_AMOUNT = 1
 
-  const [quoteInfo, setQuoteInfo] = useState([])
+  const [quoteInfo, setQuoteInfo] = useState({customer: {}, cart: [], details: {}})
   const [cartInfo, setCartInfo] = useState([{id: 1, active: true, expandShow: true, values: {}}, {id: 2, active:false, expandShow: false},{id: 3, active:false, expandShow: false},{id: 4, active:false, expandShow: false},{id: 5, active:false, expandShow: false},{id: 6, active:false, expandShow: false},{id: 7, active:false, expandShow: false},{id: 8, active:false, expandShow: false},{id: 9, active:false, expandShow: false},{id: 10, active:false, expandShow: false},{id: 11, active: false, expandShow: true}, {id: 12, active:false, expandShow: false},{id: 13, active:false, expandShow: false},{id: 14, active:false, expandShow: false},{id: 15, active:false, expandShow: false},{id: 16, active:false, expandShow: false},{id: 17, active:false, expandShow: false},{id: 18, active:false, expandShow: false},{id: 19, active:false, expandShow: false},{id: 20, active:false, expandShow: false} ])
   const [activeItems, setActiveItems] = useState(MIN_CART_AMOUNT)
   const [error, setError] = useState(null)
@@ -34,7 +34,6 @@ const CreateQuote = () => {
       const newArr = [...cartInfo]
       newArr[id].active = true
       newArr[id].expandShow = true
-      newArr[id - 1].expandShow = false
       setCartInfo(newArr)
     }
     const newNum = activeItems + 1
@@ -48,7 +47,7 @@ const CreateQuote = () => {
     setCartInfo(newArr)
   }
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = (e) => {
     e.preventDefault()
     const urlOrderItems = "http://localhost:3001/api/orderitems"
     cartInfo.forEach(item => {
@@ -57,16 +56,26 @@ const CreateQuote = () => {
         body: JSON.stringify(item.values)}
         fetch(urlOrderItems, options)
           .then(res => res.json())
-          .then(json => {console.log(json)})    //save item ID
+          .then(json => {
+            setQuoteInfo(pd => {
+              const newCart = {...pd}
+              newCart.cart = [...pd.cart, json]
+              return newCart
+            })
+
+        })    //save item ID
           .catch(err => {setError(err)})
-        }
-        
+      }
     })
-    
+
+    if(quoteInfo.cart){
+      console.log("go and create cart")
+    }
   }
 
+  
 
-  return ( 
+  return (   
     <form className="create-quote" onSubmit={handleSubmit}>
       {cartInfo.map((e,i) => {
         return (<OrderItemForm 
@@ -80,9 +89,9 @@ const CreateQuote = () => {
           setParentValue={setCartInfo}
           cartInfo={cartInfo[i]}/>)
       })  }
-      <button onClick={addItem}>ADD ITEM</button>
-      <button onClick={() => console.log(cartInfo)}>Cart Values</button>
-      <button onClick={removeItem}>Remove Last Item</button>
+      <button type="button" onClick={addItem}>ADD ITEM</button>
+      <button type="button" onClick={() => console.log(quoteInfo)}>Cart Values</button>
+      <button type="button" onClick={removeItem}>Remove Last Item</button>
       <button type="submit">SUBMIT SUBMIT</button>
     </form>
    );
