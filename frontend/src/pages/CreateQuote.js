@@ -1,6 +1,7 @@
 import { useEffect, useState} from "react"
 import CustomerForm from "../components/CustomerForm";
 import OrderItemForm from "../components/OrderItemForm";
+import QuoteTemplate from "../components/QuoteTemplate";
 // import {v4 as uuid} from "uuid";
 
 const CreateQuote = () => {
@@ -131,6 +132,8 @@ const CreateQuote = () => {
         </form>
       }
       <button onClick={() => console.log(quoteInfo)}>quoteInfo</button>
+
+      <QuoteTemplate />
     </div>
    );
 
