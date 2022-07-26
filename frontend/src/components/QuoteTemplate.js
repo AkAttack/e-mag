@@ -1,6 +1,6 @@
 import Logo from "../images/AnsaLogo.png"
 
-const QuoteTemplate = () => {
+const QuoteTemplate = ({quote, customer, company}) => {
   return ( 
     <div className="invoice-page">
       <div className="invoice-box">
@@ -27,10 +27,9 @@ const QuoteTemplate = () => {
 					<td colSpan="2">
 						<table>
 							<tr>
-								<td>
-									Sparksuite, Inc.<br />
-									12345 Sunny Road<br />
-									Sunnyville, TX 12345
+								<td className="logo-text">
+									E-Mag <br />
+									Online Shopping<br />
 								</td>
 
 								<td>
@@ -43,7 +42,7 @@ const QuoteTemplate = () => {
 					</td>
 				</tr>
 
-				<tr className="heading">
+				{/* <tr className="heading">
 					<td>Payment Method</td>
 
 					<td>Check #</td>
@@ -53,7 +52,7 @@ const QuoteTemplate = () => {
 					<td>Check</td>
 
 					<td>1000</td>
-				</tr>
+				</tr> */}
 
 				<tr className="heading">
 					<td>Item</td>

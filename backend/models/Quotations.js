@@ -1,26 +1,9 @@
 const mongoose = require("mongoose")
 
-const QuotationsSchema = mongoose.Schema({
-  quoteId: {
-    type: String,
-    required: true
-  },  
-  ofOrderItems: {
-    type: [mongoose.Schema.Types.ObjectId],
-    ref: "order-items",
-    required: true
-  },
-  doneByUser: {
-    type: mongoose.Schema.Types.ObjectId, 
-    ref: 'users',
-    required: true
-  },
-  orderFor: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: "customer-infos",
-    required: true
-  },
-  freight: Number,
+const QuotationsSchema = mongoose.Schema({  
+  cart: Array,
+  customer: String,
+  freightPrice: Number,
   totalWeight: Number,
   businessChargePrice: Number,
   customsTotal: Number,

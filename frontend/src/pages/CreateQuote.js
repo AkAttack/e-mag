@@ -8,10 +8,12 @@ const CreateQuote = () => {
   const MAX_CART_AMOUNT = 10
   const MIN_CART_AMOUNT = 1
 
-  const [quoteInfo, setQuoteInfo] = useState({customer: {nameFirst: "", nameLast: "", mobile: "", address: "", email: ""}, cart: [], details: {}})
+  const [quoteInfo, setQuoteInfo] = useState({customer: "", cart: [], details: {}})
+  const [customer, setCustomer] = useState({nameFirst: "", nameLast: "", mobile: "", address: "", email: ""})
   const [cartInfo, setCartInfo] = useState([{id: 1, active: true, expandShow: true, values: {}}, {id: 2, active:false, expandShow: false},{id: 3, active:false, expandShow: false},{id: 4, active:false, expandShow: false},{id: 5, active:false, expandShow: false},{id: 6, active:false, expandShow: false},{id: 7, active:false, expandShow: false},{id: 8, active:false, expandShow: false},{id: 9, active:false, expandShow: false},{id: 10, active:false, expandShow: false},{id: 11, active: false, expandShow: true}, {id: 12, active:false, expandShow: false},{id: 13, active:false, expandShow: false},{id: 14, active:false, expandShow: false},{id: 15, active:false, expandShow: false},{id: 16, active:false, expandShow: false},{id: 17, active:false, expandShow: false},{id: 18, active:false, expandShow: false},{id: 19, active:false, expandShow: false},{id: 20, active:false, expandShow: false} ])
   const [activeItems, setActiveItems] = useState(MIN_CART_AMOUNT)
   const [pageVars, setPageVars] = useState({quoteStep: "step 1"})
+  const [dbQuote, setDbQuote] = useState({quoteId: ""})
   const [error, setError] = useState(null)
 
   const fetchErrorCheck = (res) => {
@@ -58,6 +60,7 @@ const CreateQuote = () => {
   const handleSubmit = (e) => {
     e.preventDefault()
     const urlOrderItems = "http://localhost:3001/api/orderitems"
+    const urlQuote = "http://localhost:3001/api/orderitems"
     cartInfo.forEach(item => {
       if(item.active){
         const options = {method: "POST", headers: {"Content-type": "application/json"}, 
@@ -75,6 +78,7 @@ const CreateQuote = () => {
       }
     })
     // update cart
+
 
     
   }
@@ -133,7 +137,10 @@ const CreateQuote = () => {
       }
       <button onClick={() => console.log(quoteInfo)}>quoteInfo</button>
 
-      <QuoteTemplate />
+      <QuoteTemplate 
+        quote={quoteInfo}
+        cart={quoteInfo.cart}
+      />
     </div>
    );
 
