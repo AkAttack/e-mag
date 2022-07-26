@@ -1,6 +1,6 @@
 import Logo from "../images/AnsaLogo.png"
 
-const QuoteTemplate = ({quote, customer, company}) => {
+const QuoteTemplate = ({quote, cart}) => {
   return ( 
     <div className="invoice-page">
       <div className="invoice-box">
@@ -56,32 +56,45 @@ const QuoteTemplate = ({quote, customer, company}) => {
 
 				<tr className="heading">
 					<td>Item</td>
-
 					<td>Price</td>
 				</tr>
 
+				{cart.map((item,i) =>{
+					if(item.active){
+						<tr className="item" key={i}>
+							<td>{item.target.description? item.target.description : item.target.url? item.target.url : ""}</td>
+							<td>${item.target.price? item.target.price: 0.00}</td>
+						</tr>
+					}
+				})}
 				<tr className="item">
-					<td>Website design</td>
-
-					<td>$300.00</td>
+					<td>Total Item Cost</td>
+					<td>${quote.target.itemTotalPrice? quote.target.itemTotalPrice: 0.00}</td>
 				</tr>
 
 				<tr className="item">
-					<td>Hosting (3 months)</td>
+					<td>Items U.S Taxes</td>
+					<td>${quote.target.itemTotalTax? quote.target.itemTotalTax: 0.00}</td>
+				</tr>
 
-					<td>$75.00</td>
+				<tr className="item">
+					<td>Shipping Cost</td>
+					<td>${quote.target.itemTotalWeightPrice? quote.target.itemTotalWeightPrice: 0.00}</td>
+				</tr>
+
+				<tr className="item">
+					<td>Local Fees (Customs)</td>
+					<td>${quote.target.freight? quote.target.freight: 0.00}</td>
 				</tr>
 
 				<tr className="item last">
-					<td>Domain name (1 year)</td>
-
-					<td>$10.00</td>
+					<td>Business Charges</td>
+					<td>${quote.target.businessCharges? quote.target.businessCharges: 0.00}</td>
 				</tr>
 
 				<tr className="total">
 					<td></td>
-
-					<td>Total: $385.00</td>
+					<td>Total: ${quote.target.grandTotal? quote.target.grandTotal: 0.00}</td>
 				</tr>
 			</table>
 		</div>
