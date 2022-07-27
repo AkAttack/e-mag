@@ -71,7 +71,7 @@ const QuoteTemplate = ({quoteInfo}) => {
 							<tbody key={cart.id + 100}>
 								<tr className="item">
 									<td className="invoice-prevent-overflow  column1-width">{quoteInfo.cart[i].target.description? quoteInfo.cart[i].target.description : quoteInfo.cart[i].target.url? quoteInfo.cart[i].target.url : ""}</td>
-									<td className="column2-width">${quoteInfo.cart[i].target.price? quoteInfo.cart[i].target.price: 0.00}</td>
+									<td className="column2-width">${quoteInfo.cart[i].target.itemPrice}</td>
 								</tr>
 							</tbody>
 						)
@@ -81,42 +81,42 @@ const QuoteTemplate = ({quoteInfo}) => {
 				<tbody>
 				<tr className="item">
 					<td className="column1-width">Total Item Cost</td>
-					<td className="column2-width">${quoteInfo.target.itemTotalPrice? quoteInfo.target.itemTotalPrice: 0.00}</td>
+					<td className="column2-width">${quoteInfo.target.itemTotalPrice}</td>
 				</tr>
 				</tbody>
 
 				<tbody>
 				<tr className="item">
 					<td className="column1-width">Items U.S Taxes</td>
-					<td className="column2-width">${quoteInfo.target.itemTotalTax? quoteInfo.target.itemTotalTax: 0.00}</td>
+					<td className="column2-width">${quoteInfo.target.itemTotalUSTax}</td>
 				</tr>
 				</tbody>
 
 				<tbody>
 				<tr className="item">
 					<td className="column1-width">Shipping Cost</td>
-					<td className="column2-width">${quoteInfo.target.itemTotalWeightPrice? quoteInfo.target.itemTotalWeightPrice: 0.00}</td>
+					<td className="column2-width">${quoteInfo.target.itemTotalWeightPrice}</td>
 				</tr>
 				</tbody>
 
 				<tbody>
 				<tr className="item">
 					<td className="column1-width">Local Fees (Customs)</td>
-					<td className="column2-width">${quoteInfo.target.freight? quoteInfo.target.freight: 0.00}</td>
+					<td className="column2-width">${quoteInfo.target.freight}</td>
 				</tr>
 				</tbody>
 
 				<tbody>
 				<tr className="item last">
 					<td className="column1-width">Business Charges</td>
-					<td className="column2-width">${quoteInfo.target.businessCharges? quoteInfo.target.businessCharges: 0.00}</td>
+					<td className="column2-width">${quoteInfo.target.businessCharges}</td>
 				</tr>
 				</tbody>
 
 				<tbody>
 				<tr className="total">
 					<td className="column1-width"></td>
-					<td className="column2-width">Total: ${quoteInfo.target.grandTotal? quoteInfo.target.grandTotal: 0.00}</td>
+					<td className="column2-width">Total: ${quoteInfo.target.grandTotal}</td>
 				</tr>
 				</tbody>
 			</table>

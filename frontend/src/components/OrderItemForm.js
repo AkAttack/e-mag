@@ -6,7 +6,7 @@ const OrderItemForm = ({itemNum, setParentValues, cartInfo, addItem, toggleExpan
     <div className="OIF" >
       <div className="title">
         <span className="OIF-+" onClick={() => {toggleExpand(keyId)}}>{cartInfo.expandShow ? "+" : "-"}</span> Item {itemNum}  
-        {(activeItems === itemNum) && (itemNum !== 1) && <span className="itemDelet-button" onClick={updateCartInfo}>      DEL</span>} 
+        {(activeItems === itemNum) && (itemNum !== 1) && <span className="itemDelet-button" onClick={removeItem}>      DEL</span>} 
       </div>
 
       {cartInfo.expandShow &&
@@ -59,10 +59,10 @@ const OrderItemForm = ({itemNum, setParentValues, cartInfo, addItem, toggleExpan
               </div>
               <div className="input-box">
                 <input type="number" 
-                  name="weightLB" 
+                  name="itemWeight" 
                   placeholder="Item Weight (LB)" 
                   required
-                  value={cartInfo.target.weightLB}
+                  value={cartInfo.target.itemWeight}
                   onChange={(e) => setParentValues(e, keyId)} />
               </div>
               <div className="input-box">

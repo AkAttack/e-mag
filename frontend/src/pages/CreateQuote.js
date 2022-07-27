@@ -1,4 +1,4 @@
-import { useState} from "react"
+import { useEffect, useState} from "react"
 import CustomerForm from "../components/CustomerForm";
 import OrderItemForm from "../components/OrderItemForm";
 import QuoteTemplate from "../components/QuoteTemplate";
@@ -10,7 +10,6 @@ const CreateQuote = () => {
   const MIN_CART_AMOUNT = 1
 
   const [quoteInfo, setQuoteInfo] = useState(QUOTE_INFO)
-  const [cartInfo, setCartInfo] = useState(QUOTE_INFO.cart)
   const [activeItems, setActiveItems] = useState(MIN_CART_AMOUNT)
   const [pageVars, setPageVars] = useState({quoteStep: "step 1"})
   const [dbQuote, setDbQuote] = useState({quoteId: ""})
@@ -25,12 +24,14 @@ const CreateQuote = () => {
   const removeItem = () =>{
     if(activeItems >= 2) {
       const id = activeItems - 1
-      const newArr = [...cartInfo]
-        newArr[id].active = false
-        newArr[id].expandShow = true
-        if(id >= 1){newArr[id - 1].expandShow = true}
+      const newCart = [...quoteInfo.cart]
+        newCart[id].active = false
+        newCart[id].expandShow = true
+        if(id >= 1){newCart[id - 1].expandShow = true}
       if(id < MAX_CART_AMOUNT && id >= MIN_CART_AMOUNT){
-        setCartInfo(newArr)
+        const newQuote = {...quoteInfo}
+        newQuote.cart = newCart
+        setQuoteInfo(newQuote)
       }
       const newNum = activeItems - 1
       if(newNum >= MIN_CART_AMOUNT && newNum <= MAX_CART_AMOUNT){ 
@@ -41,10 +42,12 @@ const CreateQuote = () => {
   const addItem = () => {
     const id = activeItems 
     if(id < MAX_CART_AMOUNT && id >= MIN_CART_AMOUNT){
-      const newArr = [...cartInfo]
-      newArr[id].active = true
-      newArr[id].expandShow = true
-      setCartInfo(newArr)
+      const newCart = [...quoteInfo.cart]
+      newCart[id].active = true
+      newCart[id].expandShow = true
+      const newQuote = {...quoteInfo}
+      newQuote.cart = newCart
+      setQuoteInfo(newQuote)
     }
     const newNum = activeItems + 1
     if(newNum >= MIN_CART_AMOUNT && newNum <= MAX_CART_AMOUNT){ 
@@ -52,16 +55,18 @@ const CreateQuote = () => {
   }
 
   const toggleExpand = (id) => {
-    const newArr = [...cartInfo]
-    newArr[id].expandShow = !cartInfo[id].expandShow
-    setCartInfo(newArr)
+    const newCart = [...quoteInfo.cart]
+    newCart[id].expandShow = !quoteInfo.cart[id].expandShow
+    const newQuote = {...quoteInfo}
+    newQuote.cart = newCart
+    setQuoteInfo(newQuote)
   }
 
   const handleSubmit = (e) => {
     e.preventDefault()
     const urlOrderItems = "http://localhost:3001/api/orderitems"
     const urlQuote = "http://localhost:3001/api/orderitems"
-    cartInfo.forEach(item => {
+    quoteInfo.cart.forEach(item => {
       if(item.active){
         const options = {method: "POST", headers: {"Content-type": "application/json"}, 
         body: JSON.stringify(item.values)}
@@ -78,9 +83,6 @@ const CreateQuote = () => {
       }
     })
     // update cart
-
-
-    
   }
 
   const customerHandleValue = (e) => {
@@ -101,6 +103,24 @@ const CreateQuote = () => {
     })
   }
 
+  const findWeightPrice = (weight) => {
+    console.log("findWeightPrice Fired")
+    let price = 0
+    if(weight < 51){
+      price = quoteInfo.weightInfo[weight].price
+    }else{
+      price = quoteInfo.weightInfo["51"]
+    }
+    return price
+  }
+  const getCustomsPrice = (iPrice, searchWord) => {
+    console.log("getCustomsPrice Fired")
+    let price = 0
+    const multiplier = quoteInfo.customsInfo[searchWord]
+    price = iPrice * multiplier
+    return price
+  }
+
   const orderItemHandleValue = (e, id) => {
     const name = e.target.name
     const value = e.target.value
@@ -112,6 +132,41 @@ const CreateQuote = () => {
     })
   }
   
+  useEffect(() => {
+    //update items usTax, itemTotalPrice, 
+    const newQuote = {...quoteInfo}
+    const newCart = [...quoteInfo.cart]
+    let newItemTotalUSTax = 0
+    newCart.forEach((item,i)=>{
+      item.target.usTax = (item.target.itemPrice * newQuote.adminInfo.usTaxPercent)
+    })
+    for(let i of newCart){
+      
+      newItemTotalUSTax += (i.target.itemPrice * newQuote.adminInfo.usTaxPercent)
+    }
+    newQuote.cart = newCart
+    newQuote.target = {...newQuote.target, itemTotalUSTax: newItemTotalUSTax}
+    setQuoteInfo(newQuote)
+
+  }, [...quoteInfo.cart.map((item,i)=>{return(item.target.itemPrice)})])
+
+  useEffect(() => {
+    // update itemCustoms and itemTotalCustoms
+    let newItemTotalCustoms, newCart
+    let newQuote = {...quoteInfo}
+    newCart = [...quoteInfo.cart]
+    newCart.forEach((item,i) =>{
+      item.target.itemCustoms = getCustomsPrice(item.target.itemPrice, item.target.itemCategory)
+    })
+    for(let i of quoteInfo.cart){
+      newItemTotalCustoms += i.itemCustoms
+    }
+    newQuote.target = {...newCart.target, itemTotalCustoms: newItemTotalCustoms}
+    newQuote.cart = newCart
+    setQuoteInfo(newQuote)
+  }, [...quoteInfo.cart.map((item,i)=>{return(item.target.itemCategory)}), ...quoteInfo.cart.map((item,i)=>{return(item.target.itemWeight)})])
+
+
 
   return (   
     <div className="create-quote">
@@ -129,12 +184,12 @@ const CreateQuote = () => {
       
       {pageVars.quoteStep === "step 2" &&
         <form className="create-quote" onSubmit={handleSubmit}>
-          {cartInfo.map((e,i) => {
+          {quoteInfo.cart.map((e,i) => {
             return (<OrderItemForm 
               key={i} 
               keyId={i}
               itemNum={e.id} 
-              updateCartInfo={removeItem}
+              updatequoteInfo={removeItem}
               activeItems={activeItems}
               toggleExpand={toggleExpand}
               addItem={addItem}

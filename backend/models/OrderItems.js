@@ -9,7 +9,7 @@ const OrderItemsSchema = mongoose.Schema({
     required: true
   },
   size: String,
-  weightLB: {
+  itemWeight: {
     type: Number,
     required: true
   },
