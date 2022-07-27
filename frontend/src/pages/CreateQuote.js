@@ -103,21 +103,10 @@ const CreateQuote = () => {
     })
   }
 
-  const findWeightPrice = (weight) => {
-    console.log("findWeightPrice Fired")
-    let price = 0
-    if(weight < 51){
-      price = quoteInfo.weightInfo[weight].price
-    }else{
-      price = quoteInfo.weightInfo["51"]
-    }
-    return price
-  }
   const getCustomsPrice = (iPrice, searchWord) => {
-    console.log("getCustomsPrice Fired")
-    let price = 0
-    const multiplier = quoteInfo.customsInfo[searchWord]
-    price = iPrice * multiplier
+    let price, vat
+    vat = quoteInfo.customsInfo[searchWord]
+    price = vat * iPrice
     return price
   }
 
@@ -131,40 +120,60 @@ const CreateQuote = () => {
       return newQuote
     })
   }
+
+  const getWeightPrice = (newWeight) => {
+    let price = 0, key="51"
+    try {
+      if(newWeight < 51){
+        price = quoteInfo.weightInfo[newWeight].price
+      }else{
+        price = quoteInfo.weightInfo[key].multiplier * newWeight
+      }
+    } catch (error) {
+      console.log("weightInfo not there, key: ", newWeight)
+      price= 0
+    }
+    if(typeof price === "number" && !Number.isNaN(price)){
+      return price
+    }else{return 0}
+  }
   
   useEffect(() => {
-    //update items usTax, itemTotalPrice, 
-    const newQuote = {...quoteInfo}
-    const newCart = [...quoteInfo.cart]
-    let newItemTotalUSTax = 0
-    newCart.forEach((item,i)=>{
-      item.target.usTax = (item.target.itemPrice * newQuote.adminInfo.usTaxPercent)
-    })
-    for(let i of newCart){
-      
-      newItemTotalUSTax += (i.target.itemPrice * newQuote.adminInfo.usTaxPercent)
-    }
-    newQuote.cart = newCart
-    newQuote.target = {...newQuote.target, itemTotalUSTax: newItemTotalUSTax}
-    setQuoteInfo(newQuote)
-
-  }, [...quoteInfo.cart.map((item,i)=>{return(item.target.itemPrice)})])
-
-  useEffect(() => {
-    // update itemCustoms and itemTotalCustoms
-    let newItemTotalCustoms, newCart
+    // update itemCustoms // itemTotalCustoms // usTax
+    let newItemTotalCustoms = 0, newCart, iPrice=0, searchWord="",
+    newusTax=0, newItemTotalWeightPrice=0, newItemTotalWeight=0
     let newQuote = {...quoteInfo}
     newCart = [...quoteInfo.cart]
     newCart.forEach((item,i) =>{
-      item.target.itemCustoms = getCustomsPrice(item.target.itemPrice, item.target.itemCategory)
+      iPrice= Number(item.target.itemPrice)
+      searchWord = item.target.itemCategory
+      if(item.active){
+        const tempCustoms = getCustomsPrice(iPrice, searchWord)
+        if(typeof tempCustoms === "number" &&  !Number.isNaN(tempCustoms)){
+          item.target.itemCustoms = tempCustoms
+          newItemTotalCustoms += tempCustoms
+        }
+        newusTax = (item.target.itemPrice * newQuote.adminInfo.usTaxPercent)
+        if(typeof newusTax === "number" && !Number.isNaN(newusTax)){
+          item.target.usTax = newusTax
+        }
+        if(typeof item.target.itemWeight === "number" && !Number.isNaN(item.target.itemWeight)){
+          newItemTotalWeight += item.target.itemWeight
+        }
+        newItemTotalWeightPrice += getWeightPrice(item.target.itemWeight)
+      }
     })
-    for(let i of quoteInfo.cart){
-      newItemTotalCustoms += i.itemCustoms
-    }
-    newQuote.target = {...newCart.target, itemTotalCustoms: newItemTotalCustoms}
+    newQuote.target = {...quoteInfo.target, itemTotalCustoms: newItemTotalCustoms, itemTotalWeightPrice: newItemTotalWeightPrice, itemTotalWeight: newItemTotalWeight}
     newQuote.cart = newCart
     setQuoteInfo(newQuote)
-  }, [...quoteInfo.cart.map((item,i)=>{return(item.target.itemCategory)}), ...quoteInfo.cart.map((item,i)=>{return(item.target.itemWeight)})])
+    console.log(newQuote)
+  }, [...quoteInfo.cart.map((item,i)=>{return(item.target.itemCategory)}), ...quoteInfo.cart.map((item,i)=>{return(item.target.itemPrice)}), ...quoteInfo.cart.map((item,i)=>{return(item.target.itemWeight)})])
+
+  useEffect(() => {
+    //
+
+
+  }, [])
 
 
 

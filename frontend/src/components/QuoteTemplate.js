@@ -102,7 +102,7 @@ const QuoteTemplate = ({quoteInfo}) => {
 				<tbody>
 				<tr className="item">
 					<td className="column1-width">Local Fees (Customs)</td>
-					<td className="column2-width">${quoteInfo.target.freight}</td>
+					<td className="column2-width">${quoteInfo.target.itemTotalCustoms}</td>
 				</tr>
 				</tbody>
 
