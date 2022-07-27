@@ -1,6 +1,6 @@
 import Logo from "../images/AnsaLogo.png"
 
-const QuoteTemplate = ({quoteInfo}) => {
+const QuoteTemplate = ({quoteInfo, itemTotalPrice, itemTotalUSTax, itemTotalCustoms, itemTotalWeightPrice, businessCharge, USDgrandTotal, GYDgrandTotal}) => {
 
   return ( 
     <div className="invoice-page">
@@ -81,42 +81,46 @@ const QuoteTemplate = ({quoteInfo}) => {
 				<tbody>
 				<tr className="item">
 					<td className="column1-width">Total Item Cost</td>
-					<td className="column2-width">${quoteInfo.target.itemTotalPrice}</td>
+					<td className="column2-width">${itemTotalPrice}</td>
 				</tr>
 				</tbody>
 
 				<tbody>
 				<tr className="item">
-					<td className="column1-width">Items U.S Taxes</td>
-					<td className="column2-width">${quoteInfo.target.itemTotalUSTax}</td>
+					<td className="column1-width">Item,s U.S Taxes</td>
+					<td className="column2-width">${itemTotalUSTax}</td>
 				</tr>
 				</tbody>
 
 				<tbody>
 				<tr className="item">
 					<td className="column1-width">Shipping Cost</td>
-					<td className="column2-width">${quoteInfo.target.itemTotalWeightPrice}</td>
+					<td className="column2-width">${itemTotalWeightPrice}</td>
 				</tr>
 				</tbody>
 
 				<tbody>
 				<tr className="item">
 					<td className="column1-width">Local Fees (Customs)</td>
-					<td className="column2-width">${quoteInfo.target.itemTotalCustoms}</td>
+					<td className="column2-width">${itemTotalCustoms}</td>
 				</tr>
 				</tbody>
 
 				<tbody>
 				<tr className="item last">
 					<td className="column1-width">Business Charges</td>
-					<td className="column2-width">${quoteInfo.target.businessCharges}</td>
+					<td className="column2-width">${businessCharge}</td>
 				</tr>
 				</tbody>
 
 				<tbody>
 				<tr className="total">
 					<td className="column1-width"></td>
-					<td className="column2-width">Total: ${quoteInfo.target.grandTotal}</td>
+					<td className="column2-width">Total(USD): ${USDgrandTotal}</td>
+				</tr>
+				<tr className="total">
+					<td className="column1-width"></td>
+					<td className="column2-width">Total(GYD): ${GYDgrandTotal}</td>
 				</tr>
 				</tbody>
 			</table>

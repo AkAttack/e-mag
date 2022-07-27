@@ -139,41 +139,76 @@ const CreateQuote = () => {
   }
   
   useEffect(() => {
-    // update itemCustoms // itemTotalCustoms // usTax
-    let newItemTotalCustoms = 0, newCart, iPrice=0, searchWord="",
-    newusTax=0, newItemTotalWeightPrice=0, newItemTotalWeight=0
+    // update itemCustoms // itemTotalCustoms // usTax // itemTotalPrice
+    let newItemTotalCustoms = 0, newCart, searchWord="",
+    newusTax=0, newItemTotalWeightPrice=0, newItemTotalWeight=0, newItemTotalUSTax=0, newItemTotalPrice=0
     let newQuote = {...quoteInfo}
     newCart = [...quoteInfo.cart]
-    newCart.forEach((item,i) =>{
-      iPrice= Number(item.target.itemPrice)
+    newCart.forEach((item,i) =>{    //forEach LOOP
+      let iPrice= Number(item.target.itemPrice)
       searchWord = item.target.itemCategory
+
       if(item.active){
-        const tempCustoms = getCustomsPrice(iPrice, searchWord)
+        let tempCustoms = getCustomsPrice(iPrice, searchWord)
+        //itemTotalCustoms update
+        tempCustoms = tempCustoms/ newQuote.adminInfo.usdExchange
+        tempCustoms = parseInt(tempCustoms)
         if(typeof tempCustoms === "number" &&  !Number.isNaN(tempCustoms)){
           item.target.itemCustoms = tempCustoms
           newItemTotalCustoms += tempCustoms
         }
+        //item usTax update && itemTotalUSTax
         newusTax = (item.target.itemPrice * newQuote.adminInfo.usTaxPercent)
         if(typeof newusTax === "number" && !Number.isNaN(newusTax)){
           item.target.usTax = newusTax
+          newItemTotalUSTax += newusTax
         }
+        //itemTotalWeight update
         if(typeof item.target.itemWeight === "number" && !Number.isNaN(item.target.itemWeight)){
           newItemTotalWeight += item.target.itemWeight
         }
+        //itemTotalWeightPrice update
         newItemTotalWeightPrice += getWeightPrice(item.target.itemWeight)
+        // itemTotalPrice
+        if(typeof iPrice === "number" && !Number.isNaN(iPrice)){
+          newItemTotalPrice += iPrice
+        }
       }
     })
-    newQuote.target = {...quoteInfo.target, itemTotalCustoms: newItemTotalCustoms, itemTotalWeightPrice: newItemTotalWeightPrice, itemTotalWeight: newItemTotalWeight}
+    
+    newQuote.target = {...quoteInfo.target, itemTotalPrice: newItemTotalPrice, itemTotalCustoms: newItemTotalCustoms, itemTotalUSTax: newItemTotalUSTax, itemTotalWeightPrice: newItemTotalWeightPrice, itemTotalWeight: newItemTotalWeight}
     newQuote.cart = newCart
     setQuoteInfo(newQuote)
-    console.log(newQuote)
   }, [...quoteInfo.cart.map((item,i)=>{return(item.target.itemCategory)}), ...quoteInfo.cart.map((item,i)=>{return(item.target.itemPrice)}), ...quoteInfo.cart.map((item,i)=>{return(item.target.itemWeight)})])
 
   useEffect(() => {
-    //
+    //Quote Total // Sub Grant Total // Business Charges
+    let newTarget={...quoteInfo.target}, newQuote={...quoteInfo}, newusdGrandTotal=0, newgydGrandTotal=0, newBusinessCharge=0, preChargeTotal=0, tempNum=0
+    
+    tempNum = parseInt(newTarget.itemTotalCustoms )
+    preChargeTotal += tempNum
+    tempNum = parseInt(newTarget.itemTotalPrice)
+    preChargeTotal +=  tempNum 
+    tempNum = parseInt(newTarget.itemTotalUSTax) 
+    preChargeTotal += tempNum 
+    tempNum = parseInt(newTarget.itemTotalWeightPrice)
+    // convert to weight price to USD
+    tempNum = tempNum / newQuote.adminInfo.usdExchange
+    tempNum = parseInt(tempNum)
+    preChargeTotal += tempNum 
+    // All price in USD
+    newBusinessCharge = preChargeTotal/ newQuote.adminInfo.perBChargeAmount
+    newBusinessCharge = parseInt(newBusinessCharge)
+    newBusinessCharge = newBusinessCharge* newQuote.adminInfo.businessCharge
+    newusdGrandTotal = newBusinessCharge + preChargeTotal
+    //converted to GYD
+    newgydGrandTotal = parseInt(newusdGrandTotal) * newQuote.adminInfo.usdExchange
 
+    newTarget = {...newTarget, businessCharge: newBusinessCharge, USDgrandTotal: newusdGrandTotal, GYDgrandTotal: newgydGrandTotal}
+    newQuote.target = newTarget
+    setQuoteInfo(newQuote)
 
-  }, [])
+  }, [quoteInfo.target.businessCharge, quoteInfo.target.itemTotalCustoms, quoteInfo.target.itemTotalPrice, quoteInfo.target.itemTotalWeightPrice, quoteInfo.target.itemTotalUSTax])
 
 
 
@@ -213,7 +248,13 @@ const CreateQuote = () => {
       }
       <button onClick={() => console.log(QUOTE_INFO)}>quoteInfo</button>
 
-      <QuoteTemplate quoteInfo={quoteInfo} />
+      <QuoteTemplate quoteInfo={quoteInfo} 
+      itemTotalCustoms={quoteInfo.target.itemTotalCustoms}
+      itemTotalPrice={quoteInfo.target.itemTotalPrice}
+      itemTotalUSTax={quoteInfo.target.itemTotalUSTax}
+      itemTotalWeightPrice={quoteInfo.target.itemTotalWeightPrice}
+      USDgrandTotal={quoteInfo.target.USDgrandTotal}
+      GYDgrandTotal={quoteInfo.target.GYDgrandTotal}  />
     </div>
    );
 

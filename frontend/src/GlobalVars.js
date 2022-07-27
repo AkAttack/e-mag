@@ -58,7 +58,7 @@ const QUOTE_INFO = {
   adminInfo: ADMIN_INFO,
   weightInfo: WEIGHT_INFO, 
   customsInfo: CUSTOMS_INFO,
-  target: {itemTotalPrice: 0, itemTotalWeightPrice: 0, itemTotalUSTax: 0, itemTotalWeight: 0, itemTotalCustoms: 0, subGrandTotal: 0}, 
+  target: {itemTotalPrice: 0, itemTotalWeightPrice: 0, itemTotalUSTax: 0, itemTotalWeight: 0, itemTotalCustoms: 0, businessCharge:0, grandTotal:0}, 
   }
 
 export default QUOTE_INFO

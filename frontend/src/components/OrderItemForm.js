@@ -1,6 +1,6 @@
 import { useState } from "react";
 
-const OrderItemForm = ({itemNum, setParentValues, cartInfo, addItem, toggleExpand, removeItem, keyId, updateCartInfo, activeItems}) => {
+const OrderItemForm = ({itemNum, setParentValues, cartInfo, addItem, toggleExpand, removeItem, keyId, updateCartInfo, activeItems, customsOptions}) => {
 
   return (cartInfo.active &&
     <div className="OIF" >
@@ -42,6 +42,7 @@ const OrderItemForm = ({itemNum, setParentValues, cartInfo, addItem, toggleExpan
                   value={cartInfo.target.size}
                   onChange={(e) => setParentValues(e, keyId)} />
               </div>
+
               <div className="input-box">
                 <input type="text" 
                   name="itemCategory" 
@@ -49,6 +50,9 @@ const OrderItemForm = ({itemNum, setParentValues, cartInfo, addItem, toggleExpan
                   value={cartInfo.target.itemCategory}
                   onChange={(e) => setParentValues(e, keyId)} />
               </div>
+
+              {}
+
               <div className="input-box">
                 <input type="number" 
                   name="itemPrice" 
@@ -63,14 +67,6 @@ const OrderItemForm = ({itemNum, setParentValues, cartInfo, addItem, toggleExpan
                   placeholder="Item Weight (LB)" 
                   required
                   value={cartInfo.target.itemWeight}
-                  onChange={(e) => setParentValues(e, keyId)} />
-              </div>
-              <div className="input-box">
-                <input type="number" 
-                  name="weightPrice" 
-                  placeholder="Weight Price TEMP" 
-                  required
-                  value={cartInfo.target.weightPrice}
                   onChange={(e) => setParentValues(e, keyId)} />
               </div>
             </div>
