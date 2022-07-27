@@ -1,4 +1,4 @@
-import { useEffect, useState} from "react"
+import { useState} from "react"
 import CustomerForm from "../components/CustomerForm";
 import OrderItemForm from "../components/OrderItemForm";
 import QuoteTemplate from "../components/QuoteTemplate";
@@ -10,7 +10,6 @@ const CreateQuote = () => {
   const MIN_CART_AMOUNT = 1
 
   const [quoteInfo, setQuoteInfo] = useState(QUOTE_INFO)
-  const [customer, setCustomer] = useState({nameFirst: "", nameLast: "", mobile: "", address: "", email: ""})
   const [cartInfo, setCartInfo] = useState(QUOTE_INFO.cart)
   const [activeItems, setActiveItems] = useState(MIN_CART_AMOUNT)
   const [pageVars, setPageVars] = useState({quoteStep: "step 1"})
@@ -102,6 +101,18 @@ const CreateQuote = () => {
     })
   }
 
+  const orderItemHandleValue = (e, id) => {
+    const name = e.target.name
+    const value = e.target.value
+    setQuoteInfo(preState => {
+      const newQuote = {...preState}
+      const newTarget = {...preState.cart[id].target, [name]: value}
+      newQuote.cart[id].target = newTarget
+      return newQuote
+    })
+  }
+  
+
   return (   
     <div className="create-quote">
       {pageVars.quoteStep === "step 1" &&
@@ -115,7 +126,7 @@ const CreateQuote = () => {
        <button onClick={() => console.log(pageVars)}>pageVars</button>
       </div>
       }
-
+      
       {pageVars.quoteStep === "step 2" &&
         <form className="create-quote" onSubmit={handleSubmit}>
           {cartInfo.map((e,i) => {
@@ -128,20 +139,17 @@ const CreateQuote = () => {
               toggleExpand={toggleExpand}
               addItem={addItem}
               removeItem={removeItem}
-              setParentValue={setCartInfo}
-              cartInfo={cartInfo[i]}/>)
+              setParentValues={orderItemHandleValue}
+              cartInfo={quoteInfo.cart[i]}/>)
           })  }
           <div className="action-button">
             <button type="submit" className="button-submit">Generate Quote</button>
           </div>
         </form>
       }
-      <button onClick={() => console.log(quoteInfo)}>quoteInfo</button>
+      <button onClick={() => console.log(QUOTE_INFO)}>quoteInfo</button>
 
-      {/* <QuoteTemplate 
-        quote={quoteInfo}
-        cart={cartInfo}
-      /> */}
+      <QuoteTemplate quoteInfo={quoteInfo} />
     </div>
    );
 
