@@ -1,23 +1,23 @@
-const CART_INFO = [{id: 1, active: true, expandShow: true, target: {description: "", url: "", color: "", size: "", itemCategory: "", itemPrice: 0, itemCustoms: 0, usTax: 0, itemWeight: 0, weightPrice: 0}},
-{id: 2, active: false, expandShow: true, target: {description: "", url: "", color: "", size: "", itemCategory: "", itemPrice: 0, itemCustoms: 0, usTax: 0, itemWeight: 0, weightPrice: 0}},
-{id: 3, active: false, expandShow: true, target: {description: "", url: "", color: "", size: "", itemCategory: "", itemPrice: 0, itemCustoms: 0, usTax: 0, itemWeight: 0, weightPrice: 0}}, 
-{id: 4, active: false, expandShow: true, target: {description: "", url: "", color: "", size: "", itemCategory: "", itemPrice: 0, itemCustoms: 0, usTax: 0, itemWeight: 0, weightPrice: 0}}, 
-{id: 5, active: false, expandShow: true, target: {description: "", url: "", color: "", size: "", itemCategory: "", itemPrice: 0, itemCustoms: 0, usTax: 0, itemWeight: 0, weightPrice: 0}}, 
-{id: 6, active: false, expandShow: true, target: {description: "", url: "", color: "", size: "", itemCategory: "", itemPrice: 0, itemCustoms: 0, usTax: 0, itemWeight: 0, weightPrice: 0}}, 
-{id: 7, active: false, expandShow: true, target: {description: "", url: "", color: "", size: "", itemCategory: "", itemPrice: 0, itemCustoms: 0, usTax: 0, itemWeight: 0, weightPrice: 0}}, 
-{id: 8, active: false, expandShow: true, target: {description: "", url: "", color: "", size: "", itemCategory: "", itemPrice: 0, itemCustoms: 0, usTax: 0, itemWeight: 0, weightPrice: 0}}, 
-{id: 9, active: false, expandShow: true, target: {description: "", url: "", color: "", size: "", itemCategory: "", itemPrice: 0, itemCustoms: 0, usTax: 0, itemWeight: 0, weightPrice: 0}}, 
-{id: 10, active: false, expandShow: true, target: {description: "", url: "", color: "", size: "", itemCategory: "", itemPrice: 0, itemCustoms: 0, usTax: 0, itemWeight: 0, weightPrice: 0}},
-{id: 11, active: false, expandShow: true, target: {description: "", url: "", color: "", size: "", itemCategory: "", itemPrice: 0, itemCustoms: 0, usTax: 0, itemWeight: 0, weightPrice: 0}},
-{id: 12, active: false, expandShow: true, target: {description: "", url: "", color: "", size: "", itemCategory: "", itemPrice: 0, itemCustoms: 0, usTax: 0, itemWeight: 0, weightPrice: 0}},
-{id: 13, active: false, expandShow: true, target: {description: "", url: "", color: "", size: "", itemCategory: "", itemPrice: 0, itemCustoms: 0, usTax: 0, itemWeight: 0, weightPrice: 0}}, 
-{id: 14, active: false, expandShow: true, target: {description: "", url: "", color: "", size: "", itemCategory: "", itemPrice: 0, itemCustoms: 0, usTax: 0, itemWeight: 0, weightPrice: 0}}, 
-{id: 15, active: false, expandShow: true, target: {description: "", url: "", color: "", size: "", itemCategory: "", itemPrice: 0, itemCustoms: 0, usTax: 0, itemWeight: 0, weightPrice: 0}}, 
-{id: 16, active: false, expandShow: true, target: {description: "", url: "", color: "", size: "", itemCategory: "", itemPrice: 0, itemCustoms: 0, usTax: 0, itemWeight: 0, weightPrice: 0}}, 
-{id: 17, active: false, expandShow: true, target: {description: "", url: "", color: "", size: "", itemCategory: "", itemPrice: 0, itemCustoms: 0, usTax: 0, itemWeight: 0, weightPrice: 0}}, 
-{id: 18, active: false, expandShow: true, target: {description: "", url: "", color: "", size: "", itemCategory: "", itemPrice: 0, itemCustoms: 0, usTax: 0, itemWeight: 0, weightPrice: 0}}, 
-{id: 19, active: false, expandShow: true, target: {description: "", url: "", color: "", size: "", itemCategory: "", itemPrice: 0, itemCustoms: 0, usTax: 0, itemWeight: 0, weightPrice: 0}}, 
-{id: 20, active: false, expandShow: true, target: {description: "", url: "", color: "", size: "", itemCategory: "", itemPrice: 0, itemCustoms: 0, usTax: 0, itemWeight: 0, weightPrice: 0}} ]
+const CART_INFO = [{id: 1, active: true, expandShow: true, target: {description: "", url: "", color: "", size: "", itemCategory: "", itemPrice: 0, itemCustoms: 0, usTax: 0, itemWeight: 0, weightPrice: 0, itemUSShipping: 0 }, },
+{id: 2, active: false, expandShow: true, target: {description: "", url: "", color: "", size: "", itemCategory: "", itemPrice: 0, itemCustoms: 0, usTax: 0, itemWeight: 0, weightPrice: 0, itemUSShipping: 0 }, },
+{id: 3, active: false, expandShow: true, target: {description: "", url: "", color: "", size: "", itemCategory: "", itemPrice: 0, itemCustoms: 0, usTax: 0, itemWeight: 0, weightPrice: 0, itemUSShipping: 0 }, }, 
+{id: 4, active: false, expandShow: true, target: {description: "", url: "", color: "", size: "", itemCategory: "", itemPrice: 0, itemCustoms: 0, usTax: 0, itemWeight: 0, weightPrice: 0, itemUSShipping: 0 }, }, 
+{id: 5, active: false, expandShow: true, target: {description: "", url: "", color: "", size: "", itemCategory: "", itemPrice: 0, itemCustoms: 0, usTax: 0, itemWeight: 0, weightPrice: 0, itemUSShipping: 0 }, }, 
+{id: 6, active: false, expandShow: true, target: {description: "", url: "", color: "", size: "", itemCategory: "", itemPrice: 0, itemCustoms: 0, usTax: 0, itemWeight: 0, weightPrice: 0, itemUSShipping: 0 }, }, 
+{id: 7, active: false, expandShow: true, target: {description: "", url: "", color: "", size: "", itemCategory: "", itemPrice: 0, itemCustoms: 0, usTax: 0, itemWeight: 0, weightPrice: 0, itemUSShipping: 0 }, }, 
+{id: 8, active: false, expandShow: true, target: {description: "", url: "", color: "", size: "", itemCategory: "", itemPrice: 0, itemCustoms: 0, usTax: 0, itemWeight: 0, weightPrice: 0, itemUSShipping: 0 }, }, 
+{id: 9, active: false, expandShow: true, target: {description: "", url: "", color: "", size: "", itemCategory: "", itemPrice: 0, itemCustoms: 0, usTax: 0, itemWeight: 0, weightPrice: 0, itemUSShipping: 0 }, }, 
+{id: 10, active: false, expandShow: true, target: {description: "", url: "", color: "", size: "", itemCategory: "", itemPrice: 0, itemCustoms: 0, usTax: 0, itemWeight: 0, weightPrice: 0, itemUSShipping: 0 }, },
+{id: 11, active: false, expandShow: true, target: {description: "", url: "", color: "", size: "", itemCategory: "", itemPrice: 0, itemCustoms: 0, usTax: 0, itemWeight: 0, weightPrice: 0, itemUSShipping: 0 }, },
+{id: 12, active: false, expandShow: true, target: {description: "", url: "", color: "", size: "", itemCategory: "", itemPrice: 0, itemCustoms: 0, usTax: 0, itemWeight: 0, weightPrice: 0, itemUSShipping: 0 }, },
+{id: 13, active: false, expandShow: true, target: {description: "", url: "", color: "", size: "", itemCategory: "", itemPrice: 0, itemCustoms: 0, usTax: 0, itemWeight: 0, weightPrice: 0, itemUSShipping: 0 }, }, 
+{id: 14, active: false, expandShow: true, target: {description: "", url: "", color: "", size: "", itemCategory: "", itemPrice: 0, itemCustoms: 0, usTax: 0, itemWeight: 0, weightPrice: 0, itemUSShipping: 0 }, }, 
+{id: 15, active: false, expandShow: true, target: {description: "", url: "", color: "", size: "", itemCategory: "", itemPrice: 0, itemCustoms: 0, usTax: 0, itemWeight: 0, weightPrice: 0, itemUSShipping: 0 }, }, 
+{id: 16, active: false, expandShow: true, target: {description: "", url: "", color: "", size: "", itemCategory: "", itemPrice: 0, itemCustoms: 0, usTax: 0, itemWeight: 0, weightPrice: 0, itemUSShipping: 0 }, }, 
+{id: 17, active: false, expandShow: true, target: {description: "", url: "", color: "", size: "", itemCategory: "", itemPrice: 0, itemCustoms: 0, usTax: 0, itemWeight: 0, weightPrice: 0, itemUSShipping: 0 }, }, 
+{id: 18, active: false, expandShow: true, target: {description: "", url: "", color: "", size: "", itemCategory: "", itemPrice: 0, itemCustoms: 0, usTax: 0, itemWeight: 0, weightPrice: 0, itemUSShipping: 0 }, }, 
+{id: 19, active: false, expandShow: true, target: {description: "", url: "", color: "", size: "", itemCategory: "", itemPrice: 0, itemCustoms: 0, usTax: 0, itemWeight: 0, weightPrice: 0, itemUSShipping: 0 }, }, 
+{id: 20, active: false, expandShow: true, target: {description: "", url: "", color: "", size: "", itemCategory: "", itemPrice: 0, itemCustoms: 0, usTax: 0, itemWeight: 0, weightPrice: 0, itemUSShipping: 0 }, } ]
 
 const heavyWeightCharge = 2.10
 const WEIGHT_INFO = {0:{min:0, max:0, price: 500}, 1:{min:0, max:1, price: 500},2:{min:1, max:2, price: 1700}, 
@@ -58,7 +58,12 @@ const QUOTE_INFO = {
   adminInfo: ADMIN_INFO,
   weightInfo: WEIGHT_INFO, 
   customsInfo: CUSTOMS_INFO,
-  target: {itemTotalPrice: 0, itemTotalWeightPrice: 0, itemTotalUSTax: 0, itemTotalWeight: 0, itemTotalCustoms: 0, businessCharge:0, grandTotal:0}, 
+  updateSteps:{step1:Date,step2:Date,step3:Date},
+  target: {itemTotalPrice: 0, itemTotalPriceGYD: 0,
+    itemTotalWeightPrice: 0, itemTotalUSTax: 0, 
+    itemTotalWeight: 0, itemTotalCustoms: 0, 
+    businessCharge:0, grandTotal:0, 
+    itemTotalUSShipping:0  } 
   }
 
-export default QUOTE_INFO
+export {QUOTE_INFO, CART_INFO}

@@ -1,6 +1,6 @@
 import Logo from "../images/AnsaLogo.png"
 
-const QuoteTemplate = ({quoteInfo, itemTotalPrice, itemTotalUSTax, itemTotalCustoms, itemTotalWeightPrice, businessCharge, USDgrandTotal, GYDgrandTotal}) => {
+const QuoteTemplate = ({quoteInfo, itemTotalPrice, itemTotalPriceGYD, itemTotalUSTax, itemTotalCustoms, itemTotalWeightPrice, businessCharge, grandTotal, itemTotalUSShipping}) => {
 
   return ( 
     <div className="invoice-page">
@@ -80,21 +80,42 @@ const QuoteTemplate = ({quoteInfo, itemTotalPrice, itemTotalUSTax, itemTotalCust
 
 				<tbody>
 				<tr className="item">
-					<td className="column1-width">Total Item Cost</td>
-					<td className="column2-width">${itemTotalPrice}</td>
-				</tr>
-				</tbody>
-
-				<tbody>
-				<tr className="item">
-					<td className="column1-width">Item,s U.S Taxes</td>
+					<td className="column1-width">US Taxes</td>
 					<td className="column2-width">${itemTotalUSTax}</td>
 				</tr>
 				</tbody>
 
 				<tbody>
 				<tr className="item">
-					<td className="column1-width">Shipping Cost</td>
+					<td className="column1-width">Shipping</td>
+					<td className="column2-width">${itemTotalUSShipping}</td>
+				</tr>
+				</tbody>
+
+				<tbody>
+				<tr className="item">
+					<td className="column1-width">Total Item Cost(USD)</td>
+					<td className="column2-width">${itemTotalPrice}</td>
+				</tr>
+				</tbody>
+
+				<tbody>
+				<tr className="item">
+					<td className="column1-width"> </td>
+					<td className="column2-width"> </td>
+				</tr>
+				</tbody>
+
+				<tbody>
+				<tr className="item">
+					<td className="column1-width">Total Item Cost(GYD) @ ${quoteInfo.adminInfo.usdExchange}</td>
+					<td className="column2-width">${itemTotalPriceGYD}</td>
+				</tr>
+				</tbody>
+
+				<tbody>
+				<tr className="item">
+					<td className="column1-width">Freight Cost</td>
 					<td className="column2-width">${itemTotalWeightPrice}</td>
 				</tr>
 				</tbody>
@@ -106,6 +127,7 @@ const QuoteTemplate = ({quoteInfo, itemTotalPrice, itemTotalUSTax, itemTotalCust
 				</tr>
 				</tbody>
 
+
 				<tbody>
 				<tr className="item last">
 					<td className="column1-width">Business Charges</td>
@@ -116,11 +138,7 @@ const QuoteTemplate = ({quoteInfo, itemTotalPrice, itemTotalUSTax, itemTotalCust
 				<tbody>
 				<tr className="total">
 					<td className="column1-width"></td>
-					<td className="column2-width">Total(USD): ${USDgrandTotal}</td>
-				</tr>
-				<tr className="total">
-					<td className="column1-width"></td>
-					<td className="column2-width">Total(GYD): ${GYDgrandTotal}</td>
+					<td className="column2-width">Total(GYD): ${grandTotal}</td>
 				</tr>
 				</tbody>
 			</table>

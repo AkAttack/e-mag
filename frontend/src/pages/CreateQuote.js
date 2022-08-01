@@ -2,17 +2,20 @@ import { useEffect, useState} from "react"
 import CustomerForm from "../components/CustomerForm";
 import OrderItemForm from "../components/OrderItemForm";
 import QuoteTemplate from "../components/QuoteTemplate";
-import QUOTE_INFO from "../GlobalVars";
+import {QUOTE_INFO} from "../GlobalVars";
+import {updateCart, updateTotalCustoms_GrandTotal}  from "./functions/QuoteCalculations";
 // import {v4 as uuid} from "uuid";
 
 const CreateQuote = () => {
   const MAX_CART_AMOUNT = 10
   const MIN_CART_AMOUNT = 1
+  let QI = {...QUOTE_INFO}
+  let QT = {...QUOTE_INFO.target}
 
-  const [quoteInfo, setQuoteInfo] = useState(QUOTE_INFO)
+  const [quoteInfo, setQuoteInfo] = useState(QI)
+  const [quoteTarget, setQuoteTarget] = useState(QT)
   const [activeItems, setActiveItems] = useState(MIN_CART_AMOUNT)
   const [pageVars, setPageVars] = useState({quoteStep: "step 1"})
-  const [dbQuote, setDbQuote] = useState({quoteId: ""})
   const [error, setError] = useState(null)
 
   const fetchErrorCheck = (res) => {
@@ -103,16 +106,9 @@ const CreateQuote = () => {
     })
   }
 
-  const getCustomsPrice = (iPrice, searchWord) => {
-    let price, vat
-    vat = quoteInfo.customsInfo[searchWord]
-    price = vat * iPrice
-    return price
-  }
-
-  const orderItemHandleValue = (e, id) => {
+  const orderItemHandleValue = (e, id,vT) => {
     const name = e.target.name
-    const value = e.target.value
+    let value = (vT === "n") ? +(e.target.value) : e.target.value
     setQuoteInfo(preState => {
       const newQuote = {...preState}
       const newTarget = {...preState.cart[id].target, [name]: value}
@@ -120,97 +116,21 @@ const CreateQuote = () => {
       return newQuote
     })
   }
-
-  const getWeightPrice = (newWeight) => {
-    let price = 0, key="51"
-    try {
-      if(newWeight < 51){
-        price = quoteInfo.weightInfo[newWeight].price
-      }else{
-        price = quoteInfo.weightInfo[key].multiplier * newWeight
-      }
-    } catch (error) {
-      console.log("weightInfo not there, key: ", newWeight)
-      price= 0
-    }
-    if(typeof price === "number" && !Number.isNaN(price)){
-      return price
-    }else{return 0}
-  }
   
+  
+  //update itemTPrice && itemCustoms && itemWeightChange &&  itemWeightChange
   useEffect(() => {
-    // update itemCustoms // itemTotalCustoms // usTax // itemTotalPrice
-    let newItemTotalCustoms = 0, newCart, searchWord="",
-    newusTax=0, newItemTotalWeightPrice=0, newItemTotalWeight=0, newItemTotalUSTax=0, newItemTotalPrice=0
-    let newQuote = {...quoteInfo}
-    newCart = [...quoteInfo.cart]
-    newCart.forEach((item,i) =>{    //forEach LOOP
-      let iPrice= Number(item.target.itemPrice)
-      searchWord = item.target.itemCategory
+    updateCart(quoteInfo, setQuoteInfo, setQuoteTarget)
+  }, [...quoteInfo.cart.map((item,i)=>{return item.target})])
 
-      if(item.active){
-        let tempCustoms = getCustomsPrice(iPrice, searchWord)
-        //itemTotalCustoms update
-        tempCustoms = tempCustoms/ newQuote.adminInfo.usdExchange
-        tempCustoms = parseInt(tempCustoms)
-        if(typeof tempCustoms === "number" &&  !Number.isNaN(tempCustoms)){
-          item.target.itemCustoms = tempCustoms
-          newItemTotalCustoms += tempCustoms
-        }
-        //item usTax update && itemTotalUSTax
-        newusTax = (item.target.itemPrice * newQuote.adminInfo.usTaxPercent)
-        if(typeof newusTax === "number" && !Number.isNaN(newusTax)){
-          item.target.usTax = newusTax
-          newItemTotalUSTax += newusTax
-        }
-        //itemTotalWeight update
-        if(typeof item.target.itemWeight === "number" && !Number.isNaN(item.target.itemWeight)){
-          newItemTotalWeight += item.target.itemWeight
-        }
-        //itemTotalWeightPrice update
-        newItemTotalWeightPrice += getWeightPrice(item.target.itemWeight)
-        // itemTotalPrice
-        if(typeof iPrice === "number" && !Number.isNaN(iPrice)){
-          newItemTotalPrice += iPrice
-        }
-      }
-    })
-    
-    newQuote.target = {...quoteInfo.target, itemTotalPrice: newItemTotalPrice, itemTotalCustoms: newItemTotalCustoms, itemTotalUSTax: newItemTotalUSTax, itemTotalWeightPrice: newItemTotalWeightPrice, itemTotalWeight: newItemTotalWeight}
-    newQuote.cart = newCart
-    setQuoteInfo(newQuote)
-  }, [...quoteInfo.cart.map((item,i)=>{return(item.target.itemCategory)}), ...quoteInfo.cart.map((item,i)=>{return(item.target.itemPrice)}), ...quoteInfo.cart.map((item,i)=>{return(item.target.itemWeight)})])
-
+  //update itemTPrice && itemCustoms && itemWeightChange &&  itemWeightChange
   useEffect(() => {
-    //Quote Total // Sub Grant Total // Business Charges
-    let newTarget={...quoteInfo.target}, newQuote={...quoteInfo}, newusdGrandTotal=0, newgydGrandTotal=0, newBusinessCharge=0, preChargeTotal=0, tempNum=0
-    
-    tempNum = parseInt(newTarget.itemTotalCustoms )
-    preChargeTotal += tempNum
-    tempNum = parseInt(newTarget.itemTotalPrice)
-    preChargeTotal +=  tempNum 
-    tempNum = parseInt(newTarget.itemTotalUSTax) 
-    preChargeTotal += tempNum 
-    tempNum = parseInt(newTarget.itemTotalWeightPrice)
-    // convert to weight price to USD
-    tempNum = tempNum / newQuote.adminInfo.usdExchange
-    tempNum = parseInt(tempNum)
-    preChargeTotal += tempNum 
-    // All price in USD
-    newBusinessCharge = preChargeTotal/ newQuote.adminInfo.perBChargeAmount
-    newBusinessCharge = parseInt(newBusinessCharge)
-    newBusinessCharge = newBusinessCharge* newQuote.adminInfo.businessCharge
-    newusdGrandTotal = newBusinessCharge + preChargeTotal
-    //converted to GYD
-    newgydGrandTotal = parseInt(newusdGrandTotal) * newQuote.adminInfo.usdExchange
-
-    newTarget = {...newTarget, businessCharge: newBusinessCharge, USDgrandTotal: newusdGrandTotal, GYDgrandTotal: newgydGrandTotal}
-    newQuote.target = newTarget
-    setQuoteInfo(newQuote)
-
-  }, [quoteInfo.target.businessCharge, quoteInfo.target.itemTotalCustoms, quoteInfo.target.itemTotalPrice, quoteInfo.target.itemTotalWeightPrice, quoteInfo.target.itemTotalUSTax])
+    updateTotalCustoms_GrandTotal(quoteInfo, setQuoteInfo, setQuoteTarget)
+  }, [quoteInfo.updateSteps.step1])
 
 
+
+  
 
   return (   
     <div className="create-quote">
@@ -246,15 +166,18 @@ const CreateQuote = () => {
           </div>
         </form>
       }
-      <button onClick={() => console.log(QUOTE_INFO)}>quoteInfo</button>
+      <button onClick={() => console.log(quoteInfo)}>quoteInfo</button>
+      <button onClick={() => console.log(quoteTarget)}>QUOTE_TARGET</button>
 
       <QuoteTemplate quoteInfo={quoteInfo} 
       itemTotalCustoms={quoteInfo.target.itemTotalCustoms}
       itemTotalPrice={quoteInfo.target.itemTotalPrice}
+      itemTotalPriceGYD={quoteInfo.target.itemTotalPriceGYD}
       itemTotalUSTax={quoteInfo.target.itemTotalUSTax}
       itemTotalWeightPrice={quoteInfo.target.itemTotalWeightPrice}
-      USDgrandTotal={quoteInfo.target.USDgrandTotal}
-      GYDgrandTotal={quoteInfo.target.GYDgrandTotal}  />
+      itemTotalUSShipping={quoteInfo.target.itemTotalUSShipping}
+      businessCharge={quoteInfo.target.businessCharge}
+      grandTotal={quoteInfo.target.grandTotal}  />
     </div>
    );
 

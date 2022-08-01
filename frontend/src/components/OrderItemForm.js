@@ -18,7 +18,7 @@ const OrderItemForm = ({itemNum, setParentValues, cartInfo, addItem, toggleExpan
                   name="description" 
                   value={cartInfo.target.description} 
                   placeholder="Item Description" 
-                  onChange={(e) => setParentValues(e, keyId)} />
+                  onChange={(e) => setParentValues(e, keyId, "s")} />
               </div>
               <div className="input-box">
                 <input type="text" 
@@ -26,21 +26,21 @@ const OrderItemForm = ({itemNum, setParentValues, cartInfo, addItem, toggleExpan
                   placeholder="Item Link(URL)" 
                   required 
                   value={cartInfo.target.url}
-                  onChange={(e) => setParentValues(e, keyId)}/>
+                  onChange={(e) => setParentValues(e, keyId, "s")}/>
               </div>
               <div className="input-box">
                 <input type="text" 
                   name="color" 
                   placeholder="Color"
                   value={cartInfo.target.color}
-                  onChange={(e) => setParentValues(e, keyId)} />
+                  onChange={(e) => setParentValues(e, keyId, "s")} />
               </div>
               <div className="input-box">
                 <input type="text" 
                   name="size" 
                   placeholder="Size"
                   value={cartInfo.target.size}
-                  onChange={(e) => setParentValues(e, keyId)} />
+                  onChange={(e) => setParentValues(e, keyId, "s")} />
               </div>
 
               <div className="input-box">
@@ -48,7 +48,7 @@ const OrderItemForm = ({itemNum, setParentValues, cartInfo, addItem, toggleExpan
                   name="itemCategory" 
                   placeholder="Category(eg. laptop, clothes, tv, jewelery, car parts)" 
                   value={cartInfo.target.itemCategory}
-                  onChange={(e) => setParentValues(e, keyId)} />
+                  onChange={(e) => setParentValues(e, keyId, "s")} />
               </div>
 
               {}
@@ -59,7 +59,14 @@ const OrderItemForm = ({itemNum, setParentValues, cartInfo, addItem, toggleExpan
                   placeholder="Item Price" 
                   required
                   value={cartInfo.target.itemPrice}
-                  onChange={(e) => setParentValues(e, keyId)} />
+                  onChange={(e) => setParentValues(e, keyId, "n")} />
+              </div>
+              <div className="input-box">
+                <input type="number" 
+                  name="itemUSShipping" 
+                  placeholder="Shipping" 
+                  value={cartInfo.target.itemUSShipping}
+                  onChange={(e) => setParentValues(e, keyId, "n")} />
               </div>
               <div className="input-box">
                 <input type="number" 
@@ -67,7 +74,7 @@ const OrderItemForm = ({itemNum, setParentValues, cartInfo, addItem, toggleExpan
                   placeholder="Item Weight (LB)" 
                   required
                   value={cartInfo.target.itemWeight}
-                  onChange={(e) => setParentValues(e, keyId)} />
+                  onChange={(e) => setParentValues(e, keyId, "n")} />
               </div>
             </div>
             <div className="button">
