@@ -46,8 +46,15 @@ const CreateQuote = () => {
     const id = activeItems 
     if(id < MAX_CART_AMOUNT && id >= MIN_CART_AMOUNT){
       const newCart = [...quoteInfo.cart]
-      newCart[id].active = true
-      newCart[id].expandShow = true
+      
+      newCart.forEach((item,i) => {
+        if(i === (id - 1)){
+          item.expandShow = false
+        } else if (i === id){
+          item.active = true
+          item.expandShow = true
+        }
+      })
       const newQuote = {...quoteInfo}
       newQuote.cart = newCart
       setQuoteInfo(newQuote)
@@ -108,20 +115,51 @@ const CreateQuote = () => {
 
   const orderItemHandleValue = (e, id,vT) => {
     const name = e.target.name
-    let value = (vT === "n") ? +(e.target.value) : e.target.value
-    setQuoteInfo(preState => {
-      const newQuote = {...preState}
-      const newTarget = {...preState.cart[id].target, [name]: value}
-      newQuote.cart[id].target = newTarget
-      return newQuote
-    })
+    let value = e.target.value
+    if(vT !== "n"){
+      setQuoteInfo(preState => {
+        const newQuote = {...preState}
+        const newTarget = {...preState.cart[id].target, [name]: value}
+        newQuote.cart[id].target = newTarget
+        return newQuote
+      })
+    }else if(vT === "n"){
+
+      if(/^\.$/.test(value)){//if "." only
+        value = "0."
+        setQuoteInfo(preState => {
+          const newQuote = {...preState}
+          const newTarget = {...preState.cart[id].target, [name]: value}
+          newQuote.cart[id].target = newTarget
+          return newQuote
+        })
+      } else if(/^\.\d*$/.test(value)){//if ".234"
+        value = "0" + value
+        setQuoteInfo(preState => {
+          const newQuote = {...preState}
+          const newTarget = {...preState.cart[id].target, [name]: value}
+          newQuote.cart[id].target = newTarget
+          return newQuote
+        })
+      } else if(/^\d*\.?\d*$/.test(value)){//if "1.234" number
+        setQuoteInfo(preState => {
+          const newQuote = {...preState}
+          const newTarget = {...preState.cart[id].target, [name]: value}
+          newQuote.cart[id].target = newTarget
+          return newQuote
+        })
+      }else{return}
+      
+    }
+
+    
   }
   
   
   //update itemTPrice && itemCustoms && itemWeightChange &&  itemWeightChange
   useEffect(() => {
     updateCart(quoteInfo, setQuoteInfo, setQuoteTarget)
-  }, [...quoteInfo.cart.map((item,i)=>{return item.target})])
+  }, [...quoteInfo.cart.map((item,i)=>{return item.target}), ...quoteInfo.cart.map((item,i)=>{return item.active}) ])
 
   //update itemTPrice && itemCustoms && itemWeightChange &&  itemWeightChange
   useEffect(() => {
@@ -169,15 +207,7 @@ const CreateQuote = () => {
       <button onClick={() => console.log(quoteInfo)}>quoteInfo</button>
       <button onClick={() => console.log(quoteTarget)}>QUOTE_TARGET</button>
 
-      <QuoteTemplate quoteInfo={quoteInfo} 
-      itemTotalCustoms={quoteInfo.target.itemTotalCustoms}
-      itemTotalPrice={quoteInfo.target.itemTotalPrice}
-      itemTotalPriceGYD={quoteInfo.target.itemTotalPriceGYD}
-      itemTotalUSTax={quoteInfo.target.itemTotalUSTax}
-      itemTotalWeightPrice={quoteInfo.target.itemTotalWeightPrice}
-      itemTotalUSShipping={quoteInfo.target.itemTotalUSShipping}
-      businessCharge={quoteInfo.target.businessCharge}
-      grandTotal={quoteInfo.target.grandTotal}  />
+      <QuoteTemplate quoteInfo={quoteInfo} />
     </div>
    );
 

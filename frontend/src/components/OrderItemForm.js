@@ -54,7 +54,7 @@ const OrderItemForm = ({itemNum, setParentValues, cartInfo, addItem, toggleExpan
               {}
 
               <div className="input-box">
-                <input type="number" 
+                <input type="text" 
                   name="itemPrice" 
                   placeholder="Item Price" 
                   required
@@ -62,27 +62,32 @@ const OrderItemForm = ({itemNum, setParentValues, cartInfo, addItem, toggleExpan
                   onChange={(e) => setParentValues(e, keyId, "n")} />
               </div>
               <div className="input-box">
-                <input type="number" 
+                <input type="text" 
                   name="itemUSShipping" 
                   placeholder="Shipping" 
                   value={cartInfo.target.itemUSShipping}
                   onChange={(e) => setParentValues(e, keyId, "n")} />
               </div>
               <div className="input-box">
-                <input type="number" 
+                <input type="text" 
                   name="itemWeight" 
                   placeholder="Item Weight (LB)" 
                   required
                   value={cartInfo.target.itemWeight}
                   onChange={(e) => setParentValues(e, keyId, "n")} />
               </div>
+              <div className="input-box">
+                <input type="text" 
+                  name="purchaseQuantity" 
+                  placeholder="Purchase Quantity" 
+                  value={cartInfo.target.purchaseQuantity}
+                  onChange={(e) => setParentValues(e, keyId, "n")} />
+              </div>
             </div>
             <div className="button">
-              {(activeItems === itemNum) && (itemNum !== 1) && <button type="button" onClick={removeItem}>Delete Item</button>}
-            </div>
-            <div className="button">
+              {(activeItems === itemNum) && (itemNum !== 1) && <button type="button" onClick={removeItem}>Remove Item</button>}
               {(activeItems === itemNum) && <button type="button" onClick={addItem}>Add Item</button>}
-            </div>
+            </div>     
           </div>
         </div>
       }

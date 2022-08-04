@@ -1,6 +1,15 @@
 import Logo from "../images/AnsaLogo.png"
 
-const QuoteTemplate = ({quoteInfo, itemTotalPrice, itemTotalPriceGYD, itemTotalUSTax, itemTotalCustoms, itemTotalWeightPrice, businessCharge, grandTotal, itemTotalUSShipping}) => {
+const QuoteTemplate = ({quoteInfo}) => {
+
+ const itemTotalPrice = quoteInfo.target.itemTotalPrice , 
+ itemTotalPriceGYD = quoteInfo.target.itemTotalPriceGYD, 
+ itemTotalUSTax = quoteInfo.target.itemTotalUSTax, 
+ itemTotalCustoms = quoteInfo.target.itemTotalCustoms, 
+ itemTotalWeightPrice = quoteInfo.target.itemTotalWeightPrice, 
+ businessCharge = quoteInfo.target.businessCharge, 
+ grandTotal = quoteInfo.target.grandTotal, 
+ itemTotalUSShipping = quoteInfo.target.itemTotalUSShipping
 
   return ( 
     <div className="invoice-page">
@@ -71,7 +80,7 @@ const QuoteTemplate = ({quoteInfo, itemTotalPrice, itemTotalPriceGYD, itemTotalU
 							<tbody key={cart.id + 100}>
 								<tr className="item">
 									<td className="invoice-prevent-overflow  column1-width">{quoteInfo.cart[i].target.description? quoteInfo.cart[i].target.description : quoteInfo.cart[i].target.url? quoteInfo.cart[i].target.url : ""}</td>
-									<td className="column2-width">${quoteInfo.cart[i].target.itemPrice}</td>
+									<td className="column2-width">{quoteInfo.cart[i].target.itemPrice.toLocaleString("en-US", {style:"currency", currency:"USD"})}</td>
 								</tr>
 							</tbody>
 						)
@@ -81,21 +90,21 @@ const QuoteTemplate = ({quoteInfo, itemTotalPrice, itemTotalPriceGYD, itemTotalU
 				<tbody>
 				<tr className="item">
 					<td className="column1-width">US Taxes</td>
-					<td className="column2-width">${itemTotalUSTax}</td>
+					<td className="column2-width">{itemTotalUSTax.toLocaleString("en-US", {style:"currency", currency:"USD"})}</td>
 				</tr>
 				</tbody>
 
 				<tbody>
 				<tr className="item">
 					<td className="column1-width">Shipping</td>
-					<td className="column2-width">${itemTotalUSShipping}</td>
+					<td className="column2-width">{itemTotalUSShipping.toLocaleString("en-US", {style:"currency", currency:"USD"})}</td>
 				</tr>
 				</tbody>
 
 				<tbody>
 				<tr className="item">
 					<td className="column1-width">Total Item Cost(USD)</td>
-					<td className="column2-width">${itemTotalPrice}</td>
+					<td className="column2-width">{itemTotalPrice.toLocaleString("en-US", {style:"currency", currency:"USD"})}</td>
 				</tr>
 				</tbody>
 
@@ -108,22 +117,22 @@ const QuoteTemplate = ({quoteInfo, itemTotalPrice, itemTotalPriceGYD, itemTotalU
 
 				<tbody>
 				<tr className="item">
-					<td className="column1-width">Total Item Cost(GYD) @ ${quoteInfo.adminInfo.usdExchange}</td>
-					<td className="column2-width">${itemTotalPriceGYD}</td>
+					<td className="column1-width">Total Item Cost(GYD) @ {quoteInfo.adminInfo.usdExchange}</td>
+					<td className="column2-width">{itemTotalPriceGYD.toLocaleString("en-US", {style:"currency", currency:"USD"})}</td>
 				</tr>
 				</tbody>
 
 				<tbody>
 				<tr className="item">
 					<td className="column1-width">Freight Cost</td>
-					<td className="column2-width">${itemTotalWeightPrice}</td>
+					<td className="column2-width">{itemTotalWeightPrice.toLocaleString("en-US", {style:"currency", currency:"USD"})}</td>
 				</tr>
 				</tbody>
 
 				<tbody>
 				<tr className="item">
 					<td className="column1-width">Local Fees (Customs)</td>
-					<td className="column2-width">${itemTotalCustoms}</td>
+					<td className="column2-width">{itemTotalCustoms.toLocaleString("en-US", {style:"currency", currency:"USD"})}</td>
 				</tr>
 				</tbody>
 
@@ -131,14 +140,14 @@ const QuoteTemplate = ({quoteInfo, itemTotalPrice, itemTotalPriceGYD, itemTotalU
 				<tbody>
 				<tr className="item last">
 					<td className="column1-width">Business Charges</td>
-					<td className="column2-width">${businessCharge}</td>
+					<td className="column2-width">{businessCharge.toLocaleString("en-US", {style:"currency", currency:"USD"})}</td>
 				</tr>
 				</tbody>
 
 				<tbody>
 				<tr className="total">
 					<td className="column1-width"></td>
-					<td className="column2-width">Total(GYD): ${grandTotal}</td>
+					<td className="column2-width">Total(GYD): {grandTotal.toLocaleString("en-US", {style:"currency", currency:"USD"})}</td>
 				</tr>
 				</tbody>
 			</table>

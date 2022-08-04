@@ -57,8 +57,9 @@ const updateCartUsTax = (quoteInfo, setQuoteInfo) => {
     if(item.active){
       const iPrice = +(item.target.itemPrice) 
       const shipping = +(item.target.itemUSShipping)
-      const multiplier = +(newQuote.adminInfo.usTaxPercent)
+      const quantity = +(item.target.purchaseQuantity)
       const exchange = +(newQuote.adminInfo.usdExchange)
+      const multiplier = +(newQuote.adminInfo.usTaxPercent)
       if(!checkIfNum(iPrice)){
         console.log("itemPrice is NaN- CartIndex, itemPrice ", i, iPrice)
         return
@@ -78,6 +79,15 @@ const updateCartUsTax = (quoteInfo, setQuoteInfo) => {
       newItemTotalPriceGYD = +(newItemTotalPrice * exchange)
       newItemTotalUSShipping += shipping
       
+      // const tempnewItemTotalUSTax = usTax
+      // const tempnewItemTotalPrice = usTax + shipping + iPrice
+      // const tempnewItemTotalPriceGYD = +(newItemTotalPrice * exchange)
+      // const tempnewItemTotalUSShipping = shipping
+
+      // newItemTotalUSTax += tempnewItemTotalUSTax * quantity
+      // newItemTotalPrice += tempnewItemTotalPrice * quantity
+      // newItemTotalPriceGYD += tempnewItemTotalPriceGYD * quantity
+      // newItemTotalUSShipping += tempnewItemTotalUSShipping * quantity
     }
   })
   newQuote.target.itemTotalUSTax = newItemTotalUSTax
