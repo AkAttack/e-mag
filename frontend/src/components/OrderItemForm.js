@@ -1,6 +1,6 @@
 import { useState } from "react";
 
-const OrderItemForm = ({itemNum, setParentValues, cartInfo, addItem, toggleExpand, removeItem, keyId, updateCartInfo, activeItems, itemCategoryList}) => {
+const OrderItemForm = ({itemNum, setParentValues, cartInfo, addItem, toggleExpand, removeItem, keyId, updateCartInfo, activeItems, itemCategoryList, maxCartAmount}) => {
   const optList = []
   for(let key in itemCategoryList){
     optList.push(key)
@@ -57,14 +57,14 @@ const OrderItemForm = ({itemNum, setParentValues, cartInfo, addItem, toggleExpan
 
               <div className="input-box">
                 <select
-                  name="itemCategory" 
+                  className="input-box-select"
+                  name="itemCategory"
                   value={cartInfo.target.itemCategory}
                   onChange={(e) => setParentValues(e, keyId, "s")}>
-
-                  {optList.map((itm,i)=>(
-                    <option value={itm}>{itm}</option>
-                  ))}
-
+                    <option value="" >Please Select Category...</option>
+                    {optList.map((itm,i)=>{
+                      return <option value={itm} key={200 + i} >{itm}</option>
+                    })}
                 </select>
               </div>
 
@@ -101,7 +101,7 @@ const OrderItemForm = ({itemNum, setParentValues, cartInfo, addItem, toggleExpan
             </div>
             <div className="button">
               {(activeItems === itemNum) && (itemNum !== 1) && <button type="button" onClick={removeItem}>Remove Item</button>}
-              {(activeItems === itemNum) && <button type="button" onClick={addItem}>Add Item</button>}
+              {(activeItems === itemNum) && (maxCartAmount !== itemNum) && <button type="button" onClick={addItem}>Add Item</button>}
             </div>     
           </div>
         </div>

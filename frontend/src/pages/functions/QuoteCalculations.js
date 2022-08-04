@@ -2,7 +2,7 @@
 const getCustomsPrice = (iPrice, searchWord, quoteInfo) => {
   let price=0, customs=0, usdExchange=0
   try {
-    customs = +(quoteInfo.customsInfo[searchWord])
+    customs = +(quoteInfo.customsInfo[searchWord].total)
   } catch (error) {
     console.log("Customs Name Doesnt Exists")
   }  

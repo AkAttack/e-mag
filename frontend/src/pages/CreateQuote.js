@@ -212,6 +212,7 @@ const CreateQuote = () => {
               removeItem={removeItem}
               setParentValues={orderItemHandleValue}
               itemCategoryList={quoteInfo.customsInfo}
+              maxCartAmount={MAX_CART_AMOUNT}
               cartInfo={quoteInfo.cart[i]}/>)
           })  }
           <div className="action-button">
