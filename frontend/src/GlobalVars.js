@@ -1,23 +1,23 @@
-const CART_INFO = [{id: 1, active: true, expandShow: true, target: {description: "", url: "", color: "", size: "", itemCategory: "", itemPrice: "", itemCustoms: 0, usTax: 0, itemWeight: "", weightPrice: 0, itemUSShipping: "", purchaseQuantity: "" }, },
-{id: 2, active: false, expandShow: true, target: {description: "", url: "", color: "", size: "", itemCategory: "", itemPrice: "", itemCustoms: 0, usTax: 0, itemWeight: "", weightPrice: 0, itemUSShipping: "", purchaseQuantity: "" }, },
-{id: 3, active: false, expandShow: true, target: {description: "", url: "", color: "", size: "", itemCategory: "", itemPrice: "", itemCustoms: 0, usTax: 0, itemWeight: "", weightPrice: 0, itemUSShipping: "", purchaseQuantity: "" }, }, 
-{id: 4, active: false, expandShow: true, target: {description: "", url: "", color: "", size: "", itemCategory: "", itemPrice: "", itemCustoms: 0, usTax: 0, itemWeight: "", weightPrice: 0, itemUSShipping: "", purchaseQuantity: "" }, }, 
-{id: 5, active: false, expandShow: true, target: {description: "", url: "", color: "", size: "", itemCategory: "", itemPrice: "", itemCustoms: 0, usTax: 0, itemWeight: "", weightPrice: 0, itemUSShipping: "", purchaseQuantity: "" }, }, 
-{id: 6, active: false, expandShow: true, target: {description: "", url: "", color: "", size: "", itemCategory: "", itemPrice: "", itemCustoms: 0, usTax: 0, itemWeight: "", weightPrice: 0, itemUSShipping: "", purchaseQuantity: "" }, }, 
-{id: 7, active: false, expandShow: true, target: {description: "", url: "", color: "", size: "", itemCategory: "", itemPrice: "", itemCustoms: 0, usTax: 0, itemWeight: "", weightPrice: 0, itemUSShipping: "", purchaseQuantity: "" }, }, 
-{id: 8, active: false, expandShow: true, target: {description: "", url: "", color: "", size: "", itemCategory: "", itemPrice: "", itemCustoms: 0, usTax: 0, itemWeight: "", weightPrice: 0, itemUSShipping: "", purchaseQuantity: "" }, }, 
-{id: 9, active: false, expandShow: true, target: {description: "", url: "", color: "", size: "", itemCategory: "", itemPrice: "", itemCustoms: 0, usTax: 0, itemWeight: "", weightPrice: 0, itemUSShipping: "", purchaseQuantity: "" }, }, 
-{id: 10, active: false, expandShow: true, target: {description: "", url: "", color: "", size: "", itemCategory: "", itemPrice: "", itemCustoms: 0, usTax: 0, itemWeight: "", weightPrice: 0, itemUSShipping: "", purchaseQuantity: "" }, },
-{id: 11, active: false, expandShow: true, target: {description: "", url: "", color: "", size: "", itemCategory: "", itemPrice: "", itemCustoms: 0, usTax: 0, itemWeight: "", weightPrice: 0, itemUSShipping: "", purchaseQuantity: "" }, },
-{id: 12, active: false, expandShow: true, target: {description: "", url: "", color: "", size: "", itemCategory: "", itemPrice: "", itemCustoms: 0, usTax: 0, itemWeight: "", weightPrice: 0, itemUSShipping: "", purchaseQuantity: "" }, },
-{id: 13, active: false, expandShow: true, target: {description: "", url: "", color: "", size: "", itemCategory: "", itemPrice: "", itemCustoms: 0, usTax: 0, itemWeight: "", weightPrice: 0, itemUSShipping: "", purchaseQuantity: "" }, }, 
-{id: 14, active: false, expandShow: true, target: {description: "", url: "", color: "", size: "", itemCategory: "", itemPrice: "", itemCustoms: 0, usTax: 0, itemWeight: "", weightPrice: 0, itemUSShipping: "", purchaseQuantity: "" }, }, 
-{id: 15, active: false, expandShow: true, target: {description: "", url: "", color: "", size: "", itemCategory: "", itemPrice: "", itemCustoms: 0, usTax: 0, itemWeight: "", weightPrice: 0, itemUSShipping: "", purchaseQuantity: "" }, }, 
-{id: 16, active: false, expandShow: true, target: {description: "", url: "", color: "", size: "", itemCategory: "", itemPrice: "", itemCustoms: 0, usTax: 0, itemWeight: "", weightPrice: 0, itemUSShipping: "", purchaseQuantity: "" }, }, 
-{id: 17, active: false, expandShow: true, target: {description: "", url: "", color: "", size: "", itemCategory: "", itemPrice: "", itemCustoms: 0, usTax: 0, itemWeight: "", weightPrice: 0, itemUSShipping: "", purchaseQuantity: "" }, }, 
-{id: 18, active: false, expandShow: true, target: {description: "", url: "", color: "", size: "", itemCategory: "", itemPrice: "", itemCustoms: 0, usTax: 0, itemWeight: "", weightPrice: 0, itemUSShipping: "", purchaseQuantity: "" }, }, 
-{id: 19, active: false, expandShow: true, target: {description: "", url: "", color: "", size: "", itemCategory: "", itemPrice: "", itemCustoms: 0, usTax: 0, itemWeight: "", weightPrice: 0, itemUSShipping: "", purchaseQuantity: "" }, }, 
-{id: 20, active: false, expandShow: true, target: {description: "", url: "", color: "", size: "", itemCategory: "", itemPrice: "", itemCustoms: 0, usTax: 0, itemWeight: "", weightPrice: 0, itemUSShipping: "", purchaseQuantity: "" }, } ]
+const CART_INFO = [{id: 1, active: true, expandShow: true, target: {description: "", url: "", color: "", size: "", itemCategory: "album", itemPrice: "", itemCustoms: 0, usTax: 0, itemWeight: "", weightPrice: 0, itemUSShipping: "", purchaseQuantity: "" }, },
+{id: 2, active: false, expandShow: true, target: {description: "", url: "", color: "", size: "", itemCategory: "album", itemPrice: "", itemCustoms: 0, usTax: 0, itemWeight: "", weightPrice: 0, itemUSShipping: "", purchaseQuantity: "" }, },
+{id: 3, active: false, expandShow: true, target: {description: "", url: "", color: "", size: "", itemCategory: "album", itemPrice: "", itemCustoms: 0, usTax: 0, itemWeight: "", weightPrice: 0, itemUSShipping: "", purchaseQuantity: "" }, }, 
+{id: 4, active: false, expandShow: true, target: {description: "", url: "", color: "", size: "", itemCategory: "album", itemPrice: "", itemCustoms: 0, usTax: 0, itemWeight: "", weightPrice: 0, itemUSShipping: "", purchaseQuantity: "" }, }, 
+{id: 5, active: false, expandShow: true, target: {description: "", url: "", color: "", size: "", itemCategory: "album", itemPrice: "", itemCustoms: 0, usTax: 0, itemWeight: "", weightPrice: 0, itemUSShipping: "", purchaseQuantity: "" }, }, 
+{id: 6, active: false, expandShow: true, target: {description: "", url: "", color: "", size: "", itemCategory: "album", itemPrice: "", itemCustoms: 0, usTax: 0, itemWeight: "", weightPrice: 0, itemUSShipping: "", purchaseQuantity: "" }, }, 
+{id: 7, active: false, expandShow: true, target: {description: "", url: "", color: "", size: "", itemCategory: "album", itemPrice: "", itemCustoms: 0, usTax: 0, itemWeight: "", weightPrice: 0, itemUSShipping: "", purchaseQuantity: "" }, }, 
+{id: 8, active: false, expandShow: true, target: {description: "", url: "", color: "", size: "", itemCategory: "album", itemPrice: "", itemCustoms: 0, usTax: 0, itemWeight: "", weightPrice: 0, itemUSShipping: "", purchaseQuantity: "" }, }, 
+{id: 9, active: false, expandShow: true, target: {description: "", url: "", color: "", size: "", itemCategory: "album", itemPrice: "", itemCustoms: 0, usTax: 0, itemWeight: "", weightPrice: 0, itemUSShipping: "", purchaseQuantity: "" }, }, 
+{id: 10, active: false, expandShow: true, target: {description: "", url: "", color: "", size: "", itemCategory: "album", itemPrice: "", itemCustoms: 0, usTax: 0, itemWeight: "", weightPrice: 0, itemUSShipping: "", purchaseQuantity: "" }, },
+{id: 11, active: false, expandShow: true, target: {description: "", url: "", color: "", size: "", itemCategory: "album", itemPrice: "", itemCustoms: 0, usTax: 0, itemWeight: "", weightPrice: 0, itemUSShipping: "", purchaseQuantity: "" }, },
+{id: 12, active: false, expandShow: true, target: {description: "", url: "", color: "", size: "", itemCategory: "album", itemPrice: "", itemCustoms: 0, usTax: 0, itemWeight: "", weightPrice: 0, itemUSShipping: "", purchaseQuantity: "" }, },
+{id: 13, active: false, expandShow: true, target: {description: "", url: "", color: "", size: "", itemCategory: "album", itemPrice: "", itemCustoms: 0, usTax: 0, itemWeight: "", weightPrice: 0, itemUSShipping: "", purchaseQuantity: "" }, }, 
+{id: 14, active: false, expandShow: true, target: {description: "", url: "", color: "", size: "", itemCategory: "album", itemPrice: "", itemCustoms: 0, usTax: 0, itemWeight: "", weightPrice: 0, itemUSShipping: "", purchaseQuantity: "" }, }, 
+{id: 15, active: false, expandShow: true, target: {description: "", url: "", color: "", size: "", itemCategory: "album", itemPrice: "", itemCustoms: 0, usTax: 0, itemWeight: "", weightPrice: 0, itemUSShipping: "", purchaseQuantity: "" }, }, 
+{id: 16, active: false, expandShow: true, target: {description: "", url: "", color: "", size: "", itemCategory: "album", itemPrice: "", itemCustoms: 0, usTax: 0, itemWeight: "", weightPrice: 0, itemUSShipping: "", purchaseQuantity: "" }, }, 
+{id: 17, active: false, expandShow: true, target: {description: "", url: "", color: "", size: "", itemCategory: "album", itemPrice: "", itemCustoms: 0, usTax: 0, itemWeight: "", weightPrice: 0, itemUSShipping: "", purchaseQuantity: "" }, }, 
+{id: 18, active: false, expandShow: true, target: {description: "", url: "", color: "", size: "", itemCategory: "album", itemPrice: "", itemCustoms: 0, usTax: 0, itemWeight: "", weightPrice: 0, itemUSShipping: "", purchaseQuantity: "" }, }, 
+{id: 19, active: false, expandShow: true, target: {description: "", url: "", color: "", size: "", itemCategory: "album", itemPrice: "", itemCustoms: 0, usTax: 0, itemWeight: "", weightPrice: 0, itemUSShipping: "", purchaseQuantity: "" }, }, 
+{id: 20, active: false, expandShow: true, target: {description: "", url: "", color: "", size: "", itemCategory: "album", itemPrice: "", itemCustoms: 0, usTax: 0, itemWeight: "", weightPrice: 0, itemUSShipping: "", purchaseQuantity: "" }, } ]
 
 const heavyWeightCharge = 2.10
 const WEIGHT_INFO = {0:{min:0, max:0, price: 0}, 1:{min:0, max:1, price: 500},2:{min:1, max:2, price: 1700}, 
@@ -50,7 +50,7 @@ const CUSTOMER_INFO = {nameFirst: "", nameLast: "", mobile: "", address: "", ema
 
 const ADMIN_INFO = {usdExchange: 219, businessCharge: 1500, perBChargeAmount: 20000, usTaxPercent: 0.1}
 
-const CUSTOMS_INFO = {cars:0.35, toys:0.25,television:0.25,clothes:0.25, "dvds/cds":0.15, computers:0.30}
+const CUSTOMS_INFO = {album: 0.15, cars:0.55, toys:0.25,television:0.25,clothes:0.25, "dvds/cds":0.15, computers:0.30}
 
 const QUOTE_INFO = {
   customer: CUSTOMER_INFO, 

@@ -15,8 +15,8 @@ class App extends Component {
   handleChange = ({ target: { value, name }}) => this.setState({ [name]: value })
 
   createAndDownloadPdf = () => {
-    axios.post('/create-pdf', this.state)
-      .then(() => axios.get('fetch-pdf', { responseType: 'blob' }))
+    axios.post('/api/create-pdf', this.state)
+      .then(() => axios.get('api/fetch-pdf', { responseType: 'blob' }))
       .then((res) => {
         const pdfBlob = new Blob([res.data], { type: 'application/pdf' });
 

@@ -1,4 +1,5 @@
 import { useEffect, useState} from "react"
+import { saveAs } from 'file-saver';
 import CustomerForm from "../components/CustomerForm";
 import OrderItemForm from "../components/OrderItemForm";
 import QuoteTemplate from "../components/QuoteTemplate";
@@ -13,6 +14,7 @@ const CreateQuote = () => {
   let QT = {...QUOTE_INFO.target}
 
   const [quoteInfo, setQuoteInfo] = useState(QI)
+  const [dbQuote, setDbQuote] = useState({cart:[],customer:{}, target:{}})
   const [quoteTarget, setQuoteTarget] = useState(QT)
   const [activeItems, setActiveItems] = useState(MIN_CART_AMOUNT)
   const [pageVars, setPageVars] = useState({quoteStep: "step 1"})
@@ -74,25 +76,25 @@ const CreateQuote = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault()
+    let newQuote = {...quoteInfo}
     const urlOrderItems = "http://localhost:3001/api/orderitems"
     const urlQuote = "http://localhost:3001/api/orderitems"
-    quoteInfo.cart.forEach(item => {
+    quoteInfo.cart.forEach((item,i) => {
       if(item.active){
         const options = {method: "POST", headers: {"Content-type": "application/json"}, 
-        body: JSON.stringify(item.values)}
+        body: JSON.stringify(item.target)}
         fetch(urlOrderItems, options)
           .then(fetchErrorCheck)
           .then(json => {
-            setQuoteInfo(pq => {
-              const newQuote = {...pq}
-              newQuote.cart = [...pq.cart, json]
-              return newQuote
-            })
+            let newTarget = {...item.target, ...json}
+            newQuote.cart[i].target = newTarget
           })    
           .catch(err => {setError(err)})
       }
     })
-    // update cart
+    setQuoteInfo(newQuote)
+    console.log(quoteInfo)
+    createAndDownloadPdf()
   }
 
   const customerHandleValue = (e) => {
@@ -154,6 +156,21 @@ const CreateQuote = () => {
 
     
   }
+
+  const createAndDownloadPdf = () => {
+    const optPost = {method: "POST", headers: {"Content-type": "application/json"}, body: JSON.stringify(quoteInfo)}
+    fetch('/api/create-pdf', optPost)
+      .then(fetchErrorCheck)
+      .then(() => {
+        fetch('api/fetch-pdf')
+        .then(res => res.blob())
+        .then((data) => {
+          const pdfBlob = data
+          saveAs(pdfBlob, 'newPdf.pdf');
+        })
+      })  
+      .catch(err => {console.log(err)})
+  }
   
   
   //update itemTPrice && itemCustoms && itemWeightChange &&  itemWeightChange
@@ -165,9 +182,6 @@ const CreateQuote = () => {
   useEffect(() => {
     updateTotalCustoms_GrandTotal(quoteInfo, setQuoteInfo, setQuoteTarget)
   }, [quoteInfo.updateSteps.step1])
-
-
-
   
 
   return (   
@@ -197,6 +211,7 @@ const CreateQuote = () => {
               addItem={addItem}
               removeItem={removeItem}
               setParentValues={orderItemHandleValue}
+              itemCategoryList={quoteInfo.customsInfo}
               cartInfo={quoteInfo.cart[i]}/>)
           })  }
           <div className="action-button">
