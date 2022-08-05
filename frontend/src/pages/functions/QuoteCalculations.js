@@ -1,13 +1,13 @@
 //assisted functions
 const getCustomsPrice = (iPrice, searchWord, quoteInfo) => {
-  let price=0, customs=0, usdExchange=0
+  let price=0, customs=0, USDRates=0
   try {
     customs = +(quoteInfo.customsInfo[searchWord].total)
   } catch (error) {
     console.log("Customs Name Doesnt Exists")
   }  
   try {
-    usdExchange = +(quoteInfo.adminInfo.usdExchange)
+    USDRates = +(quoteInfo.adminInfo.USDRates)
   } catch (error) {
     console.log("USD Exchange Rate doesnt exists")
   }
@@ -17,29 +17,35 @@ const getCustomsPrice = (iPrice, searchWord, quoteInfo) => {
     console.log("Error: customs is empty or NaN ", customs)
     return 0
   }
-  if(checkIfNum(usdExchange)){
-    price = price * usdExchange
+  if(checkIfNum(USDRates)){
+    price = price * USDRates
     return price    // IN GYD
   }else{
-    console.log("Error: UsdExchange is empty or NaN ", usdExchange)
+    console.log("Error: USDRates is empty or NaN ", USDRates)
     return 0
   }
 
 }
 const getWeightPrice = (newWeight, quoteInfo) => {
-  let price = 0, key="51"
-  try {
-    if(newWeight < 51){
-      price = +(quoteInfo.weightInfo[newWeight].price)
-      return price
-    }else {
-      const multiplier = +(quoteInfo.weightInfo[key].multiplier) 
-      price = newWeight * multiplier
-      return price
-    }
-  } catch (error) {
-    console.log("Weight price undefined or NaN ")
-    return 0
+  let price = 0, weightInfo = {...quoteInfo.weightInfo}, weightLength = Object.keys(quoteInfo.weightInfo).length
+  
+  if(newWeight < weightLength){
+    [...Array(weightLength)].forEach((item,i)=>{
+      if(newWeight > weightInfo[i].min && newWeight <= weightInfo[i].max){
+        price = weightInfo[i].price
+      }
+    })
+    return price
+  }else if(newWeight >= weightLength){
+    [...Array(weightLength)].forEach((item,i)=>{
+      if(newWeight > weightInfo[i].min && newWeight <= weightInfo[i].max){
+        const priceUsd = +(newWeight * weightInfo[i].multiplier)
+        price = +(quoteInfo.adminInfo.USDRates) * priceUsd
+      }else if(newWeight > 9999){
+        console.log("Weight Too Much, should not exceed 9999lb")
+      }
+    })
+    return price
   }
 }
 const checkIfNum = (num) => {
@@ -58,7 +64,7 @@ const updateCartUsTax = (quoteInfo, setQuoteInfo) => {
       const iPrice = +(item.target.itemPrice) 
       const shipping = +(item.target.itemUSShipping)
       const quantity = +(item.target.purchaseQuantity)
-      const exchange = +(newQuote.adminInfo.usdExchange)
+      const exchange = +(newQuote.adminInfo.USDRates)
       const multiplier = +(newQuote.adminInfo.usTaxPercent)
       if(!checkIfNum(iPrice)){
         console.log("itemPrice is NaN- CartIndex, itemPrice ", i, iPrice)
@@ -154,20 +160,20 @@ const updateCart = (quoteInfo, setQuoteInfo, setQuoteTarget) => {
   updateCartCustoms(quoteInfo, setQuoteInfo);
 }
 
-// quoteInfo.target Updates: BusinessCharge, grandTotal, itemTotalCustoms, itemTotalPrice, itemTotalUSShipping, itemTotalUSTax, itemTotalWeight, itemTotalWeightPrice
+// quoteInfo.target Updates: BusinessCharges, grandTotal, itemTotalCustoms, itemTotalPrice, itemTotalUSShipping, itemTotalUSTax, itemTotalWeight, itemTotalWeightPrice
 const updateTotalCustoms_GrandTotal = (quoteInfo, setQuoteInfo) => {
-  let newQuote={...quoteInfo}, newGrandTotal=0, newBusinessCharge=0, multiplier=0
+  let newQuote={...quoteInfo}, newGrandTotal=0, newBusinessCharges=0, multiplier=0
   const itemTotalPriceGYD = +(newQuote.target.itemTotalPriceGYD)
   const itemTotalCustoms = +(newQuote.target.itemTotalCustoms)
   const itemTotalWeightPrice = +(newQuote.target.itemTotalWeightPrice)
-  const perBCharge = +(newQuote.adminInfo.perBChargeAmount)
-  const BCharge = +(newQuote.adminInfo.businessCharge)
+  const perBCharge = +(newQuote.adminInfo.thresholdBAmount)
+  const BCharge = +(newQuote.adminInfo.businessCharges)
   const subTotal = itemTotalPriceGYD + itemTotalWeightPrice + itemTotalCustoms
   multiplier = Math.ceil(subTotal / perBCharge)
-  newBusinessCharge = multiplier * BCharge
-  newGrandTotal = newBusinessCharge + subTotal
+  newBusinessCharges = multiplier * BCharge
+  newGrandTotal = newBusinessCharges + subTotal
 
-  newQuote.target.businessCharge = newBusinessCharge
+  newQuote.target.businessCharges = newBusinessCharges
   newQuote.target.grandTotal = newGrandTotal
   setQuoteInfo(newQuote)  
 }

@@ -6,7 +6,7 @@
   --primaryText: #E71C77;
   --secondaryObj: #BE4676;
   --secondaryText: #BE4676;
-  --background: #E49F4E;
+  --background: linear-gradient(135deg, #71b7e6, #9b59b6);
   --backgroundSecondary: #A25A31;
   --error: #fe0000;
 }
@@ -80,10 +80,36 @@ body{
   border-radius: 5px;
   box-shadow: 0 5px 10px rgba(0,0,0,0.15);
 }
+.OIF .content {
+  margin-bottom: 20px;
+  margin-top: 30px;
+}
+.OIF .form-return-button{
+  height: 100%;
+  padding: 0 5px;
+  margin: 5px 10px;
+  border-radius: 5px;
+  border: none;
+  color: #fff;
+  font-size: 17px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  background: linear-gradient(135deg, #71b7e6, #9b59b6);
+}
+.customer-form-seprator{
+  width: 100%;
+  height: 10px;
+  background: var(--background);
+  margin: 10px 0px;
+  align-self: auto;
+}
 .OIF .title{
   font-size: 25px;
   font-weight: 500;
   position: relative;
+  display: flex;
+  justify-content: space-between;
 }
 .OIF .title::before{
   content: "";
@@ -132,8 +158,13 @@ body{
   border-bottom-width: 2px;
   transition: all 0.3s ease;
 }
+.item-details .input-box-select:valid{
+  border-color: #9b59b6;
+  background-color: #daeffda6;
+}
 .item-details .input-box input:valid{
   border-color: #9b59b6;
+  background-color: #daeffda6;
 }
 .item-details .input-box input:focus{
   border-width: 2px;
@@ -158,10 +189,9 @@ body{
    transition: all 0.3s ease;
    background: linear-gradient(135deg, #71b7e6, #9b59b6);
 }
-/* .button-submit{
-  height: 45px;
-  margin: 35px 0
-} */
+.form-item-labels{
+  font-size: small;
+}
 .button-submit{
   height: 45px;
   width: 70%;
@@ -221,9 +251,9 @@ body{
   background-color: rgb(255, 255, 255, 1);
 }
 .invoice-box {
-  max-width: 800px;
+  max-width: 700px;
   margin: auto;
-  padding: 30px;
+  padding: 20px 30px;
   border: 1px solid #eee;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.15);
   font-size: 16px;
@@ -260,6 +290,9 @@ body{
 
 .invoice-box table tr.information table td {
   padding-bottom: 40px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: clip;
 }
 
 .invoice-box table tr.heading td {
@@ -287,7 +320,8 @@ body{
 
 .invoice-company-logo{
   width: 100%; 
-  max-width: 150px
+  max-width: 100px;
+  margin-top: -15px;
 }
 
 .invoice-prevent-overflow {
@@ -296,10 +330,10 @@ body{
   text-overflow: clip;
 }
 .column1-width {
-  width: 80%;
+  width: 70%;
 }
 .column2-width {
-  width: 20%;
+  width: 30%;
 }
 
 @media only screen and (max-width: 600px) {
@@ -313,11 +347,36 @@ body{
     width: 100%;
     display: block;
     text-align: center;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: clip;
   }
 }
 
-
 /* QUOTE/INVOICE STYLES END */
+
+/* DropSearch Styles Start */
+.dropdown {
+  width: 100%;
+  border-color: #333;
+  border-width: 1px;
+}
+.dropdown-row {
+  height: 50px;
+  margin-bottom: 2px;
+  border-width: 0px 1px 2px 1px;
+  border-style: solid;
+  border-radius: 9px;
+  padding-left: 9px;
+  padding-right: 5px;
+  border-color: #9b59b6;
+
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: clip;
+}
+
+/* DropSearch Styles End */
 
 
 

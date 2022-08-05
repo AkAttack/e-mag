@@ -7,14 +7,22 @@ const QuoteTemplate = ({quoteInfo}) => {
  itemTotalUSTax = quoteInfo.target.itemTotalUSTax, 
  itemTotalCustoms = quoteInfo.target.itemTotalCustoms, 
  itemTotalWeightPrice = quoteInfo.target.itemTotalWeightPrice, 
- businessCharge = quoteInfo.target.businessCharge, 
+ businessCharges = quoteInfo.target.businessCharges, 
  grandTotal = quoteInfo.target.grandTotal, 
- itemTotalUSShipping = quoteInfo.target.itemTotalUSShipping
+ itemTotalUSShipping = quoteInfo.target.itemTotalUSShipping,
+ today = new Date()
+
 
   return ( 
     <div className="invoice-page">
       <div className="invoice-box">
 			<table>
+				<thead>
+					<tr>
+						<td className="column1-width"></td>
+						<td className="column-width"></td>
+					</tr>
+				</thead>
 				<tbody>
 				<tr className="top">
 					<td colSpan="2">
@@ -26,8 +34,7 @@ const QuoteTemplate = ({quoteInfo}) => {
 
 								<td>
 									QuoteInfo #: 123<br />
-									Created: January 1, 2015<br />
-									Due: February 1, 2015
+									Created: {today.getDate()}/{today.getMonth()}/{today.getFullYear()} <br />
 								</td>
 							</tr>
 						</table>
@@ -46,8 +53,8 @@ const QuoteTemplate = ({quoteInfo}) => {
 								</td>
 
 								<td>
-								{quoteInfo.customer.nameFirst} {quoteInfo.customer.nameLast}<br />
-								{quoteInfo.customer.mobile}<br />
+								{quoteInfo.customer.namefirst} {quoteInfo.customer.namelast}<br />
+								{quoteInfo.customer.phone}<br />
 								{quoteInfo.customer.email}
 								</td>
 							</tr>
@@ -79,7 +86,7 @@ const QuoteTemplate = ({quoteInfo}) => {
 						return(
 							<tbody key={cart.id + 100}>
 								<tr className="item">
-									<td className="invoice-prevent-overflow  column1-width">{quoteInfo.cart[i].target.description? quoteInfo.cart[i].target.description : quoteInfo.cart[i].target.url? quoteInfo.cart[i].target.url : ""}</td>
+									<td className="invoice-prevent-overflow  column1-width">{quoteInfo.cart[i].target.description? <a href={quoteInfo.cart[i].target.url} target="_blank" rel="noreferrer" >{quoteInfo.cart[i].target.description}</a> : <a href={quoteInfo.cart[i].target.url} target="_blank" rel="noreferrer" >{quoteInfo.cart[i].target.url}</a>}  </td>
 									<td className="column2-width">{quoteInfo.cart[i].target.itemPrice.toLocaleString("en-US", {style:"currency", currency:"USD"})}</td>
 								</tr>
 							</tbody>
@@ -117,7 +124,7 @@ const QuoteTemplate = ({quoteInfo}) => {
 
 				<tbody>
 				<tr className="item">
-					<td className="column1-width">Total Item Cost(GYD) @ {quoteInfo.adminInfo.usdExchange}</td>
+					<td className="column1-width">Total Item Cost(GYD) @ {quoteInfo.adminInfo.USDRates}</td>
 					<td className="column2-width">{itemTotalPriceGYD.toLocaleString("en-US", {style:"currency", currency:"USD"})}</td>
 				</tr>
 				</tbody>
@@ -140,7 +147,7 @@ const QuoteTemplate = ({quoteInfo}) => {
 				<tbody>
 				<tr className="item last">
 					<td className="column1-width">Business Charges</td>
-					<td className="column2-width">{businessCharge.toLocaleString("en-US", {style:"currency", currency:"USD"})}</td>
+					<td className="column2-width">{businessCharges.toLocaleString("en-US", {style:"currency", currency:"USD"})}</td>
 				</tr>
 				</tbody>
 

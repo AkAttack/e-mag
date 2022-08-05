@@ -5,14 +5,15 @@ const AdminVarsSchema = mongoose.Schema({
     type: Number,
     required: true
   },
-  tresholdBCharge: {
+  thresholdBAmount: {
     type: Number,
     required: true
   },
   USDRates: {
     type: Number,
     required: true
-  }
+  },
+  usTaxPercent: Number
 }, {timestamps: true})
 
 const AdminVarsModel = mongoose.model("admin-vars", AdminVarsSchema)

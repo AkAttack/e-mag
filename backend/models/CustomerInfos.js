@@ -1,11 +1,11 @@
 const mongoose = require("mongoose")
 
 const CustomerInfosSchema = mongoose.Schema({
-  nameFirst: {
+  namefirst: {
     type: String,
     required: true
   },
-  nameLast: {
+  namelast: {
     type: String,
     required: true
   },
@@ -14,7 +14,8 @@ const CustomerInfosSchema = mongoose.Schema({
     type: String,
     required: true
   },
-  mobile: Number,
+  phone: String,
+  address: String,
   profilePic: String
 }, {timestamps: true})
 

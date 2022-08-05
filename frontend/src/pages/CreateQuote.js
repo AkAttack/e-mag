@@ -4,6 +4,7 @@ import CustomerForm from "../components/CustomerForm";
 import OrderItemForm from "../components/OrderItemForm";
 import QuoteTemplate from "../components/QuoteTemplate";
 import {QUOTE_INFO} from "../GlobalVars";
+import { dbCUSTOMERS } from "../GlobalVars";
 import {updateCart, updateTotalCustoms_GrandTotal}  from "./functions/QuoteCalculations";
 // import {v4 as uuid} from "uuid";
 
@@ -14,7 +15,7 @@ const CreateQuote = () => {
   let QT = {...QUOTE_INFO.target}
 
   const [quoteInfo, setQuoteInfo] = useState(QI)
-  const [dbQuote, setDbQuote] = useState({cart:[],customer:{}, target:{}})
+  const [dbCustomer, setdbCustomer] = useState(dbCUSTOMERS)
   const [quoteTarget, setQuoteTarget] = useState(QT)
   const [activeItems, setActiveItems] = useState(MIN_CART_AMOUNT)
   const [pageVars, setPageVars] = useState({quoteStep: "step 1"})
@@ -25,6 +26,33 @@ const CreateQuote = () => {
       return res.json()
     }else{throw Error(res.statusText)}
   }
+
+  useEffect(()=>{
+    const newQuote= {...quoteInfo}, 
+    urlWeights = "http://localhost:3001/api/weights",
+    urlCustoms = "http://localhost:3001/api/customs",
+    urlCustomerInfo = "http://localhost:3001/api/customerinfos",
+    urlAdminInfo = "http://localhost:3001/api/adminvars"
+
+    fetch(urlWeights)
+      .then(fetchErrorCheck)
+      .then(data => {
+        newQuote.weightInfo = {...data}
+        setQuoteInfo(newQuote)
+      })
+    fetch(urlAdminInfo)
+      .then(fetchErrorCheck)
+      .then(data => {
+        newQuote.adminInfo = {...data[0]}
+        setQuoteInfo(newQuote)
+      }) 
+    fetch(urlCustomerInfo)
+      .then(fetchErrorCheck)
+      .then(data => {
+        const newCustomer = [ ...data]
+        setdbCustomer(newCustomer)
+      }) 
+  }, [])
   
   const removeItem = () =>{
     if(activeItems >= 2) {
@@ -79,40 +107,57 @@ const CreateQuote = () => {
     let newQuote = {...quoteInfo}
     const urlOrderItems = "http://localhost:3001/api/orderitems"
     const urlQuote = "http://localhost:3001/api/orderitems"
-    quoteInfo.cart.forEach((item,i) => {
-      if(item.active){
-        const options = {method: "POST", headers: {"Content-type": "application/json"}, 
-        body: JSON.stringify(item.target)}
-        fetch(urlOrderItems, options)
-          .then(fetchErrorCheck)
-          .then(json => {
-            let newTarget = {...item.target, ...json}
-            newQuote.cart[i].target = newTarget
-          })    
-          .catch(err => {setError(err)})
-      }
-    })
+    // quoteInfo.cart.forEach((item,i) => {
+    //   if(item.active){
+    //     const options = {method: "POST", headers: {"Content-type": "application/json"}, 
+    //     body: JSON.stringify(item.target)}
+    //     fetch(urlOrderItems, options)
+    //       .then(fetchErrorCheck)
+    //       .then(json => {
+    //         let newTarget = {...item.target, ...json}
+    //         newQuote.cart[i].target = newTarget
+    //       })    
+    //       .catch(err => {setError(err)})
+    //   }
+    // })
+
     setQuoteInfo(newQuote)
     console.log(quoteInfo)
     createAndDownloadPdf()
   }
 
-  const customerHandleValue = (e) => {
-    const name = e.target.name
-    const value = e.target.value
-    setQuoteInfo(preState => {
-      const newQuote = {...preState}
-      const newCustomer = {...preState.customer, [name]: value}
-      newQuote.customer = newCustomer
-      return newQuote
-    })
+  const customerHandleValue = (e, type = "") => {
+    if(type === ""){
+      const name = e.target.name
+      const value = e.target.value
+      setQuoteInfo(preState => {
+        const newQuote = {...preState}
+        const newCustomer = {...preState.customer, [name]: value}
+        newQuote.customer = newCustomer
+        return newQuote
+      })
+    }else if(type === "full"){
+      setQuoteInfo(preState => {
+        const newQuote = {...preState}
+        newQuote.customer = e
+        return newQuote
+      })
+    }
   }
-  const customerSetNextStep = () => {
-    setPageVars(prevState => {
-      const newState = {...prevState}
-      newState.quoteStep = "step 2"
-      return newState
-    })
+  const customerSetNextStep = (direction= "next") => {
+    if(direction === "next"){
+      setPageVars(prevState => {
+        const newState = {...prevState}
+        newState.quoteStep = "step 2"
+        return newState
+      })
+    } else if(direction === "prev"){
+      setPageVars(prevState => {
+        const newState = {...prevState}
+        newState.quoteStep = "step 1"
+        return newState
+      })
+    }
   }
 
   const orderItemHandleValue = (e, id,vT) => {
@@ -189,6 +234,7 @@ const CreateQuote = () => {
       {pageVars.quoteStep === "step 1" &&
       <div>
         <CustomerForm
+        dbCustomer={dbCustomer}
         values={quoteInfo.customer}
         handleValue={customerHandleValue}
         nextStep={pageVars}
@@ -213,6 +259,7 @@ const CreateQuote = () => {
               setParentValues={orderItemHandleValue}
               itemCategoryList={quoteInfo.customsInfo}
               maxCartAmount={MAX_CART_AMOUNT}
+              setNextStep={customerSetNextStep}
               cartInfo={quoteInfo.cart[i]}/>)
           })  }
           <div className="action-button">
@@ -221,7 +268,7 @@ const CreateQuote = () => {
         </form>
       }
       <button onClick={() => console.log(quoteInfo)}>quoteInfo</button>
-      <button onClick={() => console.log(quoteTarget)}>QUOTE_TARGET</button>
+      <button onClick={() => console.log(dbCustomer)}>dbCUSTOMER</button>
 
       <QuoteTemplate quoteInfo={quoteInfo} />
     </div>

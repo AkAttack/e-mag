@@ -1,6 +1,6 @@
 import { useState } from "react";
 
-const OrderItemForm = ({itemNum, setParentValues, cartInfo, addItem, toggleExpand, removeItem, keyId, updateCartInfo, activeItems, itemCategoryList, maxCartAmount}) => {
+const OrderItemForm = ({itemNum, setParentValues, cartInfo, addItem, toggleExpand, removeItem, keyId, updateCartInfo, activeItems, itemCategoryList, maxCartAmount, setNextStep}) => {
   const optList = []
   for(let key in itemCategoryList){
     optList.push(key)
@@ -9,15 +9,19 @@ const OrderItemForm = ({itemNum, setParentValues, cartInfo, addItem, toggleExpan
   return (cartInfo.active &&
     <div className="OIF" >
       <div className="title">
-        <span className="OIF-+" onClick={() => {toggleExpand(keyId)}}>{cartInfo.expandShow ? "+" : "-"}</span> Item {itemNum}  
-        {(activeItems === itemNum) && (itemNum !== 1) && <span className="itemDelet-button" onClick={removeItem}>      DEL</span>} 
+        <div>
+          <span  onClick={() => {toggleExpand(keyId)}}>{cartInfo.expandShow ? "+" : "-"}</span> Item{itemNum}  
+        </div>
+        {itemNum === 1? <button type="button" onClick={()=> setNextStep("prev")} className="form-return-button">Change Customer</button> : null }
       </div>
+      
 
       {cartInfo.expandShow &&
         <div className="content">
           <div className="form-item">
             <div className="item-details">
               <div className="input-box">
+                <label className="form-item-labels">Item Description</label>
                 <input type="text" 
                   name="description" 
                   value={cartInfo.target.description} 
@@ -25,6 +29,7 @@ const OrderItemForm = ({itemNum, setParentValues, cartInfo, addItem, toggleExpan
                   onChange={(e) => setParentValues(e, keyId, "s")} />
               </div>
               <div className="input-box">
+              <label className="form-item-labels">Item Url</label>
                 <input type="text" 
                   name="url" 
                   placeholder="Item Link(URL)" 
@@ -33,6 +38,7 @@ const OrderItemForm = ({itemNum, setParentValues, cartInfo, addItem, toggleExpan
                   onChange={(e) => setParentValues(e, keyId, "s")}/>
               </div>
               <div className="input-box">
+              <label className="form-item-labels">Item Color</label>
                 <input type="text" 
                   name="color" 
                   placeholder="Color"
@@ -40,6 +46,7 @@ const OrderItemForm = ({itemNum, setParentValues, cartInfo, addItem, toggleExpan
                   onChange={(e) => setParentValues(e, keyId, "s")} />
               </div>
               <div className="input-box">
+                <label className="form-item-labels">Item Size</label>
                 <input type="text" 
                   name="size" 
                   placeholder="Size"
@@ -47,16 +54,10 @@ const OrderItemForm = ({itemNum, setParentValues, cartInfo, addItem, toggleExpan
                   onChange={(e) => setParentValues(e, keyId, "s")} />
               </div>
 
-              {/* <div className="input-box">
-                <input type="text" 
-                  name="itemCategory" 
-                  placeholder="Category(eg. laptop, clothes, tv, jewelery, car parts)" 
-                  value={cartInfo.target.itemCategory}
-                  onChange={(e) => setParentValues(e, keyId, "s")} />
-              </div> */}
-
               <div className="input-box">
+              <label className="form-item-labels">Item Category</label>
                 <select
+                  required
                   className="input-box-select"
                   name="itemCategory"
                   value={cartInfo.target.itemCategory}
@@ -69,6 +70,7 @@ const OrderItemForm = ({itemNum, setParentValues, cartInfo, addItem, toggleExpan
               </div>
 
               <div className="input-box">
+              <label className="form-item-labels">Item Price</label>
                 <input type="text" 
                   name="itemPrice" 
                   placeholder="Item Price" 
@@ -77,6 +79,7 @@ const OrderItemForm = ({itemNum, setParentValues, cartInfo, addItem, toggleExpan
                   onChange={(e) => setParentValues(e, keyId, "n")} />
               </div>
               <div className="input-box">
+              <label className="form-item-labels">Item Shipping</label>
                 <input type="text" 
                   name="itemUSShipping" 
                   placeholder="Shipping" 
@@ -84,6 +87,7 @@ const OrderItemForm = ({itemNum, setParentValues, cartInfo, addItem, toggleExpan
                   onChange={(e) => setParentValues(e, keyId, "n")} />
               </div>
               <div className="input-box">
+              <label className="form-item-labels">Item Weight</label>
                 <input type="text" 
                   name="itemWeight" 
                   placeholder="Item Weight (LB)" 
@@ -92,6 +96,7 @@ const OrderItemForm = ({itemNum, setParentValues, cartInfo, addItem, toggleExpan
                   onChange={(e) => setParentValues(e, keyId, "n")} />
               </div>
               {/* <div className="input-box">
+                <label className="form-item-labels">Quantity of Item</label>
                 <input type="text" 
                   name="purchaseQuantity" 
                   placeholder="Purchase Quantity" 
