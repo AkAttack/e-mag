@@ -88,7 +88,8 @@ module.exports = `
 
   .invoice-company-logo{
     width: 100%; 
-    max-width: 100px
+    max-width: 100px;
+    margin-top: -15px;
   }
 
   .invoice-prevent-overflow {
@@ -97,10 +98,20 @@ module.exports = `
     text-overflow: clip;
   }
   .column1-width {
-    width: 80%;
+    width: 70%;
   }
   .column2-width {
-    width: 20%;
+    width: 30%;
+  }
+  .footer {
+    width: 100%;
+    font-size: x-small;
+    border-width: 1px;
+    border-color: rgb(184, 180, 180);
+    border-style: solid;
+    margin-top: 20px;
+    padding: 10px;
+    line-height: 13px;
   }
 
   @media only screen and (max-width: 600px) {
@@ -114,7 +125,12 @@ module.exports = `
       width: 100%;
       display: block;
       text-align: center;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: clip;
     }
+    
+
   }
 
 

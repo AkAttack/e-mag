@@ -1,9 +1,9 @@
 import {QUOTE_INFO} from "../GlobalVars"
 import { saveAs } from 'file-saver';
+import { useState } from "react";
 
 const Quote = () => {
-  const optPost = {method: "POST", headers: {"Content-type": "application/json"}, 
-  body: JSON.stringify(QUOTE_INFO)}
+  const [allQuotes, setAllQuotes] = useState({loaded: false, quotes: []})
 
   const fetchErrorCheck = (res) => {
     if(res.status >= 200 && res.status <= 299){
@@ -12,6 +12,8 @@ const Quote = () => {
   }
 
   const createAndDownloadPdf = () => {
+    const optPost = {method: "POST", headers: {"Content-type": "application/json"}, 
+    body: JSON.stringify(QUOTE_INFO)}
     fetch('/api/create-pdf', optPost)
       .then(fetchErrorCheck)
       .then(() => {
@@ -25,11 +27,20 @@ const Quote = () => {
       .catch(err => {console.log(err)})
   }
 
+  const getAllQuotes = () => {
+    fetch("/api/quotes")
+      .then(fetchErrorCheck)
+      .then(() => {
+        
+      })  
+      .catch(err => {console.log(err)})
+  }
+
 
   return ( 
     <div>
-      <button onClick={createAndDownloadPdf}>Download Quote</button>
-      <button onClick={()=>console.log(QUOTE_INFO)}>QUOTE_INFO</button>
+      <button onClick={createAndDownloadPdf}>Download PDF Test</button>
+      <button onClick={() => console.log(QUOTE_INFO)}>QUOTE_INFO</button>
     </div>
    );
 }

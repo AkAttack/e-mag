@@ -75,17 +75,20 @@ const ADMIN_INFO = {
 const CUSTOMS_INFO = {"All Clothing":{duty:0.2, vat:0.14, total:0.34}, "Album":{duty:0.2, vat:0.14, total:0.34}, "Appliance":{duty:0.2, vat:0.14, total:0.34}, "Car Parts":{duty:0.3, vat:0.14, total:0.44}, "Cosmetics":{duty:0.2, vat:0.14, total:0.34}, "Cars":{duty:0.2, vat:0.14, total:0.74}, "Celluar Phones and Accessories":{duty:0.2, vat:0.14, total:0.34}, "Costume Jewelry":{duty:0.6, vat:0.14, total:0.74}, "Digital Cameras":{duty:0.25, vat:0.14, total:0.39}, "DVDs":{duty:0.3, vat:0.14, total:0.44}, "Eletronics":{duty:0.2, vat:0.14, total:0.34}, "Furniture":{duty:0.2, vat:0.14, total:0.34}, "Toys":{duty:0.2, vat:0.14, total:0.34}, "Watches":{duty:0.5, vat:0.14, total:0.64}   }
 
 const QUOTE_INFO = {
+  quoteID: "",
   customer: CUSTOMER_INFO, 
   cart: CART_INFO, 
   adminInfo: ADMIN_INFO,
   weightInfo: {}, 
   customsInfo: CUSTOMS_INFO,
   updateSteps:{step1:Date,step2:Date,step3:Date},
-  target: {itemTotalPrice: 0, itemTotalPriceGYD: 0,
+  target: {
+    itemTotalPrice: 0, itemTotalPriceGYD: 0,
     itemTotalWeightPrice: 0, itemTotalUSTax: 0, 
     itemTotalWeight: 0, itemTotalCustoms: 0, 
     businessCharges:0, grandTotal:0, 
-    itemTotalUSShipping:0  } 
+    itemTotalUSShipping:0  
+    } 
   }
 
 export {QUOTE_INFO, CART_INFO, dbCUSTOMERS}

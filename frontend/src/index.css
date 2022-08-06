@@ -24,6 +24,11 @@ body{
   padding: 60px 50px;
   background: linear-gradient(135deg, #71b7e6, #9b59b6);
 }
+@media(max-width: 459px){
+  body{
+    padding: 60px 5px;
+  }
+}
 
 /* NAVBAR START */
 .navbar {
@@ -50,8 +55,7 @@ body{
   line-height: 1;
 }
 .navbar > ul > li {
-  padding-left: 20px;
-  
+  padding-left: 30px;
 }
 .navbar > span {
   display: flex;
@@ -59,14 +63,26 @@ body{
   align-items: center;
 }
 .navbar > span > img {
-  width: 50px;
-  height: 50px;
+  width: 70px;
 }
 .navbar > span > h4 {
   padding-left: 10px;
   font-size: 1rem;
   text-align: justify;
   line-height: 1;
+}
+@media (max-width: 590px) {
+  .navbar > ul > li {
+    padding-left: 9px;
+  }
+  .navbar > span {
+    display: flex;
+    margin-left: 5px;
+    align-items: center;
+  }
+  .navbar > span > img {
+    width: 50px;
+  }
 }
 /* NAVBAR END */
 
@@ -228,10 +244,6 @@ body{
     margin-bottom: 15px;
     width: 100%;
   }
-  /* .content .form-item .item-details{
-    max-height: 300px;
-    overflow-y: scroll;
-  } */
   .item-details::-webkit-scrollbar{
     width: 5px;
   }
@@ -321,7 +333,8 @@ body{
 .invoice-company-logo{
   width: 100%; 
   max-width: 100px;
-  margin-top: -15px;
+  margin-top: -20px;
+  margin-bottom: -20px;
 }
 
 .invoice-prevent-overflow {
@@ -335,8 +348,36 @@ body{
 .column2-width {
   width: 30%;
 }
+.footer {
+  width: 100%;
+  font-size: x-small;
+  border-width: 1px;
+  border-color: rgb(184, 180, 180);
+  border-style: solid;
+  margin-top: 20px;
+  padding: 10px;
+  line-height: 13px;
+}
 
-@media only screen and (max-width: 600px) {
+@media(max-width: 459px){
+  .invoice-box {
+    width: 100%;
+    margin: 0;
+    padding: 10px;
+    border: 1px solid #eee;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.15);
+    font-size: 14px;
+    line-height: 18px;
+    color: #555;
+  }
+  .invoice-company-logo{
+    width: 100%; 
+    max-width: 70px;
+    margin: -20px 0px;
+  }
+}
+
+/* @media only screen and (max-width: 600px) {
   .invoice-box table tr.top table td {
     width: 100%;
     display: block;
@@ -351,7 +392,7 @@ body{
     overflow: hidden;
     text-overflow: clip;
   }
-}
+} */
 
 /* QUOTE/INVOICE STYLES END */
 

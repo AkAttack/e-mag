@@ -1,28 +1,204 @@
 <!doctype html>
 <html>
+
 <head>
   <meta charset="utf-8">
   <title>PDF Result Template</title>
-  ${StyleSheet}
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;800&family=VT323&display=swap');
+
+    /* layout */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Poppins', sans-serif;
+    }
+
+    body {
+      display: flex;
+      justify-content: center;
+      padding: 10px 50px;
+      background: linear-gradient(135deg, #71b7e6, #9b59b6);
+    }
+
+    /* QUOTE/INVOICE STYLES START */
+    .invoice-page {
+      background-color: rgba(255, 255, 255, 0.7);
+    }
+
+    .invoice-box {
+      max-width: 800px;
+      margin: auto;
+      padding: 30px;
+      border: 1px solid #eee;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.15);
+      font-size: 16px;
+      line-height: 24px;
+
+      color: #555;
+    }
+
+    .invoice-box table {
+      width: 100%;
+      line-height: inherit;
+      text-align: left;
+      border-collapse: collapse;
+      table-layout: fixed;
+    }
+
+    .invoice-box table td {
+      padding: 5px;
+      vertical-align: top;
+    }
+
+    .invoice-box table tr td:nth-child(2) {
+      text-align: right;
+    }
+
+    .invoice-box table tr.top table td {
+      padding-bottom: 20px;
+    }
+
+    .invoice-box table tr.top table td.title {
+      font-size: 45px;
+      line-height: 45px;
+      color: #333;
+    }
+
+    .invoice-box table tr.information table td {
+      padding-bottom: 40px;
+    }
+
+    .invoice-box table tr.heading td {
+      background: #eee;
+      border-bottom: 1px solid #ddd;
+      font-weight: bold;
+    }
+
+    .invoice-box table tr.details td {
+      padding-bottom: 20px;
+    }
+
+    .invoice-box table tr.item td {
+      border: 1px solid #eee;
+    }
+
+    .invoice-box table tr.item.last td {
+      border-bottom: none;
+    }
+
+    .invoice-box table tr.total td:nth-child(2) {
+      border-top: 2px solid #eee;
+      font-weight: bold;
+    }
+
+    .invoice-company-logo {
+      width: 100%;
+      max-width: 100px;
+      margin-top: -15px;
+    }
+
+    .invoice-prevent-overflow {
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: clip;
+    }
+
+    .column1-width {
+      width: 70%;
+    }
+
+    .column2-width {
+      width: 30%;
+    }
+
+    .footer {
+      width: 100%;
+      font-size: x-small;
+      border-width: 1px;
+      border-color: rgb(184, 180, 180);
+      border-style: solid;
+      margin-top: 20px;
+      padding: 10px;
+      line-height: 13px;
+    }
+
+    @media only screen and (max-width: 600px) {
+      .invoice-box table tr.top table td {
+        width: 100%;
+        display: block;
+        text-align: center;
+      }
+
+      .invoice-box table tr.information table td {
+        width: 100%;
+        display: block;
+        text-align: center;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: clip;
+      }
+      .cell-no-overflow {
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: clip;
+      }
+
+
+    }
+
+
+    /* QUOTE/INVOICE STYLES END */
+  </style>
+  <script>
+    const itemRowsData = quoteInfo.cart.map((cart,i) =>{
+      if(cart.active){
+      return(`
+      <tbody>
+         <tr class="item">
+            <td class="invoice-prevent-overflow  column1-width">${cart.target.description?
+            `<a href=${cart.target.url} target="_blank" rel="noreferrer" >${cart.target.description}</a>` : `<a href=${cart.target.url} target="_blank" rel="noreferrer" >${cart.target.url}</a>`}
+            </td>
+            <td class="column2-width">${cart.target.itemPrice.toLocaleString("en-US", {style:"currency", currency:"USD"})}</td>
+         </tr>
+      </tbody>  `
+      );
+      }
+   })
+   let itemRows = ""
+   itemRowsData.forEach(item => {
+      if(item !== undefined){
+         itemRows += item
+      }
+   })
+
+
+  </script>
 </head>
 
 <body>
-  <div className="invoice-page">
-    <div className="invoice-box">
+  <div class="invoice-page">
+    <div class="invoice-box">
       <table>
+        <thead>
+          <tr>
+            <td class="column1-width"></td>
+            <td class="column2-width"></td>
+          </tr>
+        </thead>
         <tbody>
-          <tr className="top">
+          <tr class="top">
             <td colSpan="2">
               <table>
                 <tr>
-                  <td className="title">
-                    <img src={Logo} alt="Company logo" className="invoice-company-logo" />
+                  <td class="title">
+                    <img src=${Logo} alt="Company logo" class="invoice-company-logo" />
                   </td>
 
                   <td>
-                    QuoteInfo #: 123<br />
-                    Created: January 1, 2015<br />
-                    Due: February 1, 2015
+                    Quote#: ${quoteID}<br />
+                    Created: ${quoteDate}<br />
                   </td>
                 </tr>
               </table>
@@ -31,196 +207,116 @@
         </tbody>
 
         <tbody>
-          <tr className="information">
+          <tr class="information">
             <td colSpan="2">
               <table>
                 <tr>
-                  <td className="logo-text">
+                  <td class="logo-text">
                     E-Mag <br />
                     Online Shopping<br />
                   </td>
 
-                  <td>
-                    {quoteInfo.customer.nameFirst} {quoteInfo.customer.nameLast}<br />
-                    {quoteInfo.customer.mobile}<br />
-                    {quoteInfo.customer.email}
+                  <td class=""cell-no-overflow>
+                    ${quoteInfo.customer.namefirst} ${quoteInfo.customer.namelast}<br />
+                    ${quoteInfo.customer.phone}<br />
+                    ${quoteInfo.customer.email- long ass email simulation here}
                   </td>
                 </tr>
               </table>
             </td>
           </tr>
         </tbody>
-
-        {/* <tr className="heading">
-          <td>Payment Method</td>
-
-          <td>Check #</td>
-        </tr>
-
-        <tr className="details">
-          <td>Check</td>
-
-          <td>1000</td>
-        </tr> */}
         <tbody>
-          <tr className="heading">
-            <td className="column1-width">Item</td>
-            <td className="column2-width">Price</td>
+          <tr class="heading">
+            <td class="column1-width">Item</td>
+            <td class="column2-width">Price</td>
           </tr>
         </tbody>
 
-        {quoteInfo.cart.map((cart,i) =>{
-        if(cart.active){
-        return(
-        <tbody key={cart.id + 100}>
-          <tr className="item">
-            <td className="invoice-prevent-overflow  column1-width">{quoteInfo.cart[i].target.description?
-              quoteInfo.cart[i].target.description : quoteInfo.cart[i].target.url? quoteInfo.cart[i].target.url : ""}
-            </td>
-            <td className="column2-width">{quoteInfo.cart[i].target.itemPrice.toLocaleString("en-US", {style:"currency",
-              currency:"USD"})}</td>
-          </tr>
-        </tbody>
-        )
-        }
-        })}
+        
 
         <tbody>
-          <tr className="item">
-            <td className="column1-width">US Taxes</td>
-            <td className="column2-width">{itemTotalUSTax.toLocaleString("en-US", {style:"currency", currency:"USD"})}
+          <tr class="item">
+            <td class="column1-width">US Taxes</td>
+            <td class="column2-width cell-no-overflow">${itemTotalUSTax.toLocaleString("en-US", {style:"currency", currency:"USD"})}
             </td>
           </tr>
         </tbody>
 
         <tbody>
-          <tr className="item">
-            <td className="column1-width">Shipping</td>
-            <td className="column2-width">{itemTotalUSShipping.toLocaleString("en-US", {style:"currency",
-              currency:"USD"})}</td>
-          </tr>
-        </tbody>
-
-        <tbody>
-          <tr className="item">
-            <td className="column1-width">Total Item Cost(USD)</td>
-            <td className="column2-width">{itemTotalPrice.toLocaleString("en-US", {style:"currency", currency:"USD"})}
+          <tr class="item">
+            <td class="column1-width">Shipping</td>
+            <td class="column2-width">${itemTotalUSShipping.toLocaleString("en-US", {style:"currency", currency:"USD"})}
             </td>
           </tr>
         </tbody>
 
         <tbody>
-          <tr className="item">
-            <td className="column1-width"> </td>
-            <td className="column2-width"> </td>
+          <tr class="item">
+            <td class="column1-width">Total Item Cost(USD)</td>
+            <td class="column2-width">${itemTotalPrice.toLocaleString("en-US", {style:"currency", currency:"USD"})}
+            </td>
           </tr>
         </tbody>
 
         <tbody>
-          <tr className="item">
-            <td className="column1-width">Total Item Cost(GYD) @ {quoteInfo.adminInfo.usdExchange}</td>
-            <td className="column2-width">{itemTotalPriceGYD.toLocaleString("en-US", {style:"currency",
+          <tr class="item">
+            <td class="column1-width">-</td>
+            <td class="column2-width">-</td>
+          </tr>
+        </tbody>
+
+        <tbody>
+          <tr class="item">
+            <td class="column1-width">Total Item Cost(GYD) @ ${quoteInfo.adminInfo.usdExchange}</td>
+            <td class="column2-width">${itemTotalPriceGYD.toLocaleString("en-US", {style:"currency",currency:"USD"})}
+            </td>
+          </tr>
+        </tbody>
+
+        <tbody>
+          <tr class="item">
+            <td class="column1-width">Freight Cost</td>
+            <td class="column2-width">${itemTotalWeightPrice.toLocaleString("en-US", {style:"currency",
               currency:"USD"})}</td>
           </tr>
         </tbody>
 
         <tbody>
-          <tr className="item">
-            <td className="column1-width">Freight Cost</td>
-            <td className="column2-width">{itemTotalWeightPrice.toLocaleString("en-US", {style:"currency",
-              currency:"USD"})}</td>
-          </tr>
-        </tbody>
-
-        <tbody>
-          <tr className="item">
-            <td className="column1-width">Local Fees (Customs)</td>
-            <td className="column2-width">{itemTotalCustoms.toLocaleString("en-US", {style:"currency", currency:"USD"})}
+          <tr class="item">
+            <td class="column1-width">Local Fees (Customs)</td>
+            <td class="column2-width">${itemTotalCustoms.toLocaleString("en-US", {style:"currency", currency:"USD"})}
             </td>
           </tr>
         </tbody>
 
 
         <tbody>
-          <tr className="item last">
-            <td className="column1-width">Business Charges</td>
-            <td className="column2-width">{businessCharge.toLocaleString("en-US", {style:"currency", currency:"USD"})}
+          <tr class="item last">
+            <td class="column1-width">Business Charges</td>
+            <td class="column2-width">${businessCharges.toLocaleString("en-US", {style:"currency", currency:"USD"})}
             </td>
           </tr>
         </tbody>
 
         <tbody>
-          <tr className="total">
-            <td className="column1-width"></td>
-            <td className="column2-width">Total(GYD): {grandTotal.toLocaleString("en-US", {style:"currency",
+          <tr class="total">
+            <td class="column1-width"></td>
+            <td class="column2-width">Total(GYD): ${grandTotal.toLocaleString("en-US", {style:"currency",
               currency:"USD"})}</td>
           </tr>
         </tbody>
       </table>
+      <footer class="footer">
+        <p>By confirming this quotation and paying, you agree that: </p>
+        <p>1. This quotation is accurate and contains exact description of items you require. </p>
+        <p>2. This is an estimate and is subject to change based on any adjustments by the vendor or the actual shipping
+          or additional charges incurred in getting the items to you. </p>
+        <p>If you have any questions conserning this invoice, use the following contact information: </p>
+        <p>Ansa: 592-6638816, adeolafrance@yahoo.com </p>
+      </footer>
     </div>
   </div>
 </body>
 
 </html>
-
-
-
-
-
-
-`
-      <!doctype html>
-      <html>
-         <head>
-            <meta charset="utf-8">
-            <title>PDF Result Template</title>
-            ${StyleSheet}
-         </head>
-         <body>
-            <div class="invoice-box">
-               <table cellpadding="0" cellspacing="0">
-                  <tr class="top">
-                     <td colspan="2">
-                        <table>
-                           <tr>
-                              <td class="title"><img  src=${Logo}
-                                 style="width:100%; max-width:156px;"></td>
-                              <td>
-                                 Datum: ${`${today.getDate()}. ${today.getMonth() + 1}. ${today.getFullYear()}.`}
-                              </td>
-                           </tr>
-                        </table>
-                     </td>
-                  </tr>
-                  <tr class="information">
-                     <td colspan="2">
-                        <table>
-                           <tr>
-                              <td>
-                                 Owner name: ${quoteInfo.details.owenr}
-                              </td>
-                              <td>
-                                 Owner Cash: ${quoteInfo.details.cash}
-                              </td>
-                           </tr>
-                        </table>
-                     </td>
-                  </tr>
-                  <tr class="heading">
-                     <td>Bought items:</td>
-                     <td>Price</td>
-                  </tr>
-                  ${quoteInfo.cart.map((item,i) =>(
-                     `<tr class="item">
-                        <td>${item.name}:</td>
-                        <td>${item.price}$</td>
-                     </tr>`
-                  )  )}
-               </table>
-               <br />
-               <h1 class="justify-center">Total price:$ ${
-                  [...quoteInfo.cart.map((item) => +(item.price))].reduce((r,c) => r + c, 0) }</h1>
-            </div>
-         </body>
-      </html>
-   `;

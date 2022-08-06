@@ -1,14 +1,17 @@
-import { useEffect, useState} from "react"
+import { useEffect, useState } from "react"
+import {useNavigate} from "react-router-dom"
 import { saveAs } from 'file-saver';
 import CustomerForm from "../components/CustomerForm";
 import OrderItemForm from "../components/OrderItemForm";
 import QuoteTemplate from "../components/QuoteTemplate";
 import {QUOTE_INFO} from "../GlobalVars";
 import { dbCUSTOMERS } from "../GlobalVars";
-import {updateCart, updateTotalCustoms_GrandTotal}  from "./functions/QuoteCalculations";
+import createUUID from "../components/UUID";
+import {updateCart, updateTotalCustoms_GrandTotal}  from "../components/QuoteCalculations";
 // import {v4 as uuid} from "uuid";
 
 const CreateQuote = () => {
+  const navigate = useNavigate()
   const MAX_CART_AMOUNT = 10
   const MIN_CART_AMOUNT = 1
   let QI = {...QUOTE_INFO}
@@ -29,10 +32,10 @@ const CreateQuote = () => {
 
   useEffect(()=>{
     const newQuote= {...quoteInfo}, 
-    urlWeights = "http://localhost:3001/api/weights",
-    urlCustoms = "http://localhost:3001/api/customs",
-    urlCustomerInfo = "http://localhost:3001/api/customerinfos",
-    urlAdminInfo = "http://localhost:3001/api/adminvars"
+    urlWeights = "/api/weights",
+    urlCustoms = "/api/customs",
+    urlCustomerInfo = "/api/customerinfos",
+    urlAdminInfo = "/api/adminvars"
 
     fetch(urlWeights)
       .then(fetchErrorCheck)
@@ -105,25 +108,45 @@ const CreateQuote = () => {
   const handleSubmit = (e) => {
     e.preventDefault()
     let newQuote = {...quoteInfo}
-    const urlOrderItems = "http://localhost:3001/api/orderitems"
-    const urlQuote = "http://localhost:3001/api/orderitems"
-    // quoteInfo.cart.forEach((item,i) => {
-    //   if(item.active){
-    //     const options = {method: "POST", headers: {"Content-type": "application/json"}, 
-    //     body: JSON.stringify(item.target)}
-    //     fetch(urlOrderItems, options)
-    //       .then(fetchErrorCheck)
-    //       .then(json => {
-    //         let newTarget = {...item.target, ...json}
-    //         newQuote.cart[i].target = newTarget
-    //       })    
-    //       .catch(err => {setError(err)})
-    //   }
-    // })
+    const urlCustomerInfo = "/api/customerinfos"
+    const urlQuote = "/api/quotations"
+    const quoteID = createUUID("quote")
+    newQuote.quoteID = quoteID
 
-    setQuoteInfo(newQuote)
-    console.log(quoteInfo)
-    createAndDownloadPdf()
+    if(newQuote.customer._id.length < 6){
+      const options = {method: "POST", headers: {"Content-type": "application/json"}, 
+      body: JSON.stringify(newQuote.customer)}
+      fetch(urlCustomerInfo, options)
+        .then(fetchErrorCheck)
+        .then(json => {
+          console.log("newCustomer to DB successful: ")
+          newQuote.customer = {...json}
+        })    
+        .then(() => {
+          const options = {method: "POST", headers: {"Content-type": "application/json"}, 
+          body: JSON.stringify(newQuote)}
+          fetch(urlQuote, options)
+            .then(fetchErrorCheck)
+            .then(json => {
+              console.log("newQuote to DB successful", json)         
+              createAndDownloadPdf(json)
+              navigate("/quotes")
+            })    
+        })
+        .catch(err => {setError(err); }) 
+    }else{
+      const options = {method: "POST", headers: {"Content-type": "application/json"}, 
+      body: JSON.stringify(newQuote)}
+      fetch(urlQuote, options)
+        .then(fetchErrorCheck)
+        .then(json => {
+          console.log("newQUOTE to DB successful", json)          
+          createAndDownloadPdf(json)
+          navigate("/quotes")
+        })  
+    }
+    
+    
   }
 
   const customerHandleValue = (e, type = "") => {
@@ -202,8 +225,8 @@ const CreateQuote = () => {
     
   }
 
-  const createAndDownloadPdf = () => {
-    const optPost = {method: "POST", headers: {"Content-type": "application/json"}, body: JSON.stringify(quoteInfo)}
+  const createAndDownloadPdf = (quoteData) => {
+    const optPost = {method: "POST", headers: {"Content-type": "application/json"}, body: JSON.stringify(quoteData)}
     fetch('/api/create-pdf', optPost)
       .then(fetchErrorCheck)
       .then(() => {

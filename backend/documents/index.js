@@ -6,9 +6,11 @@ module.exports = (quoteInfo, StyleSheet) => {
    itemTotalUSTax = quoteInfo.target.itemTotalUSTax, 
    itemTotalCustoms = quoteInfo.target.itemTotalCustoms, 
    itemTotalWeightPrice = quoteInfo.target.itemTotalWeightPrice, 
-   businessCharge = quoteInfo.target.businessCharge, 
+   businessCharges = quoteInfo.target.businessCharges, 
    grandTotal = quoteInfo.target.grandTotal, 
-   itemTotalUSShipping = quoteInfo.target.itemTotalUSShipping
+   itemTotalUSShipping = quoteInfo.target.itemTotalUSShipping,
+   quoteID = quoteInfo.quoteID,
+   quoteDate = quoteInfo.createdAt.slice(0,10)
    
    const itemRowsData = quoteInfo.cart.map((cart,i) =>{
       if(cart.active){
@@ -16,9 +18,9 @@ module.exports = (quoteInfo, StyleSheet) => {
       <tbody>
          <tr class="item">
             <td class="invoice-prevent-overflow  column1-width">${cart.target.description?
-            cart.target.description : cart.target.url}
+            `<a href=${cart.target.url} target="_blank" rel="noreferrer" >${cart.target.description}</a>` : `<a href=${cart.target.url} target="_blank" rel="noreferrer" >${cart.target.url}</a>`}
             </td>
-            <td class="column2-width">${cart.target.itemPrice.toLocaleString("en-US", {style:"currency", currency:"USD"})}</td>
+            <td>${cart.target.itemPrice.toLocaleString("en-US", {style:"currency", currency:"USD"})}</td>
          </tr>
       </tbody>  `
       );
@@ -43,6 +45,12 @@ module.exports = (quoteInfo, StyleSheet) => {
             <div class="invoice-page">
                <div class="invoice-box">
                   <table>
+                     <thead>
+                        <tr>
+                           <td class="column1-width></td>
+                           <td class="column2-width></td>
+                        </tr>
+                     </thead>
                      <tbody>
                         <tr class="top">
                            <td colSpan="2">
@@ -53,9 +61,8 @@ module.exports = (quoteInfo, StyleSheet) => {
                                  </td>
 
                                  <td>
-                                 QuoteInfo #: 123<br />
-                                 Created: January 1, 2015<br />
-                                 Due: February 1, 2015
+                                 Quote#: ${quoteID}<br />
+                                 Created: ${quoteDate}<br />
                                  </td>
                               </tr>
                            </table>
@@ -74,8 +81,8 @@ module.exports = (quoteInfo, StyleSheet) => {
                                  </td>
 
                                  <td>
-                                 ${quoteInfo.customer.nameFirst} ${quoteInfo.customer.nameLast}<br />
-                                 ${quoteInfo.customer.mobile}<br />
+                                 ${quoteInfo.customer.namefirst} ${quoteInfo.customer.namelast}<br />
+                                 ${quoteInfo.customer.phone}<br />
                                  ${quoteInfo.customer.email}
                                  </td>
                               </tr>
@@ -85,8 +92,8 @@ module.exports = (quoteInfo, StyleSheet) => {
                      </tbody>
                      <tbody>
                         <tr class="heading">
-                           <td class="column1-width">Item</td>
-                           <td class="column2-width">Price</td>
+                           <td>Item</td>
+                           <td>Price</td>
                         </tr>
                      </tbody>
 
@@ -94,52 +101,52 @@ module.exports = (quoteInfo, StyleSheet) => {
 
                      <tbody>
                         <tr class="item">
-                           <td class="column1-width">US Taxes</td>
-                           <td class="column2-width">${itemTotalUSTax.toLocaleString("en-US", {style:"currency", currency:"USD"})}
+                           <td>US Taxes</td>
+                           <td>${itemTotalUSTax.toLocaleString("en-US", {style:"currency", currency:"USD"})}
                            </td>
                         </tr>
                      </tbody>
 
                      <tbody>
                         <tr class="item">
-                           <td class="column1-width">Shipping</td>
-                           <td class="column2-width">${itemTotalUSShipping.toLocaleString("en-US", {style:"currency", currency:"USD"})}</td>
+                           <td>Shipping</td>
+                           <td>${itemTotalUSShipping.toLocaleString("en-US", {style:"currency", currency:"USD"})}</td>
                         </tr>
                      </tbody>
 
                      <tbody>
                         <tr class="item">
-                           <td class="column1-width">Total Item Cost(USD)</td>
-                           <td class="column2-width">${itemTotalPrice.toLocaleString("en-US", {style:"currency", currency:"USD"})}
+                           <td>Total Item Cost(USD)</td>
+                           <td>${itemTotalPrice.toLocaleString("en-US", {style:"currency", currency:"USD"})}
                            </td>
                         </tr>
                      </tbody>
 
                      <tbody>
                         <tr class="item">
-                           <td class="column1-width">-</td>
-                           <td class="column2-width">-</td>
+                           <td>-</td>
+                           <td>-</td>
                         </tr>
                      </tbody>
 
                      <tbody>
                         <tr class="item">
-                           <td class="column1-width">Total Item Cost(GYD) @ ${quoteInfo.adminInfo.usdExchange}</td>
-                           <td class="column2-width">${itemTotalPriceGYD.toLocaleString("en-US", {style:"currency",currency:"USD"})}</td>
+                           <td>Total Item Cost(GYD) @ ${quoteInfo.adminInfo.usdExchange}</td>
+                           <td>${itemTotalPriceGYD.toLocaleString("en-US", {style:"currency",currency:"USD"})}</td>
                         </tr>
                      </tbody>
 
                      <tbody>
                         <tr class="item">
-                           <td class="column1-width">Freight Cost</td>
-                           <td class="column2-width">${itemTotalWeightPrice.toLocaleString("en-US", {style:"currency", currency:"USD"})}</td>
+                           <td>Freight Cost</td>
+                           <td>${itemTotalWeightPrice.toLocaleString("en-US", {style:"currency", currency:"USD"})}</td>
                         </tr>
                      </tbody>
 
                      <tbody>
                         <tr class="item">
-                           <td class="column1-width">Local Fees (Customs)</td>
-                           <td class="column2-width">${itemTotalCustoms.toLocaleString("en-US", {style:"currency", currency:"USD"})}
+                           <td>Local Fees (Customs)</td>
+                           <td>${itemTotalCustoms.toLocaleString("en-US", {style:"currency", currency:"USD"})}
                            </td>
                         </tr>
                      </tbody>
@@ -147,19 +154,26 @@ module.exports = (quoteInfo, StyleSheet) => {
 
                      <tbody>
                         <tr class="item last">
-                           <td class="column1-width">Business Charges</td>
-                           <td class="column2-width">${businessCharge.toLocaleString("en-US", {style:"currency", currency:"USD"})}
+                           <td>Business Charges</td>
+                           <td>${businessCharges.toLocaleString("en-US", {style:"currency", currency:"USD"})}
                            </td>
                         </tr>
                      </tbody>
 
                      <tbody>
                         <tr class="total">
-                           <td class="column1-width"></td>
-                           <td class="column2-width">Total(GYD): ${grandTotal.toLocaleString("en-US", {style:"currency", currency:"USD"})}</td>
+                           <td></td>
+                           <td>Total(GYD): ${grandTotal.toLocaleString("en-US", {style:"currency", currency:"USD"})}</td>
                         </tr>
                      </tbody>
                   </table>
+                  <footer class="footer"> 
+                     <p>By confirming this quotation and paying, you agree that: </p>
+                     <p>1. This quotation is accurate and contains exact description of items you require. </p>
+                     <p>2. This is an estimate and is subject to change based on any adjustments by the vendor or the actual shipping or additional charges incurred in getting the items to you. </p>
+                     <p>If you have any questions conserning this invoice, use the following contact information: </p>
+                     <p>Ansa: 592-6638816, adeolafrance@yahoo.com </p>
+                  </footer>
                </div>
             </div>
          </body>

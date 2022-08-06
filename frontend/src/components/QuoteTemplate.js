@@ -10,6 +10,7 @@ const QuoteTemplate = ({quoteInfo}) => {
  businessCharges = quoteInfo.target.businessCharges, 
  grandTotal = quoteInfo.target.grandTotal, 
  itemTotalUSShipping = quoteInfo.target.itemTotalUSShipping,
+ quoteID = quoteInfo.quoteID,
  today = new Date()
 
 
@@ -20,7 +21,7 @@ const QuoteTemplate = ({quoteInfo}) => {
 				<thead>
 					<tr>
 						<td className="column1-width"></td>
-						<td className="column-width"></td>
+						<td className="column2-width"></td>
 					</tr>
 				</thead>
 				<tbody>
@@ -33,7 +34,7 @@ const QuoteTemplate = ({quoteInfo}) => {
 								</td>
 
 								<td>
-									QuoteInfo #: 123<br />
+									Quote#: {quoteID}<br />
 									Created: {today.getDate()}/{today.getMonth()}/{today.getFullYear()} <br />
 								</td>
 							</tr>
@@ -76,8 +77,8 @@ const QuoteTemplate = ({quoteInfo}) => {
 				</tr> */}
 				<tbody>
 				<tr className="heading">
-					<td className="column1-width">Item</td>
-					<td className="column2-width">Price</td>
+					<td >Item</td>
+					<td >Price</td>
 				</tr>
 				</tbody>
 
@@ -87,7 +88,7 @@ const QuoteTemplate = ({quoteInfo}) => {
 							<tbody key={cart.id + 100}>
 								<tr className="item">
 									<td className="invoice-prevent-overflow  column1-width">{quoteInfo.cart[i].target.description? <a href={quoteInfo.cart[i].target.url} target="_blank" rel="noreferrer" >{quoteInfo.cart[i].target.description}</a> : <a href={quoteInfo.cart[i].target.url} target="_blank" rel="noreferrer" >{quoteInfo.cart[i].target.url}</a>}  </td>
-									<td className="column2-width">{quoteInfo.cart[i].target.itemPrice.toLocaleString("en-US", {style:"currency", currency:"USD"})}</td>
+									<td >{quoteInfo.cart[i].target.itemPrice.toLocaleString("en-US", {style:"currency", currency:"USD"})}</td>
 								</tr>
 							</tbody>
 						)
@@ -96,68 +97,75 @@ const QuoteTemplate = ({quoteInfo}) => {
 
 				<tbody>
 				<tr className="item">
-					<td className="column1-width">US Taxes</td>
-					<td className="column2-width">{itemTotalUSTax.toLocaleString("en-US", {style:"currency", currency:"USD"})}</td>
+					<td >US Taxes</td>
+					<td >{itemTotalUSTax.toLocaleString("en-US", {style:"currency", currency:"USD"})}</td>
 				</tr>
 				</tbody>
 
 				<tbody>
 				<tr className="item">
-					<td className="column1-width">Shipping</td>
-					<td className="column2-width">{itemTotalUSShipping.toLocaleString("en-US", {style:"currency", currency:"USD"})}</td>
+					<td >Shipping</td>
+					<td >{itemTotalUSShipping.toLocaleString("en-US", {style:"currency", currency:"USD"})}</td>
 				</tr>
 				</tbody>
 
 				<tbody>
 				<tr className="item">
-					<td className="column1-width">Total Item Cost(USD)</td>
-					<td className="column2-width">{itemTotalPrice.toLocaleString("en-US", {style:"currency", currency:"USD"})}</td>
+					<td >Total Item Cost(USD)</td>
+					<td >{itemTotalPrice.toLocaleString("en-US", {style:"currency", currency:"USD"})}</td>
 				</tr>
 				</tbody>
 
 				<tbody>
 				<tr className="item">
-					<td className="column1-width"> </td>
-					<td className="column2-width"> </td>
+					<td > </td>
+					<td > </td>
 				</tr>
 				</tbody>
 
 				<tbody>
 				<tr className="item">
-					<td className="column1-width">Total Item Cost(GYD) @ {quoteInfo.adminInfo.USDRates}</td>
-					<td className="column2-width">{itemTotalPriceGYD.toLocaleString("en-US", {style:"currency", currency:"USD"})}</td>
+					<td >Total Item Cost(GYD) @ {quoteInfo.adminInfo.USDRates}</td>
+					<td >{itemTotalPriceGYD.toLocaleString("en-US", {style:"currency", currency:"USD"})}</td>
 				</tr>
 				</tbody>
 
 				<tbody>
 				<tr className="item">
-					<td className="column1-width">Freight Cost</td>
-					<td className="column2-width">{itemTotalWeightPrice.toLocaleString("en-US", {style:"currency", currency:"USD"})}</td>
+					<td >Freight Cost</td>
+					<td >{itemTotalWeightPrice.toLocaleString("en-US", {style:"currency", currency:"USD"})}</td>
 				</tr>
 				</tbody>
 
 				<tbody>
 				<tr className="item">
-					<td className="column1-width">Local Fees (Customs)</td>
-					<td className="column2-width">{itemTotalCustoms.toLocaleString("en-US", {style:"currency", currency:"USD"})}</td>
+					<td >Local Fees (Customs)</td>
+					<td >{itemTotalCustoms.toLocaleString("en-US", {style:"currency", currency:"USD"})}</td>
 				</tr>
 				</tbody>
 
 
 				<tbody>
 				<tr className="item last">
-					<td className="column1-width">Business Charges</td>
-					<td className="column2-width">{businessCharges.toLocaleString("en-US", {style:"currency", currency:"USD"})}</td>
+					<td >Business Charges</td>
+					<td >{businessCharges.toLocaleString("en-US", {style:"currency", currency:"USD"})}</td>
 				</tr>
 				</tbody>
 
 				<tbody>
 				<tr className="total">
-					<td className="column1-width"></td>
-					<td className="column2-width">Total(GYD): {grandTotal.toLocaleString("en-US", {style:"currency", currency:"USD"})}</td>
+					<td ></td>
+					<td >Total(GYD): {grandTotal.toLocaleString("en-US", {style:"currency", currency:"USD"})}</td>
 				</tr>
 				</tbody>
 			</table>
+			<footer className="footer"> 
+				<p>By confirming this quotation and paying, you agree that: </p>
+				<p>1. This quotation is accurate and contains exact description of items you require. </p>
+				<p>2. This is an estimate and is subject to change based on any adjustments by the vendor or the actual shipping or additional charges incurred in getting the items to you. </p>
+				<p>If you have any questions conserning this invoice, use the following contact information: </p>
+				<p>Ansa: 592-6638816, adeolafrance@yahoo.com </p>
+			</footer>
 		</div>
     </div>
    );

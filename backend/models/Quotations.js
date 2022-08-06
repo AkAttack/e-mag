@@ -1,16 +1,18 @@
 const mongoose = require("mongoose")
 
-const QuotationsSchema = mongoose.Schema({  
-  cart: Array,
-  customer: String,
-  freightPrice: Number,
-  totalWeight: Number,
-  businessChargePrice: Number,
-  customsTotal: Number,
+const QuotationsSchema = mongoose.Schema({ 
   downpayment: Number,
-  grandTotal: Number,
   freightType: String,
   notes: String,
+
+  quoteID: {type: String, required: true},
+  customer: {type: Object, required: true}, 
+  cart: {type: Array, required: true},
+  adminInfo: Object,
+  weightInfo: Object, 
+  customsInfo: Object,
+  updateSteps: Object,
+  target: {type: Object, required: true},
 }, {timestamps: true})
 
 const QuotationsModel = mongoose.model("quotations", QuotationsSchema)
