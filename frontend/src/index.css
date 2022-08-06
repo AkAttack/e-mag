@@ -420,9 +420,20 @@ body{
 /* DropSearch Styles End */
 
 
+/* Quotes-All Quotes Page START */
+.quote-item {
+  border-style: solid;
+  border-width: 1px;
+  border-radius: 9px;
+  margin: 10px;
+  padding: 10px;
+  color: #eee;
+  background-color: #555;
+
+}
 
 
-
+/* Quotes-All Quotes Page END  */
 
 
 
