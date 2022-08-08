@@ -14,9 +14,9 @@ const Quote = () => {
     }else{throw Error(res.statusText)}
   }
 
-  const createAndDownloadPdf = () => {
+  const createAndDownloadPdf = (quote) => {
     const optPost = {method: "POST", headers: {"Content-type": "application/json"}, 
-    body: JSON.stringify(QUOTE_INFO)}
+    body: JSON.stringify(quote)}
     fetch('/api/create-pdf', optPost)
       .then(fetchErrorCheck)
       .then(() => {
@@ -56,13 +56,12 @@ const Quote = () => {
 
   return ( 
     <div>
-
       {!quotePreview.display && allQuotes.quotes.map((item,i) =>{
         return (
         <div className="quote-item" quote={item} onClick={()=>{showQuotePreview(item)}}>
           <p>{item.quoteID}  || Created: {item.createdAt.slice(0,10)}</p>
           <p>Customer: {item.customer.namefirst} {item.customer.namelast}</p>
-          <p>Total: {item.target.grandTotal.toLocaleString("en-US", {style:"currency", currency:"USD"})} || No. Items {[...item.cart.map(item=>{ if(item.active){return item} })].length} </p>
+          <p>Total: {item.target.grandTotal.toLocaleString("en-US", {style:"currency", currency:"USD"})}  </p>
         </div>)
       })
       }
