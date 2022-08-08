@@ -1,7 +1,7 @@
 import { useState } from "react";
 import DropSearch from "./DropSearch";
 
-const CustomerForm = ({ values, handleValue, nextStep, setNextStep, dbCustomer }) => {
+const CustomerForm = ({ values, handleValue, setNextStep, dbCustomer }) => {
   const [CSearch, setCSearch] = useState(true)
   const [searchValues, setSearchValues] = useState({ nameSearch: "", mobileSearch: 0 })
 
@@ -13,9 +13,9 @@ const CustomerForm = ({ values, handleValue, nextStep, setNextStep, dbCustomer }
   }
 
 
-  const selectToNextStep = (e) =>{
-    handleValue(e, "full")
-    setNextStep()    
+  const dropSearchSelectToNextStep = (item) =>{
+    handleValue(item, "full")
+    setNextStep("next")    
   }
 
   return (
@@ -38,7 +38,7 @@ const CustomerForm = ({ values, handleValue, nextStep, setNextStep, dbCustomer }
 
               <DropSearch
                 searchWord={searchValues.nameSearch}
-                selectToNextStep={selectToNextStep}
+                selectToNextStep={dropSearchSelectToNextStep}
                 dbCustomer={dbCustomer} />
 
             </div>
@@ -56,8 +56,8 @@ const CustomerForm = ({ values, handleValue, nextStep, setNextStep, dbCustomer }
           <div className="item-details">
             <div className="input-box">
               <input type="text"
-                name="nameFirst"
-                value={values.nameFirst}
+                name="namefirst"
+                value={values.namefirst}
                 placeholder="First Name"
                 required
                 onChange={(e) => handleValue(e)} />
@@ -65,10 +65,10 @@ const CustomerForm = ({ values, handleValue, nextStep, setNextStep, dbCustomer }
 
             <div className="input-box">
               <input type="text"
-                name="nameLast"
+                name="namelast"
                 placeholder="Last Name"
                 required
-                value={values.nameLast}
+                value={values.namelast}
                 onChange={(e) => handleValue(e)} />
             </div>
             <div className="input-box">
@@ -86,16 +86,16 @@ const CustomerForm = ({ values, handleValue, nextStep, setNextStep, dbCustomer }
                 onChange={(e) => handleValue(e)} />
             </div>
             <div className="input-box">
-              <input type="number"
-                name="mobile"
+              <input type="text"
+                name="phone"
                 placeholder="Mobile Number"
-                value={values.mobile}
+                value={values.phone}
                 onChange={(e) => handleValue(e)} />
             </div>
 
           </div>
           <div className="button">
-            <button type="button" onClick={setNextStep}>Next Step</button>
+            <button type="button" onClick={()=> setNextStep("next")}>Next Step</button>
           </div>
         </div>
       </div>}

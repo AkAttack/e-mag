@@ -1,6 +1,6 @@
 const mongoose = require("mongoose")
 
-const QuotationsSchema = mongoose.Schema({ 
+const QuotationsSchema = new mongoose.Schema({ 
   downpayment: Number,
   freightType: String,
   notes: String,

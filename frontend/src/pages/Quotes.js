@@ -35,7 +35,6 @@ const Quote = () => {
       .then(fetchErrorCheck)
       .then((json) => {
         const newAllQuote = {...allQuotes}
-        console.log(json)
         newAllQuote.quotes = json
         newAllQuote.loaded = true
         setAllQuotes(newAllQuote)
