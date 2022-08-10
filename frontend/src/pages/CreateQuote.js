@@ -6,7 +6,7 @@ import OrderItemForm from "../components/OrderItemForm";
 import QuoteTemplate from "../components/QuoteTemplate";
 import {QUOTE_INFO} from "../GlobalVars";
 import { dbCUSTOMERS } from "../GlobalVars";
-import createUUID from "../components/UUID";
+import createUUID from "../components/HelperFunctions/UUID";
 import {updateCart, updateTotalCustoms_GrandTotal}  from "../components/QuoteCalculations";
 // import {v4 as uuid} from "uuid";
 

@@ -1,18 +1,16 @@
+
 import { useState } from "react";
 import DropSearch from "./DropSearch";
 
 const CustomerForm = ({ values, handleValue, setNextStep, dbCustomer }) => {
-  const [CSearch, setCSearch] = useState(true);
-  const [searchValues, setSearchValues] = useState({
-    nameSearch: "",
-    mobileSearch: 0,
-  });
+  // const [customerInputType, setCustomerInputType] = useState("db"); //"db" || "manual"
+  // const [searchValue, setSearchValues] = useState("");
+
+
 
   const dropSearchOnChange = (e) => {
-    const value = e.target.value,
-      name = e.target.name;
-    const newValue = { ...searchValues, [name]: value };
-    setSearchValues(newValue);
+    const newValue = e.target.value
+    customerFormStore.setSearchValue(newValue);
   };
 
   const dropSearchSelectToNextStep = (item) => {
@@ -25,13 +23,13 @@ const CustomerForm = ({ values, handleValue, setNextStep, dbCustomer }) => {
       <div
         className="title"
         onClick={() => {
-          setCSearch(!CSearch);
+          setCustomerInputType(!customerInputType);
         }}
       >
-        {CSearch ? "- Customer Search" : "+ Customer Search"}
+        {customerInputType ? "- Customer Search" : "+ Customer Search"}
       </div>
 
-      {CSearch && (
+      {customerInputType && (
         <div className="content">
           <div className="form-item">
             <div className="item-details">
@@ -39,14 +37,14 @@ const CustomerForm = ({ values, handleValue, setNextStep, dbCustomer }) => {
                 <input
                   type="text"
                   name="nameSearch"
-                  value={searchValues.nameSearch}
+                  value={searchValue}
                   placeholder="Search By Name"
                   required
                   onChange={(e) => dropSearchOnChange(e)}
                 />
 
                 <DropSearch
-                  searchWord={searchValues.nameSearch}
+                  searchWord={searchValue}
                   selectToNextStep={dropSearchSelectToNextStep}
                   dbCustomer={dbCustomer}
                 />
@@ -61,12 +59,12 @@ const CustomerForm = ({ values, handleValue, setNextStep, dbCustomer }) => {
       <div
         className="title"
         onClick={() => {
-          setCSearch(!CSearch);
+          setCustomerInputType(!customerInputType);
         }}
       >
-        {!CSearch ? "- Customer Form" : "+ Customer Form"}
+        {!customerInputType ? "- Customer Form" : "+ Customer Form"}
       </div>
-      {!CSearch && (
+      {!customerInputType && (
         <div className="content">
           <div className="form-item">
             <div className="item-details">

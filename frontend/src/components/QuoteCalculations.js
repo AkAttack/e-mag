@@ -1,58 +1,9 @@
 //assisted functions
-const getCustomsPrice = (iPrice, searchWord, quoteInfo) => {
-  let price=0, customs=0, USDRates=0
-  try {
-    customs = +(quoteInfo.customsInfo[searchWord].total)
-  } catch (error) {
-    console.log("Customs Name Doesnt Exists")
-  }  
-  try {
-    USDRates = +(quoteInfo.adminInfo.USDRates)
-  } catch (error) {
-    console.log("USD Exchange Rate doesnt exists")
-  }
-  if(checkIfNum(customs)){
-    price = customs * iPrice
-  }else{
-    console.log("Error: customs is empty or NaN ", customs)
-    return 0
-  }
-  if(checkIfNum(USDRates)){
-    price = price * USDRates
-    return price    // IN GYD
-  }else{
-    console.log("Error: USDRates is empty or NaN ", USDRates)
-    return 0
-  }
+import CheckIfNumber from "./HelperFunctions/CheckIfNumber"
+import GetWeightPrice from "./HelperFunctions/GetWeightPrice"
+import GetCustomsPrice from "./HelperFunctions/GetCustomsPrice"
 
-}
-const getWeightPrice = (newWeight, quoteInfo) => {
-  let price = 0, weightInfo = {...quoteInfo.weightInfo}, weightLength = Object.keys(quoteInfo.weightInfo).length
-  
-  if(newWeight < weightLength){
-    [...Array(weightLength)].forEach((item,i)=>{
-      if(newWeight > weightInfo[i].min && newWeight <= weightInfo[i].max){
-        price = weightInfo[i].price
-      }
-    })
-    return price
-  }else if(newWeight >= weightLength){
-    [...Array(weightLength)].forEach((item,i)=>{
-      if(newWeight > weightInfo[i].min && newWeight <= weightInfo[i].max){
-        const priceUsd = +(newWeight * weightInfo[i].multiplier)
-        price = +(quoteInfo.adminInfo.USDRates) * priceUsd
-      }else if(newWeight > 9999){
-        console.log("Weight Too Much, should not exceed 9999lb")
-      }
-    })
-    return price
-  }
-}
-const checkIfNum = (num) => {
-  if(typeof num === "number" && !Number.isNaN(num)){
-    return true
-  }else{ return false}
-}
+
 
 
 // quoteInfo.cart[i].targets Updates: usTax, weightPrice, itemCustoms
@@ -66,15 +17,15 @@ const updateCartUsTax = (quoteInfo, setQuoteInfo) => {
       const quantity = +(item.target.purchaseQuantity)
       const exchange = +(newQuote.adminInfo.USDRates)
       const multiplier = +(newQuote.adminInfo.usTaxPercent)
-      if(!checkIfNum(iPrice)){
+      if(!CheckIfNumber(iPrice)){
         console.log("itemPrice is NaN- CartIndex, itemPrice ", i, iPrice)
         return
       }
-      if(!checkIfNum(shipping)){
+      if(!CheckIfNumber(shipping)){
         console.log("itemUSShippingis NaN- CartIndex, itemUSShipping ", i, shipping)
         return
       }
-      if(!checkIfNum(multiplier)){
+      if(!CheckIfNumber(multiplier)){
         console.log("quoteInfo.adminInfo.usTaxPercent is NaN- CartIndex, usTaxPercent ", i, multiplier)
         return
       }
@@ -108,11 +59,11 @@ const updateCartWeightPrice = (quoteInfo, setQuoteInfo) => {
   newCart.forEach((item, i) => {
     if(item.active){
       const newWeight = +(item.target.itemWeight)
-      if(!checkIfNum(newWeight)){
+      if(!CheckIfNumber(newWeight)){
         console.log("itemWeight is NaN- newweight, itemPrice ", i, newWeight)
         return
       }
-      const weightPrice = getWeightPrice(newWeight, quoteInfo) // is in GYD
+      const weightPrice = GetWeightPrice(newWeight, quoteInfo) // is in GYD
       item.target.weightPrice = weightPrice
       newItemTotalWeightPrice += weightPrice
       newItemTotalWeight += newWeight
@@ -130,17 +81,17 @@ const updateCartCustoms = (quoteInfo, setQuoteInfo) => {
     if(item.active){
       const search = item.target.itemCategory
       let iPrice = +(item.target.itemPrice), iShipping = +(item.target.itemUSShipping)
-      if(!checkIfNum(iPrice)){
+      if(!CheckIfNumber(iPrice)){
         console.log("itemPrice is NaN- CartIndex, itemPrice ", i, iPrice)
         return
       }
-      if(!checkIfNum(iShipping)){
+      if(!CheckIfNumber(iShipping)){
         console.log("itemUSShipping is NaN- CartIndex, itemUSShipping ", i, iShipping)
         return
       }
       const totalPrice = iPrice + iShipping
-      if(checkIfNum(totalPrice)){
-        const customs = getCustomsPrice(totalPrice, search, newQuote) // returns in GYD
+      if(CheckIfNumber(totalPrice)){
+        const customs = GetCustomsPrice(totalPrice, search, newQuote) // returns in GYD
         item.target.itemCustoms = customs
         newItemTotalCustoms += customs
       }
