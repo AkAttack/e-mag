@@ -4,7 +4,7 @@ import useDBCustomer from "../store/useDBCustomer";
 import useQuoteInfoStore from "../store/useQuoteInfo";
 
 const DropSearch = () => {
-  let dbCustomer = useDBCustomer(state => state.customers),
+  let dbCustomers = useDBCustomer(state => state.customers),
   searchWord = useCustomerFormStore(state=> state.searchCustomerDBWord), 
   setShowCustomerForm = useCreateQuotePageStore(state=> state.setShowCustomerForm),
   setQuoteInfoCustomer = useQuoteInfoStore(state=> state.setQuoteInfoCustomer)
@@ -16,7 +16,7 @@ const DropSearch = () => {
 
   return (
     <div className="dropdown">
-      {searchWord && dbCustomer
+      {searchWord && dbCustomers
         .filter((item) => {
           const searchTerm = searchWord.toLowerCase();
           const dbnamefirst = item.namefirst.toLowerCase();

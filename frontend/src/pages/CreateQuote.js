@@ -10,6 +10,7 @@ import createUUID from "../components/HelperFunctions/UUID";
 import {updateCart, updateTotalCustoms_GrandTotal}  from "../components/QuoteCalculations";
 import useQuoteInfoStore from "../store/useQuoteInfo";
 import useCreateQuotePageStore from "../store/useCreateQuotePageStore"
+import useDBCustomer from "../store/useDBCustomer";
 // import {v4 as uuid} from "uuid";
 
 const CreateQuote = () => {
@@ -26,7 +27,9 @@ const CreateQuote = () => {
   const [pageVars, setPageVars] = useState({quoteStep: "step 1"})
   const [error, setError] = useState(null)
 
-  const setQuoteInfoCustomer = useQuoteInfoStore(state=> state.SetQuoteInfoCustomer)
+  const DBCustomers = useDBCustomer(state=> state.customers)
+  const setDBCustomers = useDBCustomer(state=> state.setCustomers)
+  const setQuoteInfoCustomer = useQuoteInfoStore(state=> state.setQuoteInfoCustomer)
   const showCustomerForm = useCreateQuotePageStore(state=> state.showCustomerForm)
 
   const fetchErrorCheck = (res) => {
@@ -57,8 +60,8 @@ const CreateQuote = () => {
     fetch(urlCustomerInfo)
       .then(fetchErrorCheck)
       .then(data => {
-        const newCustomer = [ ...data]
-        setQuoteInfoCustomer(newCustomer)
+        const newCustomers = [ ...data]
+        setDBCustomers(newCustomers)
       }) 
   }, [])
   
@@ -279,15 +282,8 @@ const CreateQuote = () => {
               keyId={i}
               itemNum={e.id} 
               updatequoteInfo={removeItem}
-              activeItems={activeItems}
-              toggleExpand={toggleExpand}
-              addItem={addItem}
-              removeItem={removeItem}
-              setParentValues={orderItemHandleValue}
-              itemCategoryList={quoteInfo.customsInfo}
-              maxCartAmount={MAX_CART_AMOUNT}
-              setNextStep={customerSetNextStep}
-              cartInfo={quoteInfo.cart[i]}/>)
+              activeItems={activeItems}/>)
+              
           })  }
           <div className="action-button">
             <button type="submit" className="button-submit">Generate Quote</button>
@@ -295,7 +291,7 @@ const CreateQuote = () => {
         </form>
       }
       <button onClick={() => console.log(quoteInfo)}>quoteInfo</button>
-      <button onClick={() => console.log(dbCustomer)}>dbCUSTOMER</button>
+      <button onClick={() => console.log(DBCustomers)}>dbCUSTOMER</button>
 
       <QuoteTemplate quoteInfo={quoteInfo} />
     </div>

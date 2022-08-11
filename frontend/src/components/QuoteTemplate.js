@@ -1,17 +1,22 @@
 import Logo from "../images/AnsaLogo.png"
+import useQuoteInfoStore from "../store/useQuoteInfo";
 
-const QuoteTemplate = ({quoteInfo}) => {
+const QuoteTemplate = () => {
 
- const itemTotalPrice = quoteInfo.target.itemTotalPrice , 
- itemTotalPriceGYD = quoteInfo.target.itemTotalPriceGYD, 
- itemTotalUSTax = quoteInfo.target.itemTotalUSTax, 
- itemTotalCustoms = quoteInfo.target.itemTotalCustoms, 
- itemTotalWeightPrice = quoteInfo.target.itemTotalWeightPrice, 
- businessCharges = quoteInfo.target.businessCharges, 
- grandTotal = quoteInfo.target.grandTotal, 
- itemTotalUSShipping = quoteInfo.target.itemTotalUSShipping,
- quoteID = quoteInfo.quoteID,
- today = new Date()
+ const quoteID = useQuoteInfoStore(state=> state.quoteInfo.quoteID ) 
+ const adminInfo = useQuoteInfoStore(state=> state.quoteInfo.adminInfo ) 
+ const itemTotalPrice = useQuoteInfoStore(state=> state.quoteInfo.target.itemTotalPrice ) 
+ const itemTotalPriceGYD = useQuoteInfoStore(state=> state.quoteInfo.target.itemTotalPriceGYD ) 
+ const itemTotalUSTax = useQuoteInfoStore(state=> state.quoteInfo.target.itemTotalUSTax ) 
+ const itemTotalCustoms = useQuoteInfoStore(state=> state.quoteInfo.target.itemTotalCustoms ) 
+ const itemTotalWeightPrice = useQuoteInfoStore(state=> state.quoteInfo.target.itemTotalWeightPrice ) 
+ const businessCharges = useQuoteInfoStore(state=> state.quoteInfo.target.businessCharges ) 
+ const grandTotal = useQuoteInfoStore(state=> state.quoteInfo.target.grandTotal ) 
+ const itemTotalUSShipping = useQuoteInfoStore(state=> state.quoteInfo.target.itemTotalUSShipping )
+ const today = new Date()
+ const customer = useQuoteInfoStore(state=> state.quoteInfo.customer)
+ const quoteInfoCart = useQuoteInfoStore(state=> state.quoteInfo.cart)
+
 
 
   return ( 
@@ -54,9 +59,9 @@ const QuoteTemplate = ({quoteInfo}) => {
 								</td>
 
 								<td>
-								{quoteInfo.customer.namefirst} {quoteInfo.customer.namelast}<br />
-								{quoteInfo.customer.phone}<br />
-								{quoteInfo.customer.email}
+								{customer.namefirst} {customer.namelast}<br />
+								{customer.phone}<br />
+								{customer.email}
 								</td>
 							</tr>
 						</table>
@@ -82,13 +87,13 @@ const QuoteTemplate = ({quoteInfo}) => {
 				</tr>
 				</tbody>
 
-				{quoteInfo.cart.map((cart,i) =>{
+				{quoteInfoCart.map((cart,i) =>{
 					if(cart.active){
 						return(
 							<tbody key={cart.id + 100}>
 								<tr className="item">
-									<td className="invoice-prevent-overflow  column1-width">{quoteInfo.cart[i].target.description? <a href={quoteInfo.cart[i].target.url} target="_blank" rel="noreferrer" >{quoteInfo.cart[i].target.description}</a> : <a href={quoteInfo.cart[i].target.url} target="_blank" rel="noreferrer" >{quoteInfo.cart[i].target.url}</a>}  </td>
-									<td >{quoteInfo.cart[i].target.itemPrice.toLocaleString("en-US", {style:"currency", currency:"USD"})}</td>
+									<td className="invoice-prevent-overflow  column1-width">{cart.target.description? <a href={cart.target.url} target="_blank" rel="noreferrer" >{cart.target.description}</a> : <a href={cart.target.url} target="_blank" rel="noreferrer" >{cart.target.url}</a>}  </td>
+									<td >{cart.target.itemPrice.toLocaleString("en-US", {style:"currency", currency:"USD"})}</td>
 								</tr>
 							</tbody>
 						)
@@ -125,7 +130,7 @@ const QuoteTemplate = ({quoteInfo}) => {
 
 				<tbody>
 				<tr className="item">
-					<td >Total Item Cost(GYD) @ {quoteInfo.adminInfo.USDRates}</td>
+					<td >Total Item Cost(GYD) @ {adminInfo.USDRates}</td>
 					<td >{itemTotalPriceGYD.toLocaleString("en-US", {style:"currency", currency:"USD"})}</td>
 				</tr>
 				</tbody>
