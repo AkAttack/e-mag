@@ -1,6 +1,26 @@
-import { useState } from "react";
+import useQuoteInfoStore from "../store/useQuoteInfo";
+import useCreateQuotePageStore from "../store/useCreateQuotePageStore";
 
-const OrderItemForm = ({itemNum, setParentValues, cartInfo, addItem, toggleExpand, removeItem, keyId, updateCartInfo, activeItems, itemCategoryList, maxCartAmount, setNextStep}) => {
+const OrderItemForm = ({ keyId, itemNum}) => {
+  const cartInfo = useQuoteInfoStore(state=> state.quoteInfo.cartInfo), 
+  setQuoteInfoCartInfo = useQuoteInfoStore(state=> state.quoteInfo.cartInfo), 
+  addItem = useQuoteInfoStore(state=> state.addCartInfo), 
+  removeItem = useQuoteInfoStore(state=> state.removeCartInfo), 
+  toggleExpand = useQuoteInfoStore(state=> state.quoteInfo.cart[keyId].expandShow), 
+  activeItems = useQuoteInfoStore(state=> state.activeCartItem), 
+  itemCategoryList = useQuoteInfoStore(state=> state.quoteInfo.customInfo), 
+  maxCartAmount = 20, // TODO - create .env file 
+  setShowCustomerForm = useCreateQuotePageStore(state=> state.setShowCustomerForm)  
+
+  function setParentValues(e,id){
+    const value = e.target.value
+    const name = e.target.name 
+    const newCart = [...cartInfo]
+    const newCartItem = {...cartInfo[id]}
+    newCartItem[name] = value
+    newCart[id] = newCartItem
+    setQuoteInfoCartInfo(newCartItem)
+  }
   const optList = []
   for(let key in itemCategoryList){
     optList.push(key)
@@ -12,7 +32,7 @@ const OrderItemForm = ({itemNum, setParentValues, cartInfo, addItem, toggleExpan
         <div>
           <span  onClick={() => {toggleExpand(keyId)}}>{cartInfo.expandShow ? "+" : "-"}</span> Item{itemNum}  
         </div>
-        {itemNum === 1? <button type="button" onClick={()=> setNextStep("prev")} className="form-return-button">Change Customer</button> : null }
+        {itemNum === 1? <button type="button" onClick={()=> setShowCustomerForm("prev")} className="form-return-button">Change Customer</button> : null }
       </div>
       
 

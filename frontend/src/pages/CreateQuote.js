@@ -8,6 +8,8 @@ import {QUOTE_INFO} from "../GlobalVars";
 import { dbCUSTOMERS } from "../GlobalVars";
 import createUUID from "../components/HelperFunctions/UUID";
 import {updateCart, updateTotalCustoms_GrandTotal}  from "../components/QuoteCalculations";
+import useQuoteInfoStore from "../store/useQuoteInfo";
+import useCreateQuotePageStore from "../store/useCreateQuotePageStore"
 // import {v4 as uuid} from "uuid";
 
 const CreateQuote = () => {
@@ -24,6 +26,9 @@ const CreateQuote = () => {
   const [pageVars, setPageVars] = useState({quoteStep: "step 1"})
   const [error, setError] = useState(null)
 
+  const setQuoteInfoCustomer = useQuoteInfoStore(state=> state.SetQuoteInfoCustomer)
+  const showCustomerForm = useCreateQuotePageStore(state=> state.showCustomerForm)
+
   const fetchErrorCheck = (res) => {
     if(res.status >= 200 && res.status <= 299){
       return res.json()
@@ -33,7 +38,7 @@ const CreateQuote = () => {
   useEffect(()=>{
     const newQuote= {...quoteInfo}, 
     urlWeights = "/api/weights",
-    urlCustoms = "/api/customs",
+    urlCustoms = "/api/customs",  //TODO - store and save to db
     urlCustomerInfo = "/api/customerinfos",
     urlAdminInfo = "/api/adminvars"
 
@@ -53,7 +58,7 @@ const CreateQuote = () => {
       .then(fetchErrorCheck)
       .then(data => {
         const newCustomer = [ ...data]
-        setdbCustomer(newCustomer)
+        setQuoteInfoCustomer(newCustomer)
       }) 
   }, [])
   
@@ -254,7 +259,7 @@ const CreateQuote = () => {
 
   return (   
     <div className="create-quote">
-      {pageVars.quoteStep === "step 1" &&
+      {showCustomerForm &&
       <div>
         <CustomerForm
         dbCustomer={dbCustomer}
@@ -263,11 +268,10 @@ const CreateQuote = () => {
         nextStep={pageVars}
         setNextStep={customerSetNextStep}
        />
-       <button onClick={() => console.log(pageVars)}>pageVars</button>
       </div>
       }
       
-      {pageVars.quoteStep === "step 2" &&
+      {!showCustomerForm &&
         <form className="create-quote" onSubmit={handleSubmit}>
           {quoteInfo.cart.map((e,i) => {
             return (<OrderItemForm 

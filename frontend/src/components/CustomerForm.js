@@ -1,35 +1,42 @@
-
-import { useState } from "react";
+import useCustomerFormStore from "../store/useCustomerFormStore";
+import useCreateQuotePageStore from "../store/useCreateQuotePageStore"
+import useQuoteInfoStore from "../store/useQuoteInfo";
 import DropSearch from "./DropSearch";
 
-const CustomerForm = ({ values, handleValue, setNextStep, dbCustomer }) => {
+
+const CustomerForm = () => {
   // const [customerInputType, setCustomerInputType] = useState("db"); //"db" || "manual"
-  // const [searchValue, setSearchValues] = useState("");
+  let searchWord = useCustomerFormStore(state=> state.searchCustomerDBWord), 
+  setSearchWord = useCustomerFormStore(state=> state.setSearchCustomerDBWord),
+  customerSelectSearch = useCustomerFormStore(state=> state.customerSelectSearch),
+  setCustomerSelectSearch = useCustomerFormStore(state=> state.setCustomerSelectSearch),
+  setShowCustomerForm = useCreateQuotePageStore(state => state.setShowCustomerForm),
+  quoteInfoCustomer = useQuoteInfoStore(state=> state.quoteInfo.customer),
+  setQuoteInfoCustomer = useQuoteInfoStore(state=> state.setQuoteInfoCustomer)
 
+  function handleInputs(e){
+    const value = e.target.value
+    const name = e.target.name
+    const newQuoteCustomer = {...quoteInfoCustomer, [name]: value }
+    setQuoteInfoCustomer(newQuoteCustomer)
+  }
 
-
-  const dropSearchOnChange = (e) => {
-    const newValue = e.target.value
-    customerFormStore.setSearchValue(newValue);
-  };
-
-  const dropSearchSelectToNextStep = (item) => {
-    handleValue(item, "full");
-    setNextStep("next");
-  };
+  function setNextStep(){
+    setShowCustomerForm()
+  }
 
   return (
     <div className="OIF">
       <div
         className="title"
         onClick={() => {
-          setCustomerInputType(!customerInputType);
+          setCustomerSelectSearch();
         }}
       >
-        {customerInputType ? "- Customer Search" : "+ Customer Search"}
+        {customerSelectSearch? "- Customer Search" : "+ Customer Search"}
       </div>
 
-      {customerInputType && (
+      {customerSelectSearch&& (
         <div className="content">
           <div className="form-item">
             <div className="item-details">
@@ -37,17 +44,14 @@ const CustomerForm = ({ values, handleValue, setNextStep, dbCustomer }) => {
                 <input
                   type="text"
                   name="nameSearch"
-                  value={searchValue}
+                  value={searchWord}
                   placeholder="Search By Name"
                   required
-                  onChange={(e) => dropSearchOnChange(e)}
+                  onChange={(e) => setSearchWord(e.target.value)}
                 />
 
-                <DropSearch
-                  searchWord={searchValue}
-                  selectToNextStep={dropSearchSelectToNextStep}
-                  dbCustomer={dbCustomer}
-                />
+                <DropSearch />
+
               </div>
             </div>
           </div>
@@ -59,12 +63,12 @@ const CustomerForm = ({ values, handleValue, setNextStep, dbCustomer }) => {
       <div
         className="title"
         onClick={() => {
-          setCustomerInputType(!customerInputType);
+          setCustomerSelectSearch();
         }}
       >
-        {!customerInputType ? "- Customer Form" : "+ Customer Form"}
+        {!customerSelectSearch? "- Customer Form" : "+ Customer Form"}
       </div>
-      {!customerInputType && (
+      {!customerSelectSearch&& (
         <div className="content">
           <div className="form-item">
             <div className="item-details">
@@ -72,10 +76,10 @@ const CustomerForm = ({ values, handleValue, setNextStep, dbCustomer }) => {
                 <input
                   type="text"
                   name="namefirst"
-                  value={values.namefirst}
+                  value={quoteInfoCustomer.namefirst}
                   placeholder="First Name"
                   required
-                  onChange={(e) => handleValue(e)}
+                  onChange={(e) => handleInputs(e)}
                 />
               </div>
 
@@ -85,8 +89,8 @@ const CustomerForm = ({ values, handleValue, setNextStep, dbCustomer }) => {
                   name="namelast"
                   placeholder="Last Name"
                   required
-                  value={values.namelast}
-                  onChange={(e) => handleValue(e)}
+                  value={quoteInfoCustomer.namelast}
+                  onChange={(e) => handleInputs(e)}
                 />
               </div>
               <div className="input-box">
@@ -94,8 +98,8 @@ const CustomerForm = ({ values, handleValue, setNextStep, dbCustomer }) => {
                   type="text"
                   name="email"
                   placeholder="Email"
-                  value={values.email}
-                  onChange={(e) => handleValue(e)}
+                  value={quoteInfoCustomer.email}
+                  onChange={(e) => handleInputs(e)}
                 />
               </div>
               <div className="input-box">
@@ -103,8 +107,8 @@ const CustomerForm = ({ values, handleValue, setNextStep, dbCustomer }) => {
                   type="text"
                   name="address"
                   placeholder="Address"
-                  value={values.address}
-                  onChange={(e) => handleValue(e)}
+                  value={quoteInfoCustomer.address}
+                  onChange={(e) => handleInputs(e)}
                 />
               </div>
               <div className="input-box">
@@ -112,13 +116,13 @@ const CustomerForm = ({ values, handleValue, setNextStep, dbCustomer }) => {
                   type="text"
                   name="phone"
                   placeholder="Mobile Number"
-                  value={values.phone}
-                  onChange={(e) => handleValue(e)}
+                  value={quoteInfoCustomer.phone}
+                  onChange={(e) => handleInputs(e)}
                 />
               </div>
             </div>
             <div className="button">
-              <button type="button" onClick={() => setNextStep("next")}>
+              <button type="button" onClick={() => setNextStep()}>
                 Next Step
               </button>
             </div>

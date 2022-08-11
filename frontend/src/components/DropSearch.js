@@ -1,4 +1,18 @@
-const DropSearch = ({searchWord, selectToNextStep, dbCustomer}) => {
+import useCustomerFormStore from "../store/useCustomerFormStore";
+import useCreateQuotePageStore from "../store/useCreateQuotePageStore"
+import useDBCustomer from "../store/useDBCustomer";
+import useQuoteInfoStore from "../store/useQuoteInfo";
+
+const DropSearch = () => {
+  let dbCustomer = useDBCustomer(state => state.customers),
+  searchWord = useCustomerFormStore(state=> state.searchCustomerDBWord), 
+  setShowCustomerForm = useCreateQuotePageStore(state=> state.setShowCustomerForm),
+  setQuoteInfoCustomer = useQuoteInfoStore(state=> state.setQuoteInfoCustomer)
+
+  function handleSelectedCustomer(customer){
+    setQuoteInfoCustomer(customer)
+    setShowCustomerForm()
+  }
 
   return (
     <div className="dropdown">
@@ -15,7 +29,7 @@ const DropSearch = ({searchWord, selectToNextStep, dbCustomer}) => {
         })
         .slice(0,9)
         .map((item) => (
-          <div onClick={() => selectToNextStep(item)}
+          <div onClick={() => handleSelectedCustomer(item)}
             customer={item}
             value={item.namefirst}
             className="dropdown-row"
